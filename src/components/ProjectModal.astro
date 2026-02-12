@@ -8,9 +8,35 @@
     <p id="modal-description" class="text-sm text-ide-text"></p>
     <p id="modal-stack" class="rounded-md border border-ide-border bg-ide-bg px-3 py-2 text-xs text-ide-textMuted"></p>
     <div class="flex flex-wrap gap-2">
-      <a id="modal-repo" class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent" target="_blank" rel="noreferrer">ver repo git</a>
-      <a id="modal-demo" class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent" target="_blank" rel="noreferrer">ver demo</a>
-      <button id="close-project-modal" class="ml-auto rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs hover:border-ide-warn hover:text-ide-warn" type="button">close()</button>
+      <a
+        id="modal-repo"
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent"
+        target="_blank"
+        rel="noreferrer"
+        data-i18n-es="ver repo git"
+        data-i18n-en="view git repo"
+      >
+        ver repo git
+      </a>
+      <a
+        id="modal-demo"
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent"
+        target="_blank"
+        rel="noreferrer"
+        data-i18n-es="ver demo"
+        data-i18n-en="view demo"
+      >
+        ver demo
+      </a>
+      <button
+        id="close-project-modal"
+        class="ml-auto rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs hover:border-ide-warn hover:text-ide-warn"
+        type="button"
+        data-i18n-es="cerrar()"
+        data-i18n-en="close()"
+      >
+        cerrar()
+      </button>
     </div>
   </div>
 </dialog>
@@ -27,14 +53,24 @@
   const modalDemo = document.getElementById('modal-demo');
   const modalStack = document.getElementById('modal-stack');
 
+  const getLang = () => (document.documentElement.dataset.lang === 'en' ? 'en' : 'es');
+  const pickLang = (element, key) => {
+    const lang = getLang();
+    const suffix = lang === 'en' ? 'En' : 'Es';
+    return element.dataset[`${key}${suffix}`] ?? '';
+  };
+
   for (const button of openButtons) {
     button.addEventListener('click', () => {
       if (!(button instanceof HTMLElement) || !(modal instanceof HTMLDialogElement)) return;
 
-      const { title, summary, description, repo, demo, stack } = button.dataset;
+      const { title, repo, demo, stack } = button.dataset;
+      const summary = pickLang(button, 'summary');
+      const description = pickLang(button, 'description');
+
       if (modalTitle) modalTitle.textContent = title ?? '';
-      if (modalSummary) modalSummary.textContent = summary ?? '';
-      if (modalDescription) modalDescription.textContent = description ?? '';
+      if (modalSummary) modalSummary.textContent = summary;
+      if (modalDescription) modalDescription.textContent = description;
       if (modalStack) modalStack.textContent = `stack: ${stack ?? ''}`;
       if (modalRepo instanceof HTMLAnchorElement && repo) modalRepo.href = repo;
       if (modalDemo instanceof HTMLAnchorElement && demo) modalDemo.href = demo;

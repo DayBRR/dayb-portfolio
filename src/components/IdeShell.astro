@@ -21,19 +21,45 @@ const { profileName } = Astro.props;
         <span>/</span>
         <span>{profileName.toLowerCase().replaceAll(' ', '_')}</span>
       </div>
-      <button
-        id="theme-toggle"
-        class="ml-auto rounded-md border border-ide-border bg-ide-panel px-2 py-1 text-[11px] text-ide-text hover:border-ide-accent hover:text-ide-accent md:text-xs"
-        type="button"
-        aria-label="Cambiar tema"
-      >
-        toggle-theme
-      </button>
+      <div class="ml-auto flex items-center gap-2">
+        <div class="flex items-center gap-1 rounded-md border border-ide-border bg-ide-panel px-1 py-0.5 text-[11px] md:text-xs">
+          <button
+            class="rounded px-1.5 py-0.5 text-ide-text hover:text-ide-accent"
+            data-lang-button="es"
+            type="button"
+            aria-label="Cambiar a español"
+          >
+            ES
+          </button>
+          <span class="h-4 w-px bg-ide-border"></span>
+          <button
+            class="rounded px-1.5 py-0.5 text-ide-text hover:text-ide-accent"
+            data-lang-button="en"
+            type="button"
+            aria-label="Switch to English"
+          >
+            EN
+          </button>
+        </div>
+        <button
+          id="theme-toggle"
+          class="rounded-md border border-ide-border bg-ide-panel px-2 py-1 text-[11px] text-ide-text hover:border-ide-accent hover:text-ide-accent md:text-xs"
+          type="button"
+          aria-label="Cambiar tema"
+          data-i18n-attr="aria-label"
+          data-i18n-es="Cambiar tema"
+          data-i18n-en="Toggle theme"
+        >
+          toggle-theme
+        </button>
+      </div>
     </header>
 
     <div class="grid min-h-[calc(100vh-5rem)] grid-cols-1 md:grid-cols-[240px_minmax(0,1fr)]">
       <aside class="border-b border-ide-border bg-ide-bg p-4 md:border-b-0 md:border-r">
-        <p class="text-[11px] uppercase tracking-[0.2em] text-ide-textMuted">Explorer</p>
+        <p class="text-[11px] uppercase tracking-[0.2em] text-ide-textMuted" data-i18n-es="Explorer" data-i18n-en="Explorer">
+          Explorer
+        </p>
         <ul class="mt-4 space-y-2 text-sm text-ide-text">
           <li><a href="#home" class="hover:text-ide-accent">01. index.ts</a></li>
           <li><a href="#skills" class="hover:text-ide-accent">02. skills.json</a></li>
@@ -43,9 +69,11 @@ const { profileName } = Astro.props;
 
         <div class="mt-6 rounded-lg border border-ide-border bg-ide-panel p-3 text-xs text-ide-textMuted">
           <p class="text-ide-success">$ status</p>
-          <p class="mt-1">build: ready</p>
-          <p>theme: intellij-inspired</p>
-          <p>mode: backend showcase</p>
+          <p class="mt-1" data-i18n-es="build: ready" data-i18n-en="build: ready">
+            build: ready
+          </p>
+          <p data-i18n-es="theme: intellij-inspired" data-i18n-en="theme: intellij-inspired">theme: intellij-inspired</p>
+          <p data-i18n-es="mode: backend showcase" data-i18n-en="mode: backend showcase">mode: backend showcase</p>
         </div>
       </aside>
 
@@ -56,7 +84,9 @@ const { profileName } = Astro.props;
 
     <footer class="border-t border-ide-border bg-ide-panel-soft px-4 py-2 text-[11px] text-ide-textMuted">
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <span>JetBrains IntelliJ inspired UI | Astro + Tailwind</span>
+        <span data-i18n-es="JetBrains IntelliJ inspired UI | Astro + Tailwind" data-i18n-en="JetBrains IntelliJ inspired UI | Astro + Tailwind">
+          JetBrains IntelliJ inspired UI | Astro + Tailwind
+        </span>
         <span>backend_portfolio@latest</span>
       </div>
     </footer>
@@ -64,13 +94,67 @@ const { profileName } = Astro.props;
 </div>
 
 <script is:inline>
-  const html = document.documentElement;
-  const themeToggle = document.getElementById('theme-toggle');
+  const boot = () => {
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    const langButtons = Array.from(document.querySelectorAll('[data-lang-button]'));
+    const supportedLangs = ['es', 'en'];
 
-  themeToggle?.addEventListener('click', () => {
-    const current = html.dataset.theme === 'light' ? 'light' : 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
-    html.dataset.theme = next;
-    localStorage.setItem('theme', next);
-  });
+    const applyLang = (lang) => {
+      const nextLang = supportedLangs.includes(lang) ? lang : 'es';
+      html.dataset.lang = nextLang;
+      html.lang = nextLang;
+      localStorage.setItem('lang', nextLang);
+
+      const textNodes = document.querySelectorAll('[data-i18n-es][data-i18n-en]');
+      for (const node of textNodes) {
+        if (!(node instanceof HTMLElement)) continue;
+        const attr = node.dataset.i18nAttr;
+        const value = nextLang === 'en' ? node.dataset.i18nEn : node.dataset.i18nEs;
+        if (!value) continue;
+        if (attr) {
+          node.setAttribute(attr, value);
+        } else {
+          node.textContent = value;
+        }
+      }
+
+      for (const button of langButtons) {
+        if (!(button instanceof HTMLElement)) continue;
+        const isActive = button.dataset.langButton === nextLang;
+        button.classList.toggle('text-ide-accent', isActive);
+        button.classList.toggle('border-ide-accent', isActive);
+        button.classList.toggle('border', isActive);
+      }
+    };
+
+    const detectLang = () => {
+      const saved = localStorage.getItem('lang');
+      if (saved && supportedLangs.includes(saved)) return saved;
+      const browser = (navigator.language || '').toLowerCase();
+      return browser.startsWith('es') ? 'es' : 'en';
+    };
+
+    applyLang(detectLang());
+
+    for (const button of langButtons) {
+      button.addEventListener('click', () => {
+        const next = button.dataset.langButton;
+        if (next) applyLang(next);
+      });
+    }
+
+    themeToggle?.addEventListener('click', () => {
+      const current = html.dataset.theme === 'light' ? 'light' : 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.dataset.theme = next;
+      localStorage.setItem('theme', next);
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  } else {
+    boot();
+  }
 </script>

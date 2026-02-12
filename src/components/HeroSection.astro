@@ -35,16 +35,42 @@ const featuredTone = (tone: FeaturedTechItem['tone']) => {
 <section id="home" class="animate-slideIn">
   <div class="rounded-xl border border-ide-border bg-ide-panel/90 p-5">
     <p class="text-xs uppercase tracking-[0.2em] text-ide-textMuted">backend_profile.ts</p>
-    <h1 class="mt-2 text-2xl font-semibold text-ide-text md:text-4xl">{profile.name}</h1>
-    <p class="mt-2 text-sm text-ide-accent md:text-base">{profile.role}</p>
-    <p class="mt-2 text-sm text-ide-textMuted">{profile.location}</p>
-    <p class="mt-4 max-w-3xl text-sm text-ide-text md:text-base">{profile.summary}</p>
+    <h1
+      class="mt-2 text-2xl font-semibold text-ide-text md:text-4xl"
+      data-i18n-es={profile.name}
+      data-i18n-en={profile.name}
+    >
+      {profile.name}
+    </h1>
+    <p
+      class="mt-2 text-sm text-ide-accent md:text-base"
+      data-i18n-es={profile.role.es}
+      data-i18n-en={profile.role.en}
+    >
+      {profile.role.es}
+    </p>
+    <p
+      class="mt-2 text-sm text-ide-textMuted"
+      data-i18n-es={profile.location.es}
+      data-i18n-en={profile.location.en}
+    >
+      {profile.location.es}
+    </p>
+    <p
+      class="mt-4 max-w-3xl text-sm text-ide-text md:text-base"
+      data-i18n-es={profile.summary.es}
+      data-i18n-en={profile.summary.en}
+    >
+      {profile.summary.es}
+    </p>
 
     <div class="mt-5 grid gap-4 lg:grid-cols-[1.35fr_1fr]">
       <div class="rounded-lg border border-ide-border bg-ide-bg p-4">
         <div class="mb-3 flex items-center gap-2 text-xs text-ide-textMuted">
-          <span class="rounded border border-ide-border px-2 py-0.5">source</span>
-          <span>preview</span>
+          <span class="rounded border border-ide-border px-2 py-0.5" data-i18n-es="source" data-i18n-en="source">
+            source
+          </span>
+          <span data-i18n-es="preview" data-i18n-en="preview">preview</span>
         </div>
         <div id="typing-code" class="space-y-1 text-sm" data-lines={JSON.stringify(codeSnippet)}>
           {
@@ -78,11 +104,18 @@ const featuredTone = (tone: FeaturedTechItem['tone']) => {
                 <div class="pl-2.5">
                   <div class="flex items-start justify-between gap-2">
                     <p class="text-sm font-semibold text-ide-text">{tech.name}</p>
-                    <span class="rounded-full border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.15em]" style={`border-color:${tone.border};background:${tone.bg};color:${tone.text};`}>
-                      key
+                    <span
+                      class="rounded-full border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.15em]"
+                      style={`border-color:${tone.border};background:${tone.bg};color:${tone.text};`}
+                      data-i18n-es="clave"
+                      data-i18n-en="key"
+                    >
+                      clave
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-ide-textMuted">{tech.note}</p>
+                  <p class="mt-1 text-xs text-ide-textMuted" data-i18n-es={tech.note.es} data-i18n-en={tech.note.en}>
+                    {tech.note.es}
+                  </p>
                 </div>
               </article>
             );

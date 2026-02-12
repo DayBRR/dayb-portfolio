@@ -6,12 +6,29 @@ interface Props {
 }
 
 const { timeline } = Astro.props;
+
+const typeLabels = {
+  experience: { es: 'experiencia', en: 'experience' },
+  education: { es: 'educación', en: 'education' }
+} as const;
 ---
 
 <section id="timeline" class="animate-slideIn [animation-delay:170ms]">
   <div class="rounded-xl border border-ide-border bg-ide-panel/90 p-5">
-    <h2 class="text-xl font-semibold text-ide-text md:text-2xl">Timeline: Experiencia & Formacion</h2>
-    <p class="mt-2 text-sm text-ide-textMuted">Trayectoria profesional y formacion, con foco en la etapa actual.</p>
+    <h2
+      class="text-xl font-semibold text-ide-text md:text-2xl"
+      data-i18n-es="Timeline: Experiencia & Formación"
+      data-i18n-en="Timeline: Experience & Education"
+    >
+      Timeline: Experiencia & Formación
+    </h2>
+    <p
+      class="mt-2 text-sm text-ide-textMuted"
+      data-i18n-es="Trayectoria profesional y formación, con foco en la etapa actual."
+      data-i18n-en="Professional journey and education, focused on the current stage."
+    >
+      Trayectoria profesional y formación, con foco en la etapa actual.
+    </p>
     <div class="relative mt-6 pl-8">
       <span class="absolute bottom-2 left-3 top-2 w-px bg-ide-border"></span>
       {
@@ -31,26 +48,42 @@ const { timeline } = Astro.props;
               ]}
             ></span>
             <div class="flex items-start justify-between gap-2">
-              <p class="text-xs uppercase tracking-widest text-ide-textMuted">{event.date}</p>
+              <p
+                class="text-xs uppercase tracking-widest text-ide-textMuted"
+                data-i18n-es={event.date.es}
+                data-i18n-en={event.date.en}
+              >
+                {event.date.es}
+              </p>
               {
                 (event.current || index === 0) && (
-                  <span class="inline-flex shrink-0 rounded-full border border-ide-accent bg-ide-accentSoft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ide-accent">
+                  <span
+                    class="inline-flex shrink-0 rounded-full border border-ide-accent bg-ide-accentSoft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ide-accent"
+                    data-i18n-es="actual"
+                    data-i18n-en="current"
+                  >
                     actual
                   </span>
                 )
               }
             </div>
-            <h3 class="mt-1 text-base font-semibold text-ide-text">{event.title}</h3>
+            <h3 class="mt-1 text-base font-semibold text-ide-text" data-i18n-es={event.title.es} data-i18n-en={event.title.en}>
+              {event.title.es}
+            </h3>
             <p class="text-sm text-ide-accent">{event.organization}</p>
-            <p class="mt-2 text-sm text-ide-textMuted">{event.detail}</p>
+            <p class="mt-2 text-sm text-ide-textMuted" data-i18n-es={event.detail.es} data-i18n-en={event.detail.en}>
+              {event.detail.es}
+            </p>
             <span
               class:list={[
                 'mt-3 inline-flex rounded-full px-2 py-0.5 text-[10px] uppercase tracking-widest',
                 event.type === 'experience' && 'bg-ide-accentSoft text-ide-accent',
                 event.type === 'education' && 'bg-[color:color-mix(in_oklab,var(--ide-success),transparent_84%)] text-ide-success'
               ]}
+              data-i18n-es={typeLabels[event.type].es}
+              data-i18n-en={typeLabels[event.type].en}
             >
-              {event.type}
+              {typeLabels[event.type].es}
             </span>
           </article>
         ))

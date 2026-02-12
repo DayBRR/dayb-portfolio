@@ -49,8 +49,20 @@ const stackToneStyle = (tech: string) => {
 
 <section id="projects" class="animate-slideIn [animation-delay:120ms]">
   <div class="rounded-xl border border-ide-border bg-ide-panel/90 p-5">
-    <h2 class="text-xl font-semibold text-ide-text md:text-2xl">Proyectos Destacados</h2>
-    <p class="mt-2 text-sm text-ide-textMuted">Haz click en cualquier parte de la tarjeta para abrir su modal con detalles, repositorio y demo.</p>
+    <h2
+      class="text-xl font-semibold text-ide-text md:text-2xl"
+      data-i18n-es="Proyectos Destacados"
+      data-i18n-en="Featured Projects"
+    >
+      Proyectos Destacados
+    </h2>
+    <p
+      class="mt-2 text-sm text-ide-textMuted"
+      data-i18n-es="Haz click en cualquier parte de la tarjeta para abrir su modal con detalles, repositorio y demo."
+      data-i18n-en="Click anywhere on a card to open the modal with details, repository, and demo."
+    >
+      Haz click en cualquier parte de la tarjeta para abrir su modal con detalles, repositorio y demo.
+    </p>
     <div class="mt-5 grid gap-4 md:grid-cols-2">
       {
         projects.map((project) => (
@@ -58,15 +70,22 @@ const stackToneStyle = (tech: string) => {
             type="button"
             class="project-card-trigger open-project-modal card-hover w-full rounded-lg border border-ide-border bg-ide-bg p-4 text-left hover:border-ide-accent hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ide-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ide-panel"
             data-title={project.title}
-            data-summary={project.summary}
-            data-description={project.description}
+            data-summary-es={project.summary.es}
+            data-summary-en={project.summary.en}
+            data-description-es={project.description.es}
+            data-description-en={project.description.en}
             data-repo={project.repo}
             data-demo={project.demo}
             data-stack={project.stack.join(' | ')}
             aria-label={`Abrir detalles del proyecto ${project.title}`}
+            data-i18n-attr="aria-label"
+            data-i18n-es={`Abrir detalles del proyecto ${project.title}`}
+            data-i18n-en={`Open project details for ${project.title}`}
           >
             <p class="text-lg font-semibold text-ide-text">{project.title}</p>
-            <p class="mt-2 text-sm text-ide-textMuted">{project.summary}</p>
+            <p class="mt-2 text-sm text-ide-textMuted" data-i18n-es={project.summary.es} data-i18n-en={project.summary.en}>
+              {project.summary.es}
+            </p>
             <div class="mt-3 flex flex-wrap gap-2">
               {
                 project.stack.map((tech) => {
@@ -82,7 +101,9 @@ const stackToneStyle = (tech: string) => {
                 })
               }
             </div>
-            <p class="mt-4 text-[11px] uppercase tracking-[0.18em] text-ide-accent">click to inspect</p>
+            <p class="mt-4 text-[11px] uppercase tracking-[0.18em] text-ide-accent" data-i18n-es="click para inspeccionar" data-i18n-en="click to inspect">
+              click para inspeccionar
+            </p>
           </button>
         ))
       }
