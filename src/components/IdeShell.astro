@@ -1,0 +1,76 @@
+---
+interface Props {
+  profileName: string;
+}
+
+const { profileName } = Astro.props;
+---
+
+<div class="min-h-screen px-3 py-4 md:px-8 md:py-8">
+  <div class="mx-auto max-w-7xl overflow-hidden rounded-2xl border border-ide-border bg-ide-panel shadow-panel">
+    <header class="flex flex-wrap items-center gap-2 border-b border-ide-border bg-ide-panel-soft px-3 py-2 md:px-4">
+      <div class="flex items-center gap-1.5">
+        <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f56]"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#27c93f]"></span>
+      </div>
+      <div class="ml-2 flex items-center gap-2 overflow-x-auto whitespace-nowrap rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-[11px] text-ide-textMuted md:text-xs">
+        <span class="text-ide-accent">portfolio.tsx</span>
+        <span>/</span>
+        <span>backend</span>
+        <span>/</span>
+        <span>{profileName.toLowerCase().replaceAll(' ', '_')}</span>
+      </div>
+      <button
+        id="theme-toggle"
+        class="ml-auto rounded-md border border-ide-border bg-ide-panel px-2 py-1 text-[11px] text-ide-text hover:border-ide-accent hover:text-ide-accent md:text-xs"
+        type="button"
+        aria-label="Cambiar tema"
+      >
+        toggle-theme
+      </button>
+    </header>
+
+    <div class="grid min-h-[calc(100vh-5rem)] grid-cols-1 md:grid-cols-[240px_minmax(0,1fr)]">
+      <aside class="border-b border-ide-border bg-ide-bg p-4 md:border-b-0 md:border-r">
+        <p class="text-[11px] uppercase tracking-[0.2em] text-ide-textMuted">Explorer</p>
+        <ul class="mt-4 space-y-2 text-sm text-ide-text">
+          <li><a href="#home" class="hover:text-ide-accent">01. index.ts</a></li>
+          <li><a href="#skills" class="hover:text-ide-accent">02. skills.json</a></li>
+          <li><a href="#projects" class="hover:text-ide-accent">03. projects.db</a></li>
+          <li><a href="#timeline" class="hover:text-ide-accent">04. timeline.log</a></li>
+        </ul>
+
+        <div class="mt-6 rounded-lg border border-ide-border bg-ide-panel p-3 text-xs text-ide-textMuted">
+          <p class="text-ide-success">$ status</p>
+          <p class="mt-1">build: ready</p>
+          <p>theme: intellij-inspired</p>
+          <p>mode: backend showcase</p>
+        </div>
+      </aside>
+
+      <main class="ide-grid space-y-8 p-4 md:space-y-12 md:p-7">
+        <slot />
+      </main>
+    </div>
+
+    <footer class="border-t border-ide-border bg-ide-panel-soft px-4 py-2 text-[11px] text-ide-textMuted">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <span>JetBrains IntelliJ inspired UI | Astro + Tailwind</span>
+        <span>backend_portfolio@latest</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script is:inline>
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+
+  themeToggle?.addEventListener('click', () => {
+    const current = html.dataset.theme === 'light' ? 'light' : 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
+</script>

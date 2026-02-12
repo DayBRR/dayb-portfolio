@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --ide-bg: #1f2126;
+  --ide-panel: #2b2d30;
+  --ide-panel-soft: #31343a;
+  --ide-border: #3f434a;
+  --ide-text: #d6dce5;
+  --ide-muted: #8f9aaa;
+  --ide-accent: #4e94ce;
+  --ide-accent-soft: rgba(78, 148, 206, 0.16);
+  --ide-success: #6aab73;
+  --ide-warn: #cc7832;
+  --ide-info: #62b3d9;
+  --ide-danger: #d06c6c;
+  --ide-purple: #a98bd8;
+  --ide-cyan: #59c2c2;
+  --ide-neutral: #8f9aaa;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --ide-bg: #eef1f6;
+  --ide-panel: #ffffff;
+  --ide-panel-soft: #f4f6fb;
+  --ide-border: #cfd6e4;
+  --ide-text: #1f2937;
+  --ide-muted: #5b6472;
+  --ide-accent: #0d62a7;
+  --ide-accent-soft: rgba(13, 98, 167, 0.15);
+  --ide-success: #2a7d47;
+  --ide-warn: #b85a1b;
+  --ide-info: #1677b8;
+  --ide-danger: #b33a3a;
+  --ide-purple: #6f4bb8;
+  --ide-cyan: #0b7f7a;
+  --ide-neutral: #5b6472;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, monospace;
+  background: radial-gradient(circle at top right, rgba(78, 148, 206, 0.12), transparent 40%),
+    linear-gradient(180deg, var(--ide-bg), color-mix(in oklab, var(--ide-bg), #000 10%));
+  color: var(--ide-text);
+}
+
+body {
+  line-height: 1.5;
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--ide-accent) 40%, transparent);
+  color: var(--ide-text);
+}
+
+.ide-grid {
+  background-image: linear-gradient(color-mix(in oklab, var(--ide-border) 46%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--ide-border) 46%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: -1px -1px;
+}
+
+.card-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(7px);
+  background: rgba(11, 13, 16, 0.6);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--ide-accent), var(--ide-border) 45%);
+  border-radius: 999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: color-mix(in oklab, var(--ide-panel), transparent 14%);
+}

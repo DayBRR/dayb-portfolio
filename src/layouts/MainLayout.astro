@@ -1,0 +1,34 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Backend Portfolio' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta
+      name="description"
+      content="Portfolio de programador backend con estilo IntelliJ: skills, proyectos, experiencia y formacion."
+    />
+    <script is:inline>
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.dataset.theme = savedTheme;
+      } else {
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        document.documentElement.dataset.theme = prefersLight ? 'light' : 'dark';
+      }
+    </script>
+  </head>
+  <body class="scrollbar-thin">
+    <slot />
+  </body>
+</html>

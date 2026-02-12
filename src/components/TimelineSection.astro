@@ -1,0 +1,60 @@
+---
+import type { TimelineItem } from '../data/portfolio';
+
+interface Props {
+  timeline: readonly TimelineItem[];
+}
+
+const { timeline } = Astro.props;
+---
+
+<section id="timeline" class="animate-slideIn [animation-delay:170ms]">
+  <div class="rounded-xl border border-ide-border bg-ide-panel/90 p-5">
+    <h2 class="text-xl font-semibold text-ide-text md:text-2xl">Timeline: Experiencia & Formacion</h2>
+    <p class="mt-2 text-sm text-ide-textMuted">Trayectoria profesional y formacion, con foco en la etapa actual.</p>
+    <div class="relative mt-6 pl-8">
+      <span class="absolute bottom-2 left-3 top-2 w-px bg-ide-border"></span>
+      {
+        timeline.map((event, index) => (
+          <article
+            class:list={[
+              'relative mb-4 rounded-xl border bg-ide-bg/95 p-4 last:mb-0',
+              (event.current || index === 0) && 'border-ide-accent shadow-glow',
+              !(event.current || index === 0) && 'border-ide-border'
+            ]}
+          >
+            <span
+              class:list={[
+                'absolute left-[-1.25rem] top-6 h-3 w-3 -translate-x-1/2 rounded-full border-2',
+                (event.current || index === 0) && 'border-ide-accent bg-ide-accent',
+                !(event.current || index === 0) && 'border-ide-border bg-ide-panel'
+              ]}
+            ></span>
+            <div class="flex items-start justify-between gap-2">
+              <p class="text-xs uppercase tracking-widest text-ide-textMuted">{event.date}</p>
+              {
+                (event.current || index === 0) && (
+                  <span class="inline-flex shrink-0 rounded-full border border-ide-accent bg-ide-accentSoft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ide-accent">
+                    actual
+                  </span>
+                )
+              }
+            </div>
+            <h3 class="mt-1 text-base font-semibold text-ide-text">{event.title}</h3>
+            <p class="text-sm text-ide-accent">{event.organization}</p>
+            <p class="mt-2 text-sm text-ide-textMuted">{event.detail}</p>
+            <span
+              class:list={[
+                'mt-3 inline-flex rounded-full px-2 py-0.5 text-[10px] uppercase tracking-widest',
+                event.type === 'experience' && 'bg-ide-accentSoft text-ide-accent',
+                event.type === 'education' && 'bg-[color:color-mix(in_oklab,var(--ide-success),transparent_84%)] text-ide-success'
+              ]}
+            >
+              {event.type}
+            </span>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

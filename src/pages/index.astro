@@ -1,0 +1,31 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import IdeShell from '../components/IdeShell.astro';
+import HeroSection from '../components/HeroSection.astro';
+import SkillsSection from '../components/SkillsSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import TimelineSection from '../components/TimelineSection.astro';
+import ProjectModal from '../components/ProjectModal.astro';
+import { featuredTech, profile, projects, skills, timeline } from '../data/portfolio';
+
+const codeSnippet = [
+  'class BackendEngineer {',
+  "  name = 'David';",
+  "  focus = ['APIs', 'Cloud', 'Data'];",
+  '',
+  '  build() {',
+  "    return 'resilient systems';",
+  '  }',
+  '}'
+] as const;
+---
+
+<MainLayout title="Portfolio Backend | IntelliJ Style">
+  <IdeShell profileName={profile.name}>
+    <HeroSection profile={profile} featuredTech={featuredTech} codeSnippet={codeSnippet} />
+    <SkillsSection skills={skills} />
+    <ProjectsSection projects={projects} />
+    <TimelineSection timeline={timeline} />
+  </IdeShell>
+  <ProjectModal />
+</MainLayout>

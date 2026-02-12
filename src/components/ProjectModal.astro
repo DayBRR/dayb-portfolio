@@ -1,0 +1,60 @@
+<dialog id="project-modal" class="w-[min(760px,95vw)] overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel">
+  <div class="border-b border-ide-border bg-ide-panel-soft px-4 py-2 text-xs text-ide-textMuted">project_modal.tsx</div>
+  <div class="space-y-4 p-5">
+    <div>
+      <p id="modal-summary" class="text-sm text-ide-textMuted"></p>
+      <h3 id="modal-title" class="mt-1 text-2xl font-semibold"></h3>
+    </div>
+    <p id="modal-description" class="text-sm text-ide-text"></p>
+    <p id="modal-stack" class="rounded-md border border-ide-border bg-ide-bg px-3 py-2 text-xs text-ide-textMuted"></p>
+    <div class="flex flex-wrap gap-2">
+      <a id="modal-repo" class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent" target="_blank" rel="noreferrer">ver repo git</a>
+      <a id="modal-demo" class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent" target="_blank" rel="noreferrer">ver demo</a>
+      <button id="close-project-modal" class="ml-auto rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs hover:border-ide-warn hover:text-ide-warn" type="button">close()</button>
+    </div>
+  </div>
+</dialog>
+
+<script is:inline>
+  const modal = document.getElementById('project-modal');
+  const openButtons = Array.from(document.querySelectorAll('.open-project-modal'));
+  const closeButton = document.getElementById('close-project-modal');
+
+  const modalTitle = document.getElementById('modal-title');
+  const modalSummary = document.getElementById('modal-summary');
+  const modalDescription = document.getElementById('modal-description');
+  const modalRepo = document.getElementById('modal-repo');
+  const modalDemo = document.getElementById('modal-demo');
+  const modalStack = document.getElementById('modal-stack');
+
+  for (const button of openButtons) {
+    button.addEventListener('click', () => {
+      if (!(button instanceof HTMLElement) || !(modal instanceof HTMLDialogElement)) return;
+
+      const { title, summary, description, repo, demo, stack } = button.dataset;
+      if (modalTitle) modalTitle.textContent = title ?? '';
+      if (modalSummary) modalSummary.textContent = summary ?? '';
+      if (modalDescription) modalDescription.textContent = description ?? '';
+      if (modalStack) modalStack.textContent = `stack: ${stack ?? ''}`;
+      if (modalRepo instanceof HTMLAnchorElement && repo) modalRepo.href = repo;
+      if (modalDemo instanceof HTMLAnchorElement && demo) modalDemo.href = demo;
+
+      modal.showModal();
+    });
+  }
+
+  closeButton?.addEventListener('click', () => {
+    if (modal instanceof HTMLDialogElement) modal.close();
+  });
+
+  modal?.addEventListener('click', (event) => {
+    if (!(modal instanceof HTMLDialogElement)) return;
+    const rect = modal.getBoundingClientRect();
+    const inside =
+      rect.top <= event.clientY &&
+      event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX &&
+      event.clientX <= rect.left + rect.width;
+    if (!inside) modal.close();
+  });
+</script>
