@@ -57,6 +57,14 @@ const { profileName } = Astro.props;
 
     <div class="grid min-h-[calc(100vh-5rem)] grid-cols-1 md:grid-cols-[240px_minmax(0,1fr)]">
       <aside class="border-b border-ide-border bg-ide-bg p-4 md:border-b-0 md:border-r">
+        <div class="mb-4 flex flex-col items-center text-center">
+          <img
+            src="/avatar-placeholder.svg"
+            alt="Avatar"
+            class="h-20 w-20 rounded-2xl border border-ide-border bg-ide-panel p-1 shadow-panel"
+            loading="lazy"
+          />
+        </div>
         <p class="text-[11px] uppercase tracking-[0.2em] text-ide-textMuted" data-i18n-es="Explorer" data-i18n-en="Explorer">
           Explorer
         </p>

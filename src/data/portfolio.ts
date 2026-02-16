@@ -21,23 +21,72 @@ export const profile = {
 export type Profile = typeof profile;
 
 export const featuredTech = [
-  { name: 'Node.js', note: { es: 'Microservicios y APIs REST', en: 'Microservices and REST APIs' }, tone: 'info' },
-  { name: 'NestJS', note: { es: 'Arquitectura modular y limpia', en: 'Modular, clean architecture' }, tone: 'success' },
-  { name: 'PostgreSQL', note: { es: 'Modelado de datos y performance', en: 'Data modeling and performance' }, tone: 'warn' },
-  { name: 'Docker', note: { es: 'Entornos reproducibles y despliegue', en: 'Reproducible environments and delivery' }, tone: 'accent' },
-  { name: 'Redis', note: { es: 'Caching y colas de tareas', en: 'Caching and task queues' }, tone: 'success' },
-  { name: 'AWS', note: { es: 'Infraestructura cloud escalable', en: 'Scalable cloud infrastructure' }, tone: 'warn' }
+  {
+    name: 'Java',
+    note: { es: 'Desarrollo backend empresarial', en: 'Enterprise backend development' },
+    active: true
+  },
+  {
+    name: 'Spring',
+    note: { es: 'APIs REST y arquitectura backend', en: 'REST APIs and backend architecture' },
+    active: true
+  },
+  {
+    name: 'Node.js',
+    note: { es: 'Microservicios y APIs REST', en: 'Microservices and REST APIs' },
+    active: false
+  },
+  {
+    name: 'NestJS',
+    note: { es: 'Arquitectura modular y limpia', en: 'Modular, clean architecture' },
+    active: false
+  },
+  {
+    name: 'PostgreSQL',
+    note: { es: 'Modelado de datos y performance', en: 'Data modeling and performance' },
+    active: true
+  },
+  {
+    name: 'Oracle',
+    note: { es: 'Bases de datos empresariales', en: 'Enterprise database systems' },
+    active: true
+  },
+  {
+    name: 'MySQL',
+    note: { es: 'Bases de datos relacionales', en: 'Relational database management' },
+    active: false
+  },
+  {
+    name: 'Angular',
+    note: { es: 'Frontends SPA empresariales', en: 'Enterprise SPA frontends' },
+    active: true
+  },
+  {
+    name: 'Docker',
+    note: { es: 'Entornos reproducibles y despliegue', en: 'Reproducible environments and delivery' },
+    active: false
+  },
+  {
+    name: 'Redis',
+    note: { es: 'Caching y colas de tareas', en: 'Caching and task queues' },
+    active: false
+  },
+  {
+    name: 'AWS',
+    note: { es: 'Infraestructura cloud escalable', en: 'Scalable cloud infrastructure' },
+    active: false
+  }
 ] as const;
 export type FeaturedTechItem = (typeof featuredTech)[number];
 
 export const skills = [
   {
     title: { es: 'Backend Core', en: 'Backend Core' },
-    items: ['TypeScript', 'Node.js', 'NestJS', 'Express', 'Fastify', 'Java (Spring)']
+    items: ['TypeScript', 'Node.js', 'Java (Spring)']
   },
   {
-    title: { es: 'Data & Messaging', en: 'Data & Messaging' },
-    items: ['PostgreSQL', 'MongoDB', 'Redis', 'Kafka', 'RabbitMQ']
+    title: { es: 'Data', en: 'Data' },
+    items: ['Oracle', 'MySQL', 'PostgreSQL']
   },
   {
     title: { es: 'Cloud & DevOps', en: 'Cloud & DevOps' },
@@ -118,52 +167,82 @@ export const timeline = [
   {
     type: 'experience',
     current: true,
-    date: { es: '2024 - Actualidad', en: '2024 - Present' },
-    title: { es: 'Senior Backend Engineer', en: 'Senior Backend Engineer' },
-    organization: 'ScaleCloud Labs',
-    detail: {
-      es: 'Liderazgo tecnico en APIs criticas, reduccion de latencia en 38% y mejoras de resiliencia.',
-      en: 'Technical leadership on critical APIs, 38% latency reduction, and resilience improvements.'
-    }
-  },
-  {
-    type: 'experience',
-    date: { es: '2022 - 2024', en: '2022 - 2024' },
+    date: { es: '2019 - Actualidad', en: '2019 - Present' },
     title: { es: 'Backend Developer', en: 'Backend Developer' },
-    organization: 'FinFlow Systems',
+    organization: 'Grupo Oesía',
     detail: {
-      es: 'Diseno de microservicios de pagos y reconciliacion para plataforma fintech regional.',
-      en: 'Design of payment and reconciliation microservices for a regional fintech platform.'
+      es: 'Desarrollo y mantenimiento de aplicaciones críticas de administración electrónica. Liderazgo técnico en módulos backend Java, integración con servicios públicos, gestión de incidencias, análisis funcional y formación de compañeros.',
+      en: 'Development and maintenance of critical e-government applications. Technical leadership in Java backend modules, public service integrations, incident management, functional analysis, and team mentoring.'
     }
   },
   {
     type: 'experience',
-    date: { es: '2020 - 2022', en: '2020 - 2022' },
-    title: { es: 'Software Engineer', en: 'Software Engineer' },
-    organization: 'DataRail Tech',
+    date: { es: '2020 - 2021', en: '2020 - 2021' },
+    title: { es: 'Backend Developer – Sistemas Sociales', en: 'Backend Developer – Social Systems' },
+    organization: 'Grupo Oesía',
     detail: {
-      es: 'Integraciones empresariales y arquitectura orientada a eventos con enfoque DevOps.',
-      en: 'Enterprise integrations and event-driven architecture with a DevOps focus.'
+      es: 'Desarrollo backend del Sistema de Información de Menores de Aragón utilizando Java, JSF y Oracle, gestionando datos sensibles y procesos administrativos.',
+      en: 'Backend development of Aragón’s Child Information System using Java, JSF and Oracle, managing sensitive data and administrative workflows.'
+    }
+  },
+  {
+    type: 'experience',
+    date: { es: '2019 - 2020', en: '2019 - 2020' },
+    title: { es: 'Fullstack Developer – Sistemas de Cita Previa', en: 'Fullstack Developer – Appointment Systems' },
+    organization: 'Grupo Oesía',
+    detail: {
+      es: 'Desarrollo frontend Angular y backend Java en sistemas de cita previa para Gobierno de Aragón, Justicia y Universidad de Jaén.',
+      en: 'Angular frontend and Java backend development for appointment systems used by Aragón Government, Justice Department and University of Jaén.'
+    }
+  },
+  {
+    type: 'experience',
+    date: { es: '2019 - Actualidad', en: '2019 - Present' },
+    title: { es: 'Backend Developer – Administración Electrónica', en: 'Backend Developer – E-Government Systems' },
+    organization: 'Grupo Oesía',
+    detail: {
+      es: 'Desarrollo de sistemas de expedientes electrónicos, vivienda pública y subastas. Integraciones con servicios públicos (@Firma, padrón, portafirmas, gestor documental, AWS).',
+      en: 'Development of electronic records, public housing and procurement systems. Integration with government services (@Firma, registries, document systems, AWS).'
+    }
+  },
+  {
+    type: 'experience',
+    date: { es: '2019 - Actualidad', en: '2019 - Present' },
+    title: { es: 'Backend Developer – Sistemas de Datos y Facturación', en: 'Backend Developer – Data & Billing Systems' },
+    organization: 'Grupo Oesía',
+    detail: {
+      es: 'Procesamiento de datos, parseo XML y gestión de facturación utilizando Java, PostgreSQL y arquitecturas backend robustas.',
+      en: 'Data processing, XML parsing and billing management using Java, PostgreSQL and robust backend architectures.'
     }
   },
   {
     type: 'education',
-    date: { es: '2016 - 2020', en: '2016 - 2020' },
-    title: { es: 'Ingenieria Informatica', en: 'Computer Engineering' },
-    organization: 'Universidad Tecnologica',
+    date: { es: '2017 - 2018', en: '2017 - 2018' },
+    title: { es: 'Desarrollo de Aplicaciones Web', en: 'Web Application Development' },
+    organization: 'CPIFP Los Enlaces',
     detail: {
-      es: 'Base solida en estructuras de datos, sistemas distribuidos y bases de datos.',
-      en: 'Solid foundation in data structures, distributed systems, and databases.'
+      es: 'Especialización en desarrollo web, programación, diseño de aplicaciones y tecnologías de Internet.',
+      en: 'Specialized training in web development, programming, application design and Internet technologies.'
     }
   },
   {
     type: 'education',
-    date: { es: '2019', en: '2019' },
-    title: { es: 'Especializacion en Cloud Architecture', en: 'Cloud Architecture Specialization' },
-    organization: 'Programa Profesional AWS',
+    date: { es: '2015 - 2017', en: '2015 - 2017' },
+    title: { es: 'Desarrollo de Aplicaciones Multiplataforma', en: 'Multiplatform Application Development' },
+    organization: 'CPIFP Los Enlaces',
     detail: {
-      es: 'Diseno de plataformas tolerantes a fallos y estrategias de observabilidad.',
-      en: 'Design of fault-tolerant platforms and observability strategies.'
+      es: 'Formación en desarrollo de software multiplataforma, bases de datos y programación orientada a sistemas empresariales.',
+      en: 'Training in multiplatform software development, databases and enterprise programming.'
+    }
+  },
+  {
+    type: 'education',
+    date: { es: 'Formación Complementaria', en: 'Additional Training' },
+    title: { es: 'Certificaciones Técnicas', en: 'Technical Certifications' },
+    organization: 'Formación Profesional',
+    detail: {
+      es: 'Cursos en Angular, desarrollo con motores gráficos (Unreal Engine y Unity) y programación orientada a entornos 3D.',
+      en: 'Courses in Angular, game engines (Unreal Engine & Unity) and 3D programming environments.'
     }
   }
 ] as const;

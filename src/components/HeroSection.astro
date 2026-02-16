@@ -1,5 +1,6 @@
 ---
 import type { FeaturedTechItem, Profile } from '../data/portfolio';
+import { toneForTech, toneStyle } from '../data/techTone';
 
 interface Props {
   profile: Profile;
@@ -9,27 +10,8 @@ interface Props {
 
 const { profile, featuredTech, codeSnippet } = Astro.props;
 
-const featuredTone = (tone: FeaturedTechItem['tone']) => {
-  const toneMap: Record<string, string> = {
-    accent: 'var(--ide-accent)',
-    success: 'var(--ide-success)',
-    warn: 'var(--ide-warn)',
-    info: 'var(--ide-info)',
-    danger: 'var(--ide-danger)',
-    purple: 'var(--ide-purple)',
-    cyan: 'var(--ide-cyan)',
-    neutral: 'var(--ide-textMuted)'
-  };
+const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 4);
 
-  const base = toneMap[tone] ?? 'var(--ide-warn)';
-
-  return {
-    border: `color-mix(in oklab, ${base}, var(--ide-border) 60%)`,
-    bg: `color-mix(in oklab, ${base}, transparent 90%)`,
-    text: base,
-    glow: `0 0 0 1px color-mix(in oklab, ${base}, transparent 82%)`
-  };
-};
 ---
 
 <section id="home" class="animate-slideIn">
@@ -93,8 +75,8 @@ const featuredTone = (tone: FeaturedTechItem['tone']) => {
 
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
         {
-          featuredTech.map((tech) => {
-            const tone = featuredTone(tech.tone);
+          activeFeaturedTech.map((tech) => {
+            const tone = toneStyle(toneForTech(tech.name));
             return (
               <article
                 class="card-hover relative overflow-hidden rounded-lg border bg-ide-bg/95 p-3"
