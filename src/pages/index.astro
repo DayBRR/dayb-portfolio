@@ -4,10 +4,11 @@ import IdeShell from '../components/IdeShell.astro';
 import HeroSection from '../components/HeroSection.astro';
 import FocusSection from '../components/FocusSection.astro';
 import SkillsSection from '../components/SkillsSection.astro';
+import StackSection from '../components/StackSection.astro';
 import ProjectsSection from '../components/ProjectsSection.astro';
 import TimelineSection from '../components/TimelineSection.astro';
 import ProjectModal from '../components/ProjectModal.astro';
-import { featuredTech, focusHighlights, profile, projects, skills, timeline } from '../data/portfolio';
+import { featuredTech, focusHighlights, profile, projects, skills, stackTecnology, timeline } from '../data/portfolio';
 
 const codeSnippet = [
   'class BackendEngineer {',
@@ -29,6 +30,7 @@ const codeSnippet = [
     <HeroSection profile={profile} featuredTech={featuredTech} codeSnippet={codeSnippet} />
     <FocusSection highlights={focusHighlights} />
     <SkillsSection skills={skills} />
+    <StackSection stackTecnology={stackTecnology} />
     <ProjectsSection projects={projects} />
     <TimelineSection timeline={timeline} />
   </IdeShell>

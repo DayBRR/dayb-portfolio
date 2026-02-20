@@ -1,0 +1,87 @@
+---
+import type { StackTecnologyGroup } from '../data/portfolio';
+
+interface Props {
+  stackTecnology: readonly StackTecnologyGroup[];
+}
+
+const { stackTecnology } = Astro.props;
+
+const groupToneStyle = (index: number) => {
+  if (index % 3 === 0) {
+    return 'border-color:var(--ide-accent);background:var(--ide-accent-soft);color:var(--ide-accent);';
+  }
+  if (index % 3 === 1) {
+    return 'border-color:color-mix(in oklab, var(--ide-success), transparent 35%);background:color-mix(in oklab, var(--ide-success), transparent 84%);color:var(--ide-success);';
+  }
+  return 'border-color:color-mix(in oklab, var(--ide-warn), transparent 35%);background:color-mix(in oklab, var(--ide-warn), transparent 84%);color:var(--ide-warn);';
+};
+---
+
+<section id="stack" class="animate-slideIn [animation-delay:90ms]">
+  <div class="relative overflow-hidden rounded-2xl border border-ide-border bg-ide-panel/90 p-5">
+    <div class="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-ide-accent/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-ide-success/10 blur-3xl"></div>
+
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2
+          class="text-xl font-semibold text-ide-text md:text-2xl"
+          data-i18n-es="Stack Tecnologico"
+          data-i18n-en="Technology Stack"
+        >
+          Stack Tecnologico
+        </h2>
+        <p
+          class="mt-2 text-sm text-ide-textMuted"
+          data-i18n-es="Tecnologias clave organizadas por dominio para construir productos backend robustos."
+          data-i18n-en="Key technologies grouped by domain to build robust backend products."
+        >
+          Tecnologias clave organizadas por dominio para construir productos backend robustos.
+        </p>
+      </div>
+      <div
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-ide-textMuted"
+        data-i18n-es="stack map"
+        data-i18n-en="stack map"
+      >
+        stack map
+      </div>
+    </div>
+
+    <div class="mt-6 space-y-3">
+      {
+        stackTecnology.map((group, index) => (
+          <article class="rounded-xl border border-ide-border bg-ide-bg/90 p-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="h-9 w-1 rounded-full bg-ide-accent/60"></span>
+                <div>
+                  <h3 class="text-sm font-semibold text-ide-text" data-i18n-es={group.title.es} data-i18n-en={group.title.en}>
+                    {group.title.es}
+                  </h3>
+                  <p class="text-[11px] text-ide-textMuted">
+                    {group.items.length} items
+                  </p>
+                </div>
+              </div>
+              <span class="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]" style={groupToneStyle(index)}>
+                stack
+              </span>
+            </div>
+            <ul class="mt-4 grid gap-2 text-sm text-ide-text sm:grid-cols-2">
+              {
+                group.items.map((item) => (
+                  <li class="flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-sm bg-ide-accent"></span>
+                    <span>{item}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
