@@ -10,7 +10,7 @@ interface Props {
 
 const { profile, featuredTech, codeSnippet } = Astro.props;
 
-const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 4);
+const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 6);
 
 ---
 
@@ -39,12 +39,45 @@ const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 4
       {profile.location.es}
     </p>
     <p
+      class="mt-1 text-sm text-ide-textMuted"
+      data-i18n-es={profile.experience.es}
+      data-i18n-en={profile.experience.en}
+    >
+      {profile.experience.es}
+    </p>
+    <p
       class="mt-4 max-w-3xl text-sm text-ide-text md:text-base"
       data-i18n-es={profile.summary.es}
       data-i18n-en={profile.summary.en}
     >
       {profile.summary.es}
     </p>
+    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+      <a
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-ide-text hover:border-ide-accent hover:text-ide-accent"
+        href={profile.links.contact.href}
+        data-i18n-es={profile.links.contact.es}
+        data-i18n-en={profile.links.contact.en}
+      >
+        {profile.links.contact.es}
+      </a>
+      <a
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-ide-text hover:border-ide-accent hover:text-ide-accent"
+        href={profile.links.linkedin.href}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {profile.links.linkedin.label}
+      </a>
+      <a
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-ide-text hover:border-ide-accent hover:text-ide-accent"
+        href={profile.links.github.href}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {profile.links.github.label}
+      </a>
+    </div>
 
     <div class="mt-5 grid gap-4 lg:grid-cols-[1.35fr_1fr]">
       <div class="rounded-lg border border-ide-border bg-ide-bg p-4">
@@ -67,7 +100,7 @@ const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 4
             ))
           }
           <div class="flex gap-4">
-            <span class="w-5 text-right text-ide-textMuted/80">9</span>
+            <span class="w-5 text-right text-ide-textMuted/80">12</span>
             <span id="final-code-caret" class="inline-block h-4 w-2 animate-caret bg-ide-accent opacity-0"></span>
           </div>
         </div>

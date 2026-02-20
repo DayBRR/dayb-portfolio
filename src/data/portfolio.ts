@@ -13,12 +13,53 @@ export const profile = {
     es: 'Remoto - Zaragoza | España',
     en: 'Remote - Zaragoza | Spain'
   },
+  experience: {
+    es: '+9 años de experiencia',
+    en: '+9 years experience'
+  },
+  links: {
+    contact: {
+      es: 'Contactar',
+      en: 'Contact',
+      href: 'mailto:davidrr.22.12@gmail.com'
+    },
+    linkedin: {
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/daybrr'
+    },
+    github: {
+      label: 'GitHub',
+      href: 'https://github.com/DayBRR'
+    }
+  },
   summary: {
     es: 'Construyo servicios robustos y escalables, con foco en observabilidad, rendimiento y calidad de arquitectura.',
     en: 'I build robust, scalable services with a focus on observability, performance, and architecture quality.'
   }
 };
 export type Profile = typeof profile;
+
+export const focusHighlights = [
+  {
+    title: { es: 'Mi enfoque profesional', en: 'My professional focus' },
+    items: [
+      { es: 'Arquitectura antes que código', en: 'Architecture before code' },
+      { es: 'Sistemas mantenibles', en: 'Maintainable systems' },
+      { es: 'Diseño orientado a dominio', en: 'Domain-driven design' },
+      { es: 'Observabilidad desde el inicio', en: 'Observability from day one' }
+    ]
+  },
+  {
+    title: { es: 'Lo que me diferencia', en: 'What sets me apart' },
+    items: [
+      { es: 'Experiencia en sistemas críticos', en: 'Experience in critical systems' },
+      { es: 'Integraciones complejas', en: 'Complex integrations' },
+      { es: 'Perfil técnico + funcional', en: 'Technical + functional profile' },
+      { es: 'Liderazgo técnico', en: 'Technical leadership' }
+    ]
+  }
+] as const;
+export type FocusHighlight = (typeof focusHighlights)[number];
 
 export const featuredTech = [
   {
@@ -78,6 +119,26 @@ export const featuredTech = [
   }
 ] as const;
 export type FeaturedTechItem = (typeof featuredTech)[number];
+
+export const stackTecnology = [
+  {
+    title: { es: 'BACKEND CORE', en: 'BACKEND CORE' },
+    items: ['Java', 'Spring', 'TypeScript']
+  },
+  {
+    title: { es: 'DATA', en: 'DATA' },
+    items: ['Oracle', 'PostgreSQL', 'MySQL']
+  },
+  {
+    title: { es: 'DEVOPS', en: 'DEVOPS' },
+    items: ['Docker', 'Kubernetes', 'AWS']
+  },
+  {
+    title: { es: 'CALIDAD', en: 'QUALITY' },
+    items: ['Testing', 'OpenAPI', 'OAuth2/JWT']
+  }
+] as const;
+export type StackTecnologyGroup = (typeof stackTecnology)[number];
 
 export const skills = [
   {
