@@ -96,14 +96,29 @@ const { profileName, navItems } = Astro.props;
             })
           }
         </ul>
-
-        <div class="mt-6 rounded-lg border border-ide-border bg-ide-panel p-3 text-xs text-ide-textMuted">
-          <p class="text-ide-success">$ status</p>
-          <p class="mt-1" data-i18n-es="build: ready" data-i18n-en="build: ready">
-            build: ready
+        <div class="status-panel mt-6 rounded-lg border border-ide-border bg-ide-panel p-3 text-xs text-ide-textMuted">
+          <p class="whitespace-nowrap font-mono text-ide-success">
+            <span class="text-ide-textMuted">dayb:~</span>
+            $ <span id="cmd-status"></span><span class="terminal-caret terminal-cursor-block"></span>
           </p>
-          <p data-i18n-es="theme: intellij-inspired" data-i18n-en="theme: intellij-inspired">theme: intellij-inspired</p>
-          <p data-i18n-es="mode: backend showcase" data-i18n-en="mode: backend showcase">mode: backend showcase</p>
+
+          <p
+            data-i18n-es="build: production-ready"
+            data-i18n-en="build: production-ready">
+            build: production-ready
+          </p>
+
+          <p
+            data-i18n-es="focus: backend systems"
+            data-i18n-en="focus: backend systems">
+            focus: backend systems
+          </p>
+
+          <p
+            data-i18n-es="mode: architecture-driven"
+            data-i18n-en="mode: architecture-driven">
+            mode: architecture-driven
+          </p>
         </div>
       </aside>
 
@@ -114,10 +129,10 @@ const { profileName, navItems } = Astro.props;
 
     <footer class="border-t border-ide-border bg-ide-panel-soft px-4 py-2 text-[11px] text-ide-textMuted">
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <span data-i18n-es="JetBrains IntelliJ inspired UI | Astro + Tailwind" data-i18n-en="JetBrains IntelliJ inspired UI | Astro + Tailwind">
-          JetBrains IntelliJ inspired UI | Astro + Tailwind
+        <span data-i18n-es="JetBrains-inspired UI • Built with Astro & Tailwind" data-i18n-en="JetBrains-inspired UI • Built with Astro & Tailwind">
+          JetBrains-inspired UI • Built with Astro & Tailwind
         </span>
-        <span>backend_portfolio@latest</span>
+        <span>dayb_portfolio@latest</span>
       </div>
     </footer>
   </div>
@@ -180,6 +195,50 @@ const { profileName, navItems } = Astro.props;
       html.dataset.theme = next;
       localStorage.setItem('theme', next);
     });
+
+    const cmdStatus = document.getElementById('cmd-status');
+    const caret = document.querySelector('.terminal-caret');
+    if (cmdStatus && caret) {
+      const text = 'status';
+      let i = 0;
+      let done = false;
+
+      const type = () => {
+        if (i < text.length) {
+          cmdStatus.textContent += text[i];
+          i += 1;
+          setTimeout(type, 60);
+          return;
+        }
+
+        setTimeout(() => {
+          caret.classList.add('is-active');
+        }, 300);
+      };
+
+      const panel = document.querySelector('.status-panel');
+
+      if ('IntersectionObserver' in window && panel) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !done) {
+                done = true;
+                cmdStatus.textContent = '';
+                type();
+                observer.disconnect();
+              }
+            });
+          },
+          { threshold: 0.4 }
+        );
+
+        observer.observe(panel);
+      } else {
+        cmdStatus.textContent = text;
+        caret.classList.add('is-active');
+      }
+    }
   };
 
   if (document.readyState === 'loading') {

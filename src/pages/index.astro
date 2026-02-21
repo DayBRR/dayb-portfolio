@@ -78,9 +78,9 @@ const sections: Array<{
 const activeSections = sections.filter((section) => section.active);
 ---
 
-<MainLayout title="Portfolio Backend | IntelliJ Style">
+<MainLayout title="Portfolio | David Ruiz Requejo">
   <IdeShell
-    profileName={profile.name}
+    profileName={profile.title_path}
     navItems={activeSections.map(({ id, nav }) => ({ id, label: nav }))}
   >
     {activeSections.map((section) => {

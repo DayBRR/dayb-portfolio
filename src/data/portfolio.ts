@@ -6,6 +6,7 @@ export type LocalizedText = {
 };
 
 export const profile = {
+  title_path: 'David Ruiz Requejo',
   name: 'David Ruiz Requejo',
   role: {
     es: 'Backend Engineer | Architecture before Code',
