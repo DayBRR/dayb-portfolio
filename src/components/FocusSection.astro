@@ -7,6 +7,18 @@ interface Props {
 
 const { highlights } = Astro.props;
 
+const showFocusMap = true;
+
+const mapPool = [
+  { name: { es: 'Arquitectura', en: 'Architecture' }, value: 92, tone: 'accent' },
+  { name: { es: 'Observabilidad', en: 'Observability' }, value: 88, tone: 'success' },
+  { name: { es: 'Rendimiento', en: 'Performance' }, value: 84, tone: 'warn' },
+  { name: { es: 'Seguridad', en: 'Security' }, value: 80, tone: 'purple' },
+  { name: { es: 'Escalabilidad', en: 'Scalability' }, value: 86, tone: 'info' }
+] as const;
+
+const mapToneStyle = (tone: string) => `--tone: var(--ide-${tone});`;
+
 const groupToneStyle = (index: number) => {
   if (index % 2 === 0) {
     return '--tone: var(--ide-accent); --tone-soft: var(--ide-accent-soft);';
@@ -55,5 +67,68 @@ const groupToneStyle = (index: number) => {
         ))
       }
     </div>
+
+    {
+      showFocusMap && (
+        <div class="mt-5 rounded-xl border border-ide-border bg-ide-bg/95 p-4">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.24em] text-ide-textMuted" data-i18n-es="Mapa de prioridades" data-i18n-en="Priority map">
+                Mapa de prioridades
+              </p>
+              <h2
+                class="mt-2 text-base font-semibold uppercase tracking-[0.2em] text-ide-text"
+                data-i18n-es="Matriz de enfoque"
+                data-i18n-en="Focus matrix"
+              >
+                Matriz de enfoque
+              </h2>
+              <p
+                class="mt-2 text-xs text-ide-textMuted"
+                data-i18n-es="Lectura visual de las areas que mas impactan el producto."
+                data-i18n-en="Visual readout of the areas that most impact the product."
+              >
+                Lectura visual de las areas que mas impactan el producto.
+              </p>
+            </div>
+            <div
+              class="rounded-full border border-ide-border bg-ide-panel-soft px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-ide-textMuted"
+              data-i18n-es="prioridades"
+              data-i18n-en="priorities"
+            >
+              prioridades
+            </div>
+          </div>
+          <div class="mt-4 grid gap-3 md:grid-cols-2">
+            {
+              mapPool.map((map) => (
+                <div class="flex items-center gap-3">
+                  <span
+                    class="flex h-10 w-10 items-center justify-center rounded-lg border border-ide-border bg-ide-panel-soft text-[11px] font-semibold text-ide-text"
+                    style={`${mapToneStyle(map.tone)} border-color: color-mix(in oklab, var(--tone), var(--ide-border) 55%); color: color-mix(in oklab, var(--tone), var(--ide-text) 25%);`}
+                  >
+                    {map.name.es.slice(0, 2).toUpperCase()}
+                  </span>
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between text-[11px] text-ide-textMuted">
+                      <span data-i18n-es={map.name.es} data-i18n-en={map.name.en}>
+                        {map.name.es}
+                      </span>
+                      <span class="text-ide-text">{map.value}%</span>
+                    </div>
+                    <div class="mt-1.5 h-2 rounded-full bg-ide-panel-soft">
+                      <div
+                        class="h-2 rounded-full"
+                        style={`${mapToneStyle(map.tone)} width: ${map.value}%; background: color-mix(in oklab, var(--tone), transparent 10%);`}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
   </div>
 </section>
