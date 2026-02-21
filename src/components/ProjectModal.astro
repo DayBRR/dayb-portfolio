@@ -1,9 +1,24 @@
+---
+import { statusMeta } from '../data/projectStatus';
+
+const statusMetaJson = JSON.stringify(statusMeta);
+---
+
 <dialog id="project-modal" class="w-[min(760px,95vw)] overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel">
   <div class="border-b border-ide-border bg-ide-panel-soft px-4 py-2 text-xs text-ide-textMuted">project_modal.tsx</div>
   <div class="space-y-4 p-5">
     <div>
       <p id="modal-summary" class="text-sm text-ide-textMuted"></p>
-      <h3 id="modal-title" class="mt-1 text-2xl font-semibold"></h3>
+      <div class="mt-1 flex flex-wrap items-center gap-2">
+        <h3 id="modal-title" class="text-2xl font-semibold"></h3>
+        <span
+          id="modal-status"
+          class="hidden items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]"
+        >
+          <span id="modal-status-icon" class="inline-flex h-3 w-3"></span>
+          <span id="modal-status-label"></span>
+        </span>
+      </div>
     </div>
     <p id="modal-description" class="text-sm text-ide-text"></p>
     <p id="modal-stack" class="rounded-md border border-ide-border bg-ide-bg px-3 py-2 text-xs text-ide-textMuted"></p>
@@ -41,7 +56,7 @@
   </div>
 </dialog>
 
-<script is:inline>
+<script is:inline define:vars={{ statusMetaJson }}>
   const modal = document.getElementById('project-modal');
   const openButtons = Array.from(document.querySelectorAll('.open-project-modal'));
   const closeButton = document.getElementById('close-project-modal');
@@ -49,15 +64,41 @@
   const modalTitle = document.getElementById('modal-title');
   const modalSummary = document.getElementById('modal-summary');
   const modalDescription = document.getElementById('modal-description');
+  const modalStatus = document.getElementById('modal-status');
+  const modalStatusIcon = document.getElementById('modal-status-icon');
+  const modalStatusLabel = document.getElementById('modal-status-label');
   const modalRepo = document.getElementById('modal-repo');
   const modalDemo = document.getElementById('modal-demo');
   const modalStack = document.getElementById('modal-stack');
+
+  const STATUS_META = JSON.parse(statusMetaJson);
 
   const getLang = () => (document.documentElement.dataset.lang === 'en' ? 'en' : 'es');
   const pickLang = (element, key) => {
     const lang = getLang();
     const suffix = lang === 'en' ? 'En' : 'Es';
     return element.dataset[`${key}${suffix}`] ?? '';
+  };
+  const cleanUrl = (value) => (value ?? '').trim();
+  const setLinkState = (link, value) => {
+    if (!(link instanceof HTMLAnchorElement)) return;
+    const url = cleanUrl(value);
+    const isActive = url.length > 0;
+
+    if (isActive) {
+      link.href = url;
+      link.removeAttribute('aria-disabled');
+      link.tabIndex = 0;
+      link.classList.remove('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
+      link.classList.add('hover:border-ide-accent', 'hover:text-ide-accent');
+      return;
+    }
+
+    link.removeAttribute('href');
+    link.setAttribute('aria-disabled', 'true');
+    link.tabIndex = -1;
+    link.classList.add('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
+    link.classList.remove('hover:border-ide-accent', 'hover:text-ide-accent');
   };
 
   for (const button of openButtons) {
@@ -67,13 +108,27 @@
       const { title, repo, demo, stack } = button.dataset;
       const summary = pickLang(button, 'summary');
       const description = pickLang(button, 'description');
+      const statusKey = button.dataset.status ?? '';
+      const statusMeta = STATUS_META[statusKey];
+      const statusLabel = statusMeta ? (getLang() === 'en' ? statusMeta.label.en : statusMeta.label.es) : '';
 
       if (modalTitle) modalTitle.textContent = title ?? '';
       if (modalSummary) modalSummary.textContent = summary;
       if (modalDescription) modalDescription.textContent = description;
+      if (modalStatus) {
+        const hasStatus = statusLabel.length > 0;
+        modalStatus.classList.toggle('hidden', !hasStatus);
+        if (hasStatus && statusMeta) {
+          modalStatus.style.borderColor = statusMeta.color;
+          modalStatus.style.color = statusMeta.color;
+          modalStatus.style.background = statusMeta.bg;
+        }
+      }
+      if (modalStatusLabel) modalStatusLabel.textContent = statusLabel;
+      if (modalStatusIcon) modalStatusIcon.innerHTML = statusMeta?.icon ?? '';
       if (modalStack) modalStack.textContent = `stack: ${stack ?? ''}`;
-      if (modalRepo instanceof HTMLAnchorElement && repo) modalRepo.href = repo;
-      if (modalDemo instanceof HTMLAnchorElement && demo) modalDemo.href = demo;
+      setLinkState(modalRepo, repo);
+      setLinkState(modalDemo, demo);
 
       modal.showModal();
     });

@@ -1,3 +1,5 @@
+import type { ProjectStatus } from './projectStatus';
+
 export type LocalizedText = {
   es: string;
   en: string;
@@ -160,10 +162,20 @@ export const skills = [
 ] as const;
 export type SkillGroup = (typeof skills)[number];
 
-export const projects = [
+export const projects: {
+  id: string;
+  title: string;
+  status: ProjectStatus;
+  stack: string[];
+  summary: LocalizedText;
+  description: LocalizedText;
+  repo: string;
+  demo: string;
+}[] = [
   {
     id: 'payment-gateway',
     title: 'Payment Gateway Service',
+    status: 'Concept',
     stack: ['NestJS', 'PostgreSQL', 'Redis', 'Docker'],
     summary: {
       es: 'Motor de pagos con idempotencia, webhook signing y conciliacion automatizada.',
@@ -179,6 +191,7 @@ export const projects = [
   {
     id: 'logistics-api',
     title: 'Logistics Tracking API',
+    status: 'Concept',
     stack: ['Node.js', 'Fastify', 'MongoDB', 'Kafka'],
     summary: {
       es: 'Seguimiento en tiempo real de rutas, estados y alertas de transporte.',
@@ -194,6 +207,7 @@ export const projects = [
   {
     id: 'auth-platform',
     title: 'Identity & Auth Platform',
+    status: 'Concept',
     stack: ['NestJS', 'PostgreSQL', 'JWT', 'Kubernetes'],
     summary: {
       es: 'Plataforma de autenticacion centralizada para productos internos y externos.',
@@ -209,6 +223,7 @@ export const projects = [
   {
     id: 'reporting-engine',
     title: 'Async Reporting Engine',
+    status: 'Concept',
     stack: ['TypeScript', 'RabbitMQ', 'S3', 'Terraform'],
     summary: {
       es: 'Generacion de reportes pesados en background con entrega por lotes.',
