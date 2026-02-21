@@ -10,17 +10,19 @@ const { stackTecnology } = Astro.props;
 const totalItems = stackTecnology.reduce((sum, group) => sum + group.items.length, 0);
 
 const groupToneStyle = (group: StackTecnologyGroup) => {
-  const haystack = `${group.title.es} ${group.title.en}`.toLowerCase();
-  if (haystack.includes('calidad') || haystack.includes('quality')) {
-    return '--tone: var(--ide-purple); --tone-soft: color-mix(in oklab, var(--ide-purple), transparent 84%);';
+  switch (group.topic) {
+    case 'quality':
+      return '--tone: var(--ide-purple); --tone-soft: color-mix(in oklab, var(--ide-purple), transparent 84%);';
+    case 'data':
+      return '--tone: var(--ide-success); --tone-soft: color-mix(in oklab, var(--ide-success), transparent 84%);';
+    case 'frontend':
+      return '--tone: var(--ide-accent); --tone-soft: color-mix(in oklab, var(--ide-accent), transparent 84%);';
+    case 'devops':
+      return '--tone: var(--ide-danger); --tone-soft: color-mix(in oklab, var(--ide-danger), transparent 84%);';
+    case 'backend':
+    default:
+      return '--tone: var(--ide-warn); --tone-soft: var(--ide-warn-soft);';
   }
-  if (haystack.includes('data')) {
-    return '--tone: var(--ide-success); --tone-soft: color-mix(in oklab, var(--ide-success), transparent 84%);';
-  }
-  if (haystack.includes('devops')) {
-    return '--tone: var(--ide-warn); --tone-soft: color-mix(in oklab, var(--ide-warn), transparent 84%);';
-  }
-  return '--tone: var(--ide-accent); --tone-soft: var(--ide-accent-soft);';
 };
 ---
 

@@ -6,10 +6,10 @@ export type LocalizedText = {
 };
 
 export const profile = {
-  name: 'David Backend Developer',
+  name: 'David Ruiz Requejo',
   role: {
-    es: 'Backend Engineer | API, Cloud & Data Workflows',
-    en: 'Backend Engineer | API, Cloud & Data Workflows'
+    es: 'Backend Engineer | Architecture before Code',
+    en: 'Backend Engineer | Architecture before Code'
   },
   location: {
     es: 'Remoto - Zaragoza | España',
@@ -124,19 +124,28 @@ export type FeaturedTechItem = (typeof featuredTech)[number];
 
 export const stackTecnology = [
   {
-    title: { es: 'Backend Core', en: 'Backend Core' },
-    items: ['Java', 'Spring', 'TypeScript']
+    title: { es: 'Arquitectura Backend', en: 'Backend Architecture' },
+    topic: 'backend',
+    items: ['Java', 'Spring Boot', 'Spring Security', 'JPA / Hibernate']
   },
   {
-    title: { es: 'Data', en: 'Data' },
+    title: { es: 'Cliente / Frontend', en: 'Client / Frontend' },
+    topic: 'frontend',
+    items: ['TypeScript', 'Angular', 'Astro', 'Tailwind CSS']
+  },
+  {
+    title: { es: 'Datos', en: 'Data' },
+    topic: 'data',
     items: ['Oracle', 'PostgreSQL', 'MySQL']
   },
   {
     title: { es: 'DevOps', en: 'DevOps' },
+    topic: 'devops',
     items: ['Docker', 'AWS']
   },
   {
-    title: { es: 'Calidad', en: 'Quality' },
+    title: { es: 'Calidad & APIs', en: 'Quality & API Design' },
+    topic: 'quality',
     items: ['Testing', 'OpenAPI', 'OAuth2/JWT']
   }
 ] as const;
@@ -144,7 +153,7 @@ export type StackTecnologyGroup = (typeof stackTecnology)[number];
 
 export const skills = [
   {
-    title: { es: 'Backend Core', en: 'Backend Core' },
+    title: { es: 'Backend Architecture', en: 'Backend Architecture' },
     items: ['TypeScript', 'Node.js', 'Java (Spring)']
   },
   {
