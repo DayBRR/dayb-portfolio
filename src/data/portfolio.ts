@@ -233,7 +233,16 @@ export const projects: {
 ] as const;
 export type ProjectItem = (typeof projects)[number];
 
-export const timeline = [
+export type TimelineItem = {
+  type: 'experience' | 'education';
+  current?: boolean;
+  date: LocalizedText;
+  title: LocalizedText;
+  organization: string;
+  detail: LocalizedText;
+};
+
+export const timeline: readonly TimelineItem[] = [
   {
     type: 'experience',
     current: true,
@@ -316,4 +325,3 @@ export const timeline = [
     }
   }
 ] as const;
-export type TimelineItem = (typeof timeline)[number];
