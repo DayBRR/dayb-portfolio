@@ -173,68 +173,52 @@ export const projects: {
   demo: string;
 }[] = [
   {
-    id: 'payment-gateway',
-    title: 'Payment Gateway Service',
-    status: 'Concept',
-    stack: ['NestJS', 'PostgreSQL', 'Redis', 'Docker'],
+    id: 'code-diary-api',
+    title: 'Code Diary API',
+    status: 'Development',
+    stack: ['Java', 'Spring Boot', 'Spring Security', 'JPA', 'JWT', 'Swagger', 'H2', 'PostgreSQL'],
     summary: {
-      es: 'Motor de pagos con idempotencia, webhook signing y conciliacion automatizada.',
-      en: 'Payment engine with idempotency, webhook signing, and automated reconciliation.'
+      es: 'API REST para gestionar y documentar proyectos software con autenticación JWT.',
+      en: 'REST API to manage and document software projects with JWT authentication.'
     },
     description: {
-      es: 'Servicio backend para orquestar pagos multicanal. Incluye retries con backoff, antifraude basico, trazabilidad de eventos y dashboard de metricas para operacion.',
-      en: 'Backend service orchestrating multi-channel payments. Includes retries with backoff, basic antifraud, event traceability, and an ops metrics dashboard.'
+      es: 'Backend en Spring Boot que centraliza metadatos, tecnologías y notas técnicas. Incluye endpoints públicos, seguridad JWT y documentación OpenAPI.',
+      en: 'Spring Boot backend centralizing project metadata, technologies and technical notes. Includes public endpoints, JWT security and OpenAPI docs.'
     },
-    repo: 'https://github.com/example/payment-gateway-service',
-    demo: 'https://demo.example.com/payment-gateway'
+      repo: '',
+      demo: ''
   },
   {
-    id: 'logistics-api',
-    title: 'Logistics Tracking API',
+    id: 'code-diary-web',
+    title: 'Code Diary Web',
     status: 'Concept',
-    stack: ['Node.js', 'Fastify', 'MongoDB', 'Kafka'],
+    stack: ['Angular', 'TypeScript', 'REST API', 'JWT'],
     summary: {
-      es: 'Seguimiento en tiempo real de rutas, estados y alertas de transporte.',
-      en: 'Real-time tracking of routes, statuses, and transport alerts.'
+      es: 'Interfaz web para explorar y gestionar proyectos del diario técnico.',
+      en: 'Web interface to explore and manage technical journal projects.'
     },
     description: {
-      es: 'API de eventos para logistica con procesamiento asincrono. Implementa ingestion de tracking, geocercas y notificaciones por SLA.',
-      en: 'Event-driven logistics API with async processing. Implements tracking ingestion, geofences, and SLA notifications.'
+      es: 'Frontend SPA que consume la API de Code Diary para visualizar proyectos, tecnologías y notas personales con autenticación segura.',
+      en: 'SPA frontend consuming the Code Diary API to display projects, technologies and personal notes with secure authentication.'
     },
-    repo: 'https://github.com/example/logistics-tracking-api',
-    demo: 'https://demo.example.com/logistics-api'
+    repo: '',
+    demo: ''
   },
   {
-    id: 'auth-platform',
-    title: 'Identity & Auth Platform',
-    status: 'Concept',
-    stack: ['NestJS', 'PostgreSQL', 'JWT', 'Kubernetes'],
+    id: 'dayb-portfolio',
+    title: 'DayB Portfolio',
+    status: 'Development',
+    stack: ['Astro', 'Tailwind CSS', 'TypeScript'],
     summary: {
-      es: 'Plataforma de autenticacion centralizada para productos internos y externos.',
-      en: 'Centralized authentication platform for internal and external products.'
+      es: 'Portfolio personal estilo IDE orientado a backend.',
+      en: 'Personal IDE-style portfolio focused on backend.'
     },
     description: {
-      es: 'Solucion de identity con RBAC, refresh rotation y auditoria completa. Disenada para multitenancy y federacion con proveedores externos.',
-      en: 'Identity solution with RBAC, refresh rotation, and full auditing. Designed for multitenancy and federation with external providers.'
+      es: 'Portfolio bilingüe inspirado en IntelliJ con navegación lateral, modo claro/oscuro y proyectos destacados.',
+      en: 'Bilingual IntelliJ-inspired portfolio with sidebar navigation, theme toggle and featured projects.'
     },
-    repo: 'https://github.com/example/identity-auth-platform',
-    demo: 'https://demo.example.com/auth-platform'
-  },
-  {
-    id: 'reporting-engine',
-    title: 'Async Reporting Engine',
-    status: 'Concept',
-    stack: ['TypeScript', 'RabbitMQ', 'S3', 'Terraform'],
-    summary: {
-      es: 'Generacion de reportes pesados en background con entrega por lotes.',
-      en: 'Heavy report generation in the background with batch delivery.'
-    },
-    description: {
-      es: 'Pipeline asincrono para reportes financieros y operativos. Incluye scheduler, jobs distribuidos y almacenamiento de artefactos en cloud.',
-      en: 'Async pipeline for financial and operational reports. Includes scheduler, distributed jobs, and cloud artifact storage.'
-    },
-    repo: 'https://github.com/example/async-reporting-engine',
-    demo: 'https://demo.example.com/reporting-engine'
+    repo: '',
+    demo: ''
   }
 ] as const;
 export type ProjectItem = (typeof projects)[number];

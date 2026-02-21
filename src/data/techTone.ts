@@ -6,8 +6,8 @@ export const techToneOverrides: Record<string, TechTone> = {
   // 'postgres': 'accent'
 };
 
-const accentKeywords = ['node', 'nest', 'type', 'javascript', 'fastify', 'express', 'angular'];
-const successKeywords = ['postgres', 'mongo', 'redis', 'kafka', 'rabbit', 'sql', 'oracle'];
+const accentKeywords = ['node', 'nest', 'type', 'javascript', 'fastify', 'express', 'angular','astro', 'tailwind'];
+const successKeywords = ['postgres', 'mongo', 'redis', 'kafka', 'rabbit', 'sql', 'oracle', 'h2'];
 
 export const toneForTech = (tech: string): TechTone => {
   const normalized = tech.toLowerCase();
