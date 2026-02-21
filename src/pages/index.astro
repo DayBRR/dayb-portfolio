@@ -24,7 +24,13 @@ const codeSnippet = [
   '}'
 ] as const;
 
-const sections = [
+const sections: Array<{
+  id: string;
+  nav: { es: string; en: string };
+  active: boolean;
+  Component: any;
+  props: Record<string, unknown>;
+}> = [
   {
     id: 'home',
     nav: { es: 'index.ts', en: 'index.ts' },
@@ -67,19 +73,20 @@ const sections = [
     Component: TimelineSection,
     props: { timeline }
   }
-] as const;
+] ;
+
+const activeSections = sections.filter((section) => section.active);
 ---
 
 <MainLayout title="Portfolio Backend | IntelliJ Style">
   <IdeShell
     profileName={profile.name}
-    navItems={sections.filter((section) => section.active).map(({ id, nav }) => ({ id, label: nav }))}
+    navItems={activeSections.map(({ id, nav }) => ({ id, label: nav }))}
   >
-    {sections
-      .filter((section) => section.active)
-      .map(({ Component, props }) => (
-        <Component {...props} />
-      ))}
+    {activeSections.map((section) => {
+      const Section = section.Component;
+      return <Section {...section.props} />;
+    })}
   </IdeShell>
   <ProjectModal />
 </MainLayout>
