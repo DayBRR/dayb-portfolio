@@ -7,81 +7,105 @@ interface Props {
 
 const { stackTecnology } = Astro.props;
 
+const totalItems = stackTecnology.reduce((sum, group) => sum + group.items.length, 0);
+
 const groupToneStyle = (index: number) => {
   if (index % 3 === 0) {
-    return 'border-color:var(--ide-accent);background:var(--ide-accent-soft);color:var(--ide-accent);';
+    return '--tone: var(--ide-accent); --tone-soft: var(--ide-accent-soft);';
   }
   if (index % 3 === 1) {
-    return 'border-color:color-mix(in oklab, var(--ide-success), transparent 35%);background:color-mix(in oklab, var(--ide-success), transparent 84%);color:var(--ide-success);';
+    return '--tone: var(--ide-success); --tone-soft: color-mix(in oklab, var(--ide-success), transparent 84%);';
   }
-  return 'border-color:color-mix(in oklab, var(--ide-warn), transparent 35%);background:color-mix(in oklab, var(--ide-warn), transparent 84%);color:var(--ide-warn);';
+  return '--tone: var(--ide-warn); --tone-soft: color-mix(in oklab, var(--ide-warn), transparent 84%);';
 };
 ---
 
 <section id="stack" class="animate-slideIn [animation-delay:90ms]">
-  <div class="relative overflow-hidden rounded-2xl border border-ide-border bg-ide-panel/90 p-5">
-    <div class="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-ide-accent/10 blur-3xl"></div>
-    <div class="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-ide-success/10 blur-3xl"></div>
+  <div class="relative overflow-hidden rounded-2xl border border-ide-border bg-ide-panel/95 p-6 md:p-7">
+    <div class="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-ide-accent/12 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-20 left-6 h-44 w-44 rounded-full bg-ide-purple/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ide-border to-transparent"></div>
 
-    <div class="flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h2
-          class="text-xl font-semibold text-ide-text md:text-2xl"
-          data-i18n-es="Stack Tecnologico"
-          data-i18n-en="Technology Stack"
-        >
-          Stack Tecnologico
-        </h2>
-        <p
-          class="mt-2 text-sm text-ide-textMuted"
-          data-i18n-es="Tecnologias clave organizadas por dominio para construir productos backend robustos."
-          data-i18n-en="Key technologies grouped by domain to build robust backend products."
-        >
-          Tecnologias clave organizadas por dominio para construir productos backend robustos.
-        </p>
+    <div class="relative">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="max-w-2xl">
+          <p class="text-[11px] uppercase tracking-[0.24em] text-ide-textMuted">stack.yml</p>
+          <h2
+            class="mt-2 text-xl font-semibold text-ide-text md:text-2xl"
+            data-i18n-es="Stack Tecnologico"
+            data-i18n-en="Technology Stack"
+          >
+            Stack Tecnologico
+          </h2>
+          <p
+            class="mt-2 text-sm text-ide-textMuted"
+            data-i18n-es="Tecnologias clave organizadas por dominio para construir productos backend robustos."
+            data-i18n-en="Key technologies grouped by domain to build robust backend products."
+          >
+            Tecnologias clave organizadas por dominio para construir productos backend robustos.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-ide-textMuted">
+          <span
+            class="rounded-full border border-ide-border bg-ide-bg px-3 py-1"
+            data-i18n-es="stack map"
+            data-i18n-en="stack map"
+          >
+            stack map
+          </span>
+          <span
+            class="rounded-full border border-ide-border/80 bg-ide-bg px-3 py-1"
+            data-i18n-es={`${stackTecnology.length} dominios`}
+            data-i18n-en={`${stackTecnology.length} domains`}
+          >
+            {stackTecnology.length} dominios
+          </span>
+          <span
+            class="rounded-full border border-ide-border/80 bg-ide-bg px-3 py-1"
+            data-i18n-es={`${totalItems} tecnologias`}
+            data-i18n-en={`${totalItems} technologies`}
+          >
+            {totalItems} tecnologias
+          </span>
+        </div>
       </div>
-      <div
-        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-ide-textMuted"
-        data-i18n-es="stack map"
-        data-i18n-en="stack map"
-      >
-        stack map
-      </div>
-    </div>
 
-    <div class="mt-6 space-y-3">
-      {
-        stackTecnology.map((group, index) => (
-          <article class="rounded-xl border border-ide-border bg-ide-bg/90 p-4">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <div class="flex items-center gap-3">
-                <span class="h-9 w-1 rounded-full bg-ide-accent/60"></span>
-                <div>
-                  <h3 class="text-sm font-semibold text-ide-text" data-i18n-es={group.title.es} data-i18n-en={group.title.en}>
-                    {group.title.es}
-                  </h3>
-                  <p class="text-[11px] text-ide-textMuted">
-                    {group.items.length} items
-                  </p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        {
+          stackTecnology.map((group, index) => (
+            <article class="card-hover relative overflow-hidden rounded-xl border border-ide-border bg-ide-bg/95 p-4" style={groupToneStyle(index)}>
+              <div class="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[color:var(--tone-soft)] blur-2xl"></div>
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--tone)]/40 bg-[color:var(--tone-soft)] text-[11px] font-semibold text-[color:var(--tone)]">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 class="text-sm font-semibold text-ide-text" data-i18n-es={group.title.es} data-i18n-en={group.title.en}>
+                      {group.title.es}
+                    </h3>
+                    <p class="text-[11px] text-ide-textMuted">
+                      {group.items.length} items
+                    </p>
+                  </div>
                 </div>
+                <span class="rounded-full border border-[color:var(--tone)]/40 bg-[color:var(--tone-soft)] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[color:var(--tone)]">
+                  stack
+                </span>
               </div>
-              <span class="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]" style={groupToneStyle(index)}>
-                stack
-              </span>
-            </div>
-            <ul class="mt-4 grid gap-2 text-sm text-ide-text sm:grid-cols-2">
-              {
-                group.items.map((item) => (
-                  <li class="flex items-center gap-2">
-                    <span class="h-2 w-2 rounded-sm bg-ide-accent"></span>
-                    <span>{item}</span>
-                  </li>
-                ))
-              }
-            </ul>
-          </article>
-        ))
-      }
+              <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                {
+                  group.items.map((item) => (
+                    <span class="rounded-md border border-ide-border/80 bg-ide-panel-soft px-2.5 py-1 text-ide-text">
+                      {item}
+                    </span>
+                  ))
+                }
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
