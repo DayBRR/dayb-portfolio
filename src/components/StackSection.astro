@@ -33,17 +33,16 @@ const groupToneStyle = (group: StackTecnologyGroup) => {
     <div class="relative">
       <div class="flex flex-wrap items-start justify-between gap-4">
         <div class="max-w-2xl">
-          <p class="text-[11px] uppercase tracking-[0.24em] text-ide-textMuted">stack.yml</p>
           <h2
-            class="mt-2 text-xl font-semibold text-ide-text md:text-2xl"
-            data-i18n-es="Stack Tecnologico"
+            class="text-xl font-semibold text-ide-text md:text-2xl"
+            data-i18n-es="Stack Tecnológico"
             data-i18n-en="Technology Stack"
           >
-            Stack Tecnologico
+            Stack Tecnológico
           </h2>
           <p
             class="mt-2 text-sm text-ide-textMuted"
-            data-i18n-es="Tecnologias clave organizadas por dominio para construir productos backend robustos."
+            data-i18n-es="Tecnologías clave organizadas por dominio para construir productos backend robustos."
             data-i18n-en="Key technologies grouped by domain to build robust backend products."
           >
             Tecnologias clave organizadas por dominio para construir productos backend robustos.
@@ -77,11 +76,17 @@ const groupToneStyle = (group: StackTecnologyGroup) => {
       <div class="mt-6 grid gap-4 sm:grid-cols-2">
         {
           stackTecnology.map((group, index) => (
-            <article class="card-hover relative overflow-hidden rounded-xl border border-ide-border bg-ide-bg/95 p-4" style={groupToneStyle(group)}>
+            <article
+              class="card-hover relative overflow-hidden rounded-xl border border-ide-border bg-ide-bg/95 p-4"
+              style={`${groupToneStyle(group)} border-color: color-mix(in oklab, var(--tone), var(--ide-border) 70%);`}
+            >
               <div class="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[color:var(--tone-soft)] blur-2xl"></div>
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--tone)]/40 bg-[color:var(--tone-soft)] text-[11px] font-semibold text-[color:var(--tone)]">
+                  <span
+                    class="flex h-9 w-9 items-center justify-center rounded-lg border text-[11px] font-semibold"
+                    style="border-color: var(--tone); background: var(--tone-soft); color: var(--tone);"
+                  >
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <div>
@@ -93,14 +98,20 @@ const groupToneStyle = (group: StackTecnologyGroup) => {
                     </p>
                   </div>
                 </div>
-                <span class="rounded-full border border-[color:var(--tone)]/40 bg-[color:var(--tone-soft)] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[color:var(--tone)]">
+                <span
+                  class="rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-[0.18em]"
+                  style="border-color: var(--tone); background: var(--tone-soft); color: var(--tone);"
+                >
                   stack
                 </span>
               </div>
               <div class="mt-4 flex flex-wrap gap-2 text-xs">
                 {
                   group.items.map((item) => (
-                    <span class="rounded-md border border-ide-border/80 bg-ide-panel-soft px-2.5 py-1 text-ide-text">
+                    <span
+                      class="rounded-md border px-2.5 py-1 text-ide-text"
+                      style="border-color: color-mix(in oklab, var(--tone), transparent 55%); background: color-mix(in oklab, var(--tone), transparent 90%); color: color-mix(in oklab, var(--tone), var(--ide-text) 30%);"
+                    >
                       {item}
                     </span>
                   ))
