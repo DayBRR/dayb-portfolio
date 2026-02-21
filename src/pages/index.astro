@@ -23,16 +23,63 @@ const codeSnippet = [
   '  }',
   '}'
 ] as const;
+
+const sections = [
+  {
+    id: 'home',
+    nav: { es: 'index.ts', en: 'index.ts' },
+    active: true,
+    Component: HeroSection,
+    props: { profile, featuredTech, codeSnippet }
+  },
+  {
+    id: 'focus',
+    nav: { es: 'focus.md', en: 'focus.md' },
+    active: true,
+    Component: FocusSection,
+    props: { highlights: focusHighlights }
+  },
+  {
+    id: 'skills',
+    nav: { es: 'skills.json', en: 'skills.json' },
+    active: true,
+    Component: SkillsSection,
+    props: { skills }
+  },
+  {
+    id: 'stack',
+    nav: { es: 'stack.yml', en: 'stack.yml' },
+    active: true,
+    Component: StackSection,
+    props: { stackTecnology }
+  },
+  {
+    id: 'projects',
+    nav: { es: 'projects.db', en: 'projects.db' },
+    active: true,
+    Component: ProjectsSection,
+    props: { projects }
+  },
+  {
+    id: 'timeline',
+    nav: { es: 'timeline.log', en: 'timeline.log' },
+    active: true,
+    Component: TimelineSection,
+    props: { timeline }
+  }
+] as const;
 ---
 
 <MainLayout title="Portfolio Backend | IntelliJ Style">
-  <IdeShell profileName={profile.name}>
-    <HeroSection profile={profile} featuredTech={featuredTech} codeSnippet={codeSnippet} />
-    <FocusSection highlights={focusHighlights} />
-    <SkillsSection skills={skills} />
-    <StackSection stackTecnology={stackTecnology} />
-    <ProjectsSection projects={projects} />
-    <TimelineSection timeline={timeline} />
+  <IdeShell
+    profileName={profile.name}
+    navItems={sections.filter((section) => section.active).map(({ id, nav }) => ({ id, label: nav }))}
+  >
+    {sections
+      .filter((section) => section.active)
+      .map(({ Component, props }) => (
+        <Component {...props} />
+      ))}
   </IdeShell>
   <ProjectModal />
 </MainLayout>

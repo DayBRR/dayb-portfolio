@@ -1,9 +1,16 @@
 ---
 interface Props {
   profileName: string;
+  navItems: readonly {
+    id: string;
+    label: {
+      es: string;
+      en: string;
+    };
+  }[];
 }
 
-const { profileName } = Astro.props;
+const { profileName, navItems } = Astro.props;
 ---
 
 <div class="min-h-screen px-3 py-4 md:px-8 md:py-8">
@@ -69,12 +76,25 @@ const { profileName } = Astro.props;
           Explorer
         </p>
         <ul class="mt-4 space-y-2 text-sm text-ide-text">
-          <li><a href="#home" class="hover:text-ide-accent">01. index.ts</a></li>
-          <li><a href="#focus" class="hover:text-ide-accent">02. focus.md</a></li>
-          <li><a href="#skills" class="hover:text-ide-accent">03. skills.json</a></li>
-          <li><a href="#stack" class="hover:text-ide-accent">04. stack.yml</a></li>
-          <li><a href="#projects" class="hover:text-ide-accent">05. projects.db</a></li>
-          <li><a href="#timeline" class="hover:text-ide-accent">06. timeline.log</a></li>
+          {
+            navItems.map((item, index) => {
+              const order = String(index + 1).padStart(2, '0');
+              const labelEs = `${order}. ${item.label.es}`;
+              const labelEn = `${order}. ${item.label.en}`;
+              return (
+                <li>
+                  <a
+                    href={`#${item.id}`}
+                    class="hover:text-ide-accent"
+                    data-i18n-es={labelEs}
+                    data-i18n-en={labelEn}
+                  >
+                    {labelEs}
+                  </a>
+                </li>
+              );
+            })
+          }
         </ul>
 
         <div class="mt-6 rounded-lg border border-ide-border bg-ide-panel p-3 text-xs text-ide-textMuted">
