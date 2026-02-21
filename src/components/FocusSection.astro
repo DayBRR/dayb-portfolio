@@ -9,50 +9,63 @@ const { highlights } = Astro.props;
 
 const showFocusMap = true;
 
+const iconPaths = {
+  layers: ['M12 3l8 4-8 4-8-4 8-4z', 'M4 11l8 4 8-4', 'M4 15l8 4 8-4'],
+  metrics: ['M4 18V10', 'M10 18V6', 'M16 18V13', 'M3 18h18'],
+  lock: ['M7 10h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z', 'M9 10V8a3 3 0 0 1 6 0v2'],
+  scale: ['M12 4v16', 'M6 8l6-4 6 4', 'M6 16l6 4 6-4'],
+  bolt: ['M13 2L4 14h6l-1 8 9-12h-6l1-8z']
+} as const;
+
 const mapPool = [
   {
     name: { es: 'Arquitectura', en: 'Architecture' },
     value: 95,
     tone: 'accent',
+    icon: 'layers',
     detail: {
-      es: 'Diseño orientado a dominio, separación de responsabilidades y mantenibilidad.',
-      en: 'Domain-driven design, clear boundaries, and long-term maintainability.'
+      es: 'Base de todas las decisiones técnicas: diseño orientado a dominio, separación de responsabilidades y mantenibilidad a largo plazo.',
+      en: 'Foundation for technical decisions: domain-driven design, clear boundaries, and long-term maintainability.'
     }
   },
   {
     name: { es: 'Observabilidad', en: 'Observability' },
     value: 90,
     tone: 'success',
+    icon: 'metrics',
     detail: {
-      es: 'Logging estructurado, métricas y trazas para producción.',
-      en: 'Structured logging, metrics, and traces for production readiness.'
+      es: 'Diseño de sistemas preparados para producción con logging estructurado, métricas, trazabilidad, monitorización y alertado.',
+      en: 'Production-ready systems with structured logging, metrics, tracing, monitoring and alerting.'
     }
   },
   {
     name: { es: 'Seguridad & Compliance', en: 'Security & Compliance' },
     value: 88,
     tone: 'purple',
+    icon: 'lock',
     detail: {
-      es: 'Datos sensibles, controles legales e integraciones seguras.',
-      en: 'Sensitive data handling, legal controls, and secure integrations.'
+      es: 'Protección de datos sensibles, cumplimiento normativo e integraciones seguras en entornos críticos.',
+      en: 'Sensitive data protection, regulatory compliance, and secure integrations in critical environments.'
     }
   },
   {
     name: { es: 'Escalabilidad & Resiliencia', en: 'Scalability & Resilience' },
     value: 85,
     tone: 'info',
+    icon: 'scale',
     detail: {
-      es: 'Tolerancia a fallos, crecimiento sostenido y degradación controlada.',
-      en: 'Fault tolerance, sustained growth, and controlled degradation.'
+      es: 'Capacidad para diseñar sistemas tolerantes a fallos, con crecimiento sostenido y degradación controlada del sistema.',
+      en: 'Designing fault-tolerant systems with sustained growth and controlled degradation.'
     }
   },
   {
     name: { es: 'Performance', en: 'Performance' },
     value: 80,
     tone: 'warn',
+    icon: 'bolt',
     detail: {
-      es: 'Optimización de queries, procesos batch y eficiencia de recursos.',
-      en: 'Query tuning, batch processing, and resource efficiency.'
+      es: 'Optimización selectiva mediante tuning de consultas, procesos batch, uso eficiente de recursos y reducción de latencias.',
+      en: 'Selective optimization via query tuning, batch processing, efficient resource usage and latency reduction.'
     }
   }
 ] as const;
@@ -113,29 +126,33 @@ const groupToneStyle = (index: number) => {
         <div class="mt-5 rounded-xl border border-ide-border bg-ide-bg/95 p-4">
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p class="text-[11px] uppercase tracking-[0.24em] text-ide-textMuted" data-i18n-es="Matriz de enfoque" data-i18n-en="Focus matrix">
-                Matriz de enfoque
+              <p
+                class="text-xs text-ide-textMuted"
+                data-i18n-es="Este mapa muestra los criterios que guían mis decisiones al diseñar sistemas backend en entornos reales de producción."
+                data-i18n-en="This map reflects the criteria that guide my decisions when designing backend systems in real production environments."
+              >
+                Este mapa muestra los criterios que guían mis decisiones al diseñar sistemas backend en entornos reales de producción.
               </p>
               <h2
                 class="mt-2 text-base font-semibold uppercase tracking-[0.2em] text-ide-text"
-                data-i18n-es="Mapa de prioridades profesionales"
-                data-i18n-en="Professional priority map"
+                data-i18n-es="Matriz de Enfoque"
+                data-i18n-en="Focus Matrix"
               >
-                Mapa de prioridades profesionales
+                Matriz de Enfoque
               </h2>
               <p
                 class="mt-2 text-xs text-ide-textMuted"
-                data-i18n-es="Representacion visual de las prioridades que guian mis decisiones de ingenieria de software."
+                data-i18n-es="Representación visual de las prioridades que guían mis decisiones de ingeniería de software."
                 data-i18n-en="Visual representation of the priorities that guide my software engineering decisions."
               >
-                Representacion visual de las prioridades que guian mis decisiones de ingenieria de software.
+                Representación visual de las prioridades que guían mis decisiones de ingeniería de software.
               </p>
               <p
                 class="mt-2 text-[11px] uppercase tracking-[0.22em] text-ide-textMuted/80"
-                data-i18n-es="No representan nivel de dominio, sino peso relativo en el enfoque."
-                data-i18n-en="Not a skill rating, but relative weight in my approach."
+                data-i18n-es="NO REPRESENTAN NIVEL DE DOMINIO, SINO PESO RELATIVO EN EL ENFOQUE."
+                data-i18n-en="NOT A SKILL RATING, BUT RELATIVE WEIGHT IN MY APPROACH."
               >
-                No representan nivel de dominio, sino peso relativo en el enfoque.
+                NO REPRESENTAN NIVEL DE DOMINIO, SINO PESO RELATIVO EN EL ENFOQUE.
               </p>
             </div>
             <div
@@ -148,14 +165,29 @@ const groupToneStyle = (index: number) => {
           </div>
           <div class="mt-4 grid gap-3 md:grid-cols-2">
             {
-              mapPool.map((map) => (
+              mapPool.map((map) => {
+                const isPrimary = map.name.es === 'Arquitectura';
+                const barHeight = isPrimary ? '10px' : '8px';
+                return (
                 <div>
                   <div class="flex items-center gap-3">
                   <span
-                    class="flex h-10 w-10 items-center justify-center rounded-lg border border-ide-border bg-ide-panel-soft text-[11px] font-semibold text-ide-text"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg border border-ide-border bg-ide-panel-soft text-ide-text"
                     style={`${mapToneStyle(map.tone)} border-color: color-mix(in oklab, var(--tone), var(--ide-border) 55%); color: color-mix(in oklab, var(--tone), var(--ide-text) 25%);`}
                   >
-                    {map.name.es.slice(0, 2).toUpperCase()}
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      {
+                        iconPaths[map.icon].map((path) => (
+                          <path
+                            d={path}
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        ))
+                      }
+                    </svg>
                   </span>
                   <div class="flex-1">
                     <div class="flex items-center justify-between text-[11px] text-ide-textMuted">
@@ -164,10 +196,10 @@ const groupToneStyle = (index: number) => {
                       </span>
                       <span class="text-ide-text">{map.value}%</span>
                     </div>
-                    <div class="mt-1.5 h-2 rounded-full bg-ide-panel-soft">
+                    <div class="mt-1.5 rounded-full bg-ide-panel-soft" style={`height: ${barHeight};`}>
                       <div
-                        class="h-2 rounded-full"
-                        style={`${mapToneStyle(map.tone)} width: ${map.value}%; background: color-mix(in oklab, var(--tone), transparent 10%);`}
+                        class="rounded-full"
+                        style={`${mapToneStyle(map.tone)} width: ${map.value}%; height: ${barHeight}; background: color-mix(in oklab, var(--tone), transparent 10%); ${isPrimary ? 'box-shadow: 0 0 12px color-mix(in oklab, var(--tone), transparent 60%);' : ''}`}
                       ></div>
                     </div>
                   </div>
@@ -176,7 +208,8 @@ const groupToneStyle = (index: number) => {
                     {map.detail.es}
                   </p>
                 </div>
-              ))
+                );
+              })
             }
           </div>
         </div>
