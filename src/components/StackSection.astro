@@ -9,14 +9,18 @@ const { stackTecnology } = Astro.props;
 
 const totalItems = stackTecnology.reduce((sum, group) => sum + group.items.length, 0);
 
-const groupToneStyle = (index: number) => {
-  if (index % 3 === 0) {
-    return '--tone: var(--ide-accent); --tone-soft: var(--ide-accent-soft);';
+const groupToneStyle = (group: StackTecnologyGroup) => {
+  const haystack = `${group.title.es} ${group.title.en}`.toLowerCase();
+  if (haystack.includes('calidad') || haystack.includes('quality')) {
+    return '--tone: var(--ide-purple); --tone-soft: color-mix(in oklab, var(--ide-purple), transparent 84%);';
   }
-  if (index % 3 === 1) {
+  if (haystack.includes('data')) {
     return '--tone: var(--ide-success); --tone-soft: color-mix(in oklab, var(--ide-success), transparent 84%);';
   }
-  return '--tone: var(--ide-warn); --tone-soft: color-mix(in oklab, var(--ide-warn), transparent 84%);';
+  if (haystack.includes('devops')) {
+    return '--tone: var(--ide-warn); --tone-soft: color-mix(in oklab, var(--ide-warn), transparent 84%);';
+  }
+  return '--tone: var(--ide-accent); --tone-soft: var(--ide-accent-soft);';
 };
 ---
 
@@ -73,7 +77,7 @@ const groupToneStyle = (index: number) => {
       <div class="mt-6 grid gap-4 sm:grid-cols-2">
         {
           stackTecnology.map((group, index) => (
-            <article class="card-hover relative overflow-hidden rounded-xl border border-ide-border bg-ide-bg/95 p-4" style={groupToneStyle(index)}>
+            <article class="card-hover relative overflow-hidden rounded-xl border border-ide-border bg-ide-bg/95 p-4" style={groupToneStyle(group)}>
               <div class="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[color:var(--tone-soft)] blur-2xl"></div>
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">

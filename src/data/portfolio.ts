@@ -122,19 +122,19 @@ export type FeaturedTechItem = (typeof featuredTech)[number];
 
 export const stackTecnology = [
   {
-    title: { es: 'BACKEND CORE', en: 'BACKEND CORE' },
+    title: { es: 'Backend Core', en: 'Backend Core' },
     items: ['Java', 'Spring', 'TypeScript']
   },
   {
-    title: { es: 'DATA', en: 'DATA' },
+    title: { es: 'Data', en: 'Data' },
     items: ['Oracle', 'PostgreSQL', 'MySQL']
   },
   {
-    title: { es: 'DEVOPS', en: 'DEVOPS' },
-    items: ['Docker', 'Kubernetes', 'AWS']
+    title: { es: 'DevOps', en: 'DevOps' },
+    items: ['Docker', 'AWS']
   },
   {
-    title: { es: 'CALIDAD', en: 'QUALITY' },
+    title: { es: 'Calidad', en: 'Quality' },
     items: ['Testing', 'OpenAPI', 'OAuth2/JWT']
   }
 ] as const;
