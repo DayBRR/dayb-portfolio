@@ -10,11 +10,51 @@ const { highlights } = Astro.props;
 const showFocusMap = true;
 
 const mapPool = [
-  { name: { es: 'Arquitectura', en: 'Architecture' }, value: 92, tone: 'accent' },
-  { name: { es: 'Observabilidad', en: 'Observability' }, value: 88, tone: 'success' },
-  { name: { es: 'Rendimiento', en: 'Performance' }, value: 84, tone: 'warn' },
-  { name: { es: 'Seguridad', en: 'Security' }, value: 80, tone: 'purple' },
-  { name: { es: 'Escalabilidad', en: 'Scalability' }, value: 86, tone: 'info' }
+  {
+    name: { es: 'Arquitectura', en: 'Architecture' },
+    value: 95,
+    tone: 'accent',
+    detail: {
+      es: 'Diseño orientado a dominio, separación de responsabilidades y mantenibilidad.',
+      en: 'Domain-driven design, clear boundaries, and long-term maintainability.'
+    }
+  },
+  {
+    name: { es: 'Observabilidad', en: 'Observability' },
+    value: 90,
+    tone: 'success',
+    detail: {
+      es: 'Logging estructurado, métricas y trazas para producción.',
+      en: 'Structured logging, metrics, and traces for production readiness.'
+    }
+  },
+  {
+    name: { es: 'Seguridad & Compliance', en: 'Security & Compliance' },
+    value: 88,
+    tone: 'purple',
+    detail: {
+      es: 'Datos sensibles, controles legales e integraciones seguras.',
+      en: 'Sensitive data handling, legal controls, and secure integrations.'
+    }
+  },
+  {
+    name: { es: 'Escalabilidad & Resiliencia', en: 'Scalability & Resilience' },
+    value: 85,
+    tone: 'info',
+    detail: {
+      es: 'Tolerancia a fallos, crecimiento sostenido y degradación controlada.',
+      en: 'Fault tolerance, sustained growth, and controlled degradation.'
+    }
+  },
+  {
+    name: { es: 'Performance', en: 'Performance' },
+    value: 80,
+    tone: 'warn',
+    detail: {
+      es: 'Optimización de queries, procesos batch y eficiencia de recursos.',
+      en: 'Query tuning, batch processing, and resource efficiency.'
+    }
+  }
 ] as const;
 
 const mapToneStyle = (tone: string) => `--tone: var(--ide-${tone});`;
@@ -73,22 +113,29 @@ const groupToneStyle = (index: number) => {
         <div class="mt-5 rounded-xl border border-ide-border bg-ide-bg/95 p-4">
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p class="text-[11px] uppercase tracking-[0.24em] text-ide-textMuted" data-i18n-es="Mapa de prioridades" data-i18n-en="Priority map">
-                Mapa de prioridades
+              <p class="text-[11px] uppercase tracking-[0.24em] text-ide-textMuted" data-i18n-es="Matriz de enfoque" data-i18n-en="Focus matrix">
+                Matriz de enfoque
               </p>
               <h2
                 class="mt-2 text-base font-semibold uppercase tracking-[0.2em] text-ide-text"
-                data-i18n-es="Matriz de enfoque"
-                data-i18n-en="Focus matrix"
+                data-i18n-es="Mapa de prioridades profesionales"
+                data-i18n-en="Professional priority map"
               >
-                Matriz de enfoque
+                Mapa de prioridades profesionales
               </h2>
               <p
                 class="mt-2 text-xs text-ide-textMuted"
-                data-i18n-es="Lectura visual de las areas que mas impactan el producto."
-                data-i18n-en="Visual readout of the areas that most impact the product."
+                data-i18n-es="Representacion visual de las prioridades que guian mis decisiones de ingenieria de software."
+                data-i18n-en="Visual representation of the priorities that guide my software engineering decisions."
               >
-                Lectura visual de las areas que mas impactan el producto.
+                Representacion visual de las prioridades que guian mis decisiones de ingenieria de software.
+              </p>
+              <p
+                class="mt-2 text-[11px] uppercase tracking-[0.22em] text-ide-textMuted/80"
+                data-i18n-es="No representan nivel de dominio, sino peso relativo en el enfoque."
+                data-i18n-en="Not a skill rating, but relative weight in my approach."
+              >
+                No representan nivel de dominio, sino peso relativo en el enfoque.
               </p>
             </div>
             <div
@@ -102,7 +149,8 @@ const groupToneStyle = (index: number) => {
           <div class="mt-4 grid gap-3 md:grid-cols-2">
             {
               mapPool.map((map) => (
-                <div class="flex items-center gap-3">
+                <div>
+                  <div class="flex items-center gap-3">
                   <span
                     class="flex h-10 w-10 items-center justify-center rounded-lg border border-ide-border bg-ide-panel-soft text-[11px] font-semibold text-ide-text"
                     style={`${mapToneStyle(map.tone)} border-color: color-mix(in oklab, var(--tone), var(--ide-border) 55%); color: color-mix(in oklab, var(--tone), var(--ide-text) 25%);`}
@@ -123,6 +171,10 @@ const groupToneStyle = (index: number) => {
                       ></div>
                     </div>
                   </div>
+                  </div>
+                  <p class="mt-2 text-[11px] text-ide-textMuted" data-i18n-es={map.detail.es} data-i18n-en={map.detail.en}>
+                    {map.detail.es}
+                  </p>
                 </div>
               ))
             }
