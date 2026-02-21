@@ -6,33 +6,51 @@ interface Props {
 }
 
 const { highlights } = Astro.props;
+
+const groupToneStyle = (index: number) => {
+  if (index % 2 === 0) {
+    return '--tone: var(--ide-accent); --tone-soft: var(--ide-accent-soft);';
+  }
+  return '--tone: var(--ide-success); --tone-soft: color-mix(in oklab, var(--ide-success), transparent 84%);';
+};
 ---
 
 <section id="focus" class="animate-slideIn [animation-delay:40ms]">
-  <div class="rounded-xl border border-ide-border bg-ide-panel/90 p-5">
+  <div class="relative overflow-hidden rounded-xl border border-ide-border bg-ide-panel/95 p-5 md:p-6">
+    <div class="pointer-events-none absolute -right-14 -top-16 h-40 w-40 rounded-full bg-ide-accent/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-16 left-10 h-32 w-32 rounded-full bg-ide-success/10 blur-3xl"></div>
     <div class="grid gap-4 md:grid-cols-2">
       {
-        highlights.map((highlight) => (
-          <article class="rounded-lg border border-ide-border bg-ide-bg p-4">
-            <h2
-              class="text-sm font-semibold uppercase tracking-[0.2em] text-ide-text"
-              data-i18n-es={highlight.title.es}
-              data-i18n-en={highlight.title.en}
-            >
-              {highlight.title.es}
-            </h2>
-            <ul class="mt-3 space-y-2 text-sm text-ide-text">
-              {
-                highlight.items.map((item) => (
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-ide-accent"></span>
-                    <span data-i18n-es={item.es} data-i18n-en={item.en}>
-                      {item.es}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
+        highlights.map((highlight, index) => (
+          <article
+            class="card-hover relative overflow-hidden rounded-xl border border-ide-border bg-ide-bg/95 p-4"
+            style={`${groupToneStyle(index)} border-color: color-mix(in oklab, var(--tone), var(--ide-border) 70%);`}
+          >
+            <div class="pointer-events-none absolute -right-6 -top-8 h-20 w-20 rounded-full bg-[color:var(--tone-soft)] blur-2xl"></div>
+            <div class="flex items-start gap-3">
+              <span class="mt-1 h-10 w-1 rounded-full" style="background: var(--tone);"></span>
+              <div>
+                <h2
+                  class="text-sm font-semibold uppercase tracking-[0.2em] text-ide-text"
+                  data-i18n-es={highlight.title.es}
+                  data-i18n-en={highlight.title.en}
+                >
+                  {highlight.title.es}
+                </h2>
+                <ul class="mt-3 space-y-2 text-sm text-ide-text">
+                  {
+                    highlight.items.map((item) => (
+                      <li class="flex items-start gap-2">
+                        <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full" style="background: var(--tone);"></span>
+                        <span data-i18n-es={item.es} data-i18n-en={item.en}>
+                          {item.es}
+                        </span>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+            </div>
           </article>
         ))
       }
