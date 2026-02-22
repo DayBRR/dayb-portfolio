@@ -1,18 +1,42 @@
 ---
 import '../styles/global.css';
+import { getLang, t } from '../lib/i18n';
 
 interface Props {
   title?: string;
+  description?: string;
+  lang?: 'es' | 'en';
 }
 
-const { title = 'Backend Portfolio' } = Astro.props;
+const { title = 'Backend Portfolio', description, lang } = Astro.props;
+
+const langParam = Astro.url.searchParams.get('lang');
+if (langParam === 'es' || langParam === 'en') {
+  Astro.cookies.set('lang', langParam, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+}
+
+const resolvedLang = lang ?? getLang(Astro);
+const defaultDescription = {
+  es: 'Portfolio de programador backend con estilo IntelliJ: skills, proyectos, experiencia y formación.',
+  en: 'Backend engineer portfolio with an IntelliJ-inspired UI: skills, projects, experience, and education.'
+};
+const metaDescription = description ?? t(defaultDescription, resolvedLang);
+const site = Astro.site ? new URL(Astro.site) : new URL(Astro.url.origin);
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+const ogImageUrl = new URL('/avatar-dayb.png', site).toString();
 ---
 
 <!doctype html>
-<html lang="es" data-theme="dark" data-lang="es">
+<html lang={resolvedLang} data-theme="dark" data-lang={resolvedLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap"
+    />
     <link rel="icon" href="/icons/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
@@ -21,10 +45,17 @@ const { title = 'Backend Portfolio' } = Astro.props;
     <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
     <link rel="manifest" href="/icons/site.webmanifest" />
     <title>{title}</title>
-    <meta
-      name="description"
-      content="Portfolio de programador backend con estilo IntelliJ: skills, proyectos, experiencia y formacion."
-    />
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <script is:inline>
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'light' || savedTheme === 'dark') {

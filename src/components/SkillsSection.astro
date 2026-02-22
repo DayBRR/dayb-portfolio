@@ -1,11 +1,19 @@
 ---
 import type { SkillGroup } from '../data/portfolio';
+import { t, type Lang } from '../lib/i18n';
 
 interface Props {
   skills: readonly SkillGroup[];
+  lang: Lang;
 }
 
-const { skills } = Astro.props;
+const { skills, lang } = Astro.props;
+
+const sectionTitle = { es: 'Skills & Tecnologías', en: 'Skills & Technologies' };
+const sectionCopy = {
+  es: 'Capacidades principales orientadas a productos backend de alta exigencia.',
+  en: 'Core capabilities focused on high-demand backend products.'
+};
 
 const groupToneStyle = (group: SkillGroup) => {
   const haystack = `${group.title.es} ${group.title.en}`.toLowerCase();
@@ -29,14 +37,14 @@ const groupToneStyle = (group: SkillGroup) => {
       data-i18n-es="Skills & Tecnologías"
       data-i18n-en="Skills & Technologies"
     >
-      Skills & Tecnologías
+      {t(sectionTitle, lang)}
     </h2>
     <p
       class="mt-2 text-sm text-ide-textMuted"
       data-i18n-es="Capacidades principales orientadas a productos backend de alta exigencia."
       data-i18n-en="Core capabilities focused on high-demand backend products."
     >
-      Capacidades principales orientadas a productos backend de alta exigencia.
+      {t(sectionCopy, lang)}
     </p>
     <div class="mt-5 grid gap-4 md:grid-cols-2">
       {
@@ -47,7 +55,7 @@ const groupToneStyle = (group: SkillGroup) => {
           >
             <div class="mb-3 flex items-center justify-between gap-2">
               <h3 class="text-sm font-semibold text-ide-text" data-i18n-es={group.title.es} data-i18n-en={group.title.en}>
-                {group.title.es}
+                {t(group.title, lang)}
               </h3>
               <span
                 class="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"

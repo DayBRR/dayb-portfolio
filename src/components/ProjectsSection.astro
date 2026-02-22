@@ -2,12 +2,22 @@
 import type { ProjectItem } from '../data/portfolio';
 import { getStatusMeta } from '../data/projectStatus';
 import { toneForTech, toneStyle } from '../data/techTone';
+import { t, type Lang } from '../lib/i18n';
 
 interface Props {
   projects: readonly ProjectItem[];
+  lang: Lang;
 }
 
-const { projects } = Astro.props;
+const { projects, lang } = Astro.props;
+
+const sectionTitle = { es: 'Proyectos Destacados', en: 'Featured Projects' };
+const sectionTagline = { es: 'Arquitectura antes que código.', en: 'Architecture before code.' };
+const sectionCopy = {
+  es: 'Haz click en cualquier parte de la tarjeta para abrir su modal con detalles y enlaces disponibles.',
+  en: 'Click anywhere on a card to open the modal with details and available links.'
+};
+const inspectLabel = { es: 'click para inspeccionar', en: 'click to inspect' };
 
 ---
 
@@ -18,21 +28,21 @@ const { projects } = Astro.props;
       data-i18n-es="Proyectos Destacados"
       data-i18n-en="Featured Projects"
     >
-      Proyectos Destacados
+      {t(sectionTitle, lang)}
     </h2>
     <p
       class="mt-1 text-xs uppercase tracking-[0.2em] text-ide-textMuted"
       data-i18n-es="Arquitectura antes que código."
       data-i18n-en="Architecture before code."
     >
-      Arquitectura antes que código.
+      {t(sectionTagline, lang)}
     </p>
     <p
       class="mt-2 text-sm text-ide-textMuted"
       data-i18n-es="Haz click en cualquier parte de la tarjeta para abrir su modal con detalles y enlaces disponibles."
       data-i18n-en="Click anywhere on a card to open the modal with details and available links."
     >
-      Haz click en cualquier parte de la tarjeta para abrir su modal con detalles y enlaces disponibles.
+      {t(sectionCopy, lang)}
     </p>
     <div class="mt-5 grid gap-4 md:grid-cols-2">
       {
@@ -40,8 +50,13 @@ const { projects } = Astro.props;
           const statusMeta = getStatusMeta(project.status);
           const statusEs = statusMeta.label.es;
           const statusEn = statusMeta.label.en;
+          const statusLabel = t(statusMeta.label, lang);
           const statusStyle = `border-color:${statusMeta.color};color:${statusMeta.color};background:${statusMeta.bg};`;
-          const hasStatus = statusEs.length > 0 || statusEn.length > 0;
+          const hasStatus = statusLabel.length > 0;
+          const ariaLabel = t(
+            { es: `Abrir detalles del proyecto ${project.title}`, en: `Open project details for ${project.title}` },
+            lang
+          );
           return (
             <button
               type="button"
@@ -55,7 +70,7 @@ const { projects } = Astro.props;
               data-repo={project.repo}
               data-demo={project.demo}
               data-stack={project.stack.join(' | ')}
-              aria-label={`Abrir detalles del proyecto ${project.title}`}
+              aria-label={ariaLabel}
               data-i18n-attr="aria-label"
               data-i18n-es={`Abrir detalles del proyecto ${project.title}`}
               data-i18n-en={`Open project details for ${project.title}`}
@@ -70,14 +85,14 @@ const { projects } = Astro.props;
                     >
                       <span class="inline-flex h-3 w-3" set:html={statusMeta.icon}></span>
                       <span data-i18n-es={statusEs} data-i18n-en={statusEn}>
-                        {statusEs}
+                        {statusLabel}
                       </span>
                     </span>
                   ) : null
                 }
               </div>
               <p class="mt-2 text-sm text-ide-textMuted" data-i18n-es={project.summary.es} data-i18n-en={project.summary.en}>
-                {project.summary.es}
+                {t(project.summary, lang)}
               </p>
               <div class="mt-3 flex flex-wrap gap-2">
                 {
@@ -95,7 +110,7 @@ const { projects } = Astro.props;
                 }
               </div>
               <p class="mt-4 text-[11px] uppercase tracking-[0.18em] text-ide-accent" data-i18n-es="click para inspeccionar" data-i18n-en="click to inspect">
-                click para inspeccionar
+                {t(inspectLabel, lang)}
               </p>
             </button>
           );

@@ -1,16 +1,24 @@
 ---
 import type { TimelineItem } from '../data/portfolio';
+import { t, type Lang } from '../lib/i18n';
 
 interface Props {
   timeline: readonly TimelineItem[];
+  lang: Lang;
 }
 
-const { timeline } = Astro.props;
+const { timeline, lang } = Astro.props;
 
 const typeLabels = {
   experience: { es: 'experiencia', en: 'experience' },
   education: { es: 'educación', en: 'education' }
 } as const;
+const sectionTitle = { es: 'Timeline: Experiencia & Formación', en: 'Timeline: Experience & Education' };
+const sectionCopy = {
+  es: 'Trayectoria profesional y formación, con foco en la etapa actual.',
+  en: 'Professional journey and education, focused on the current stage.'
+};
+const currentLabel = { es: 'actual', en: 'current' };
 ---
 
 <section id="timeline" class="animate-slideIn [animation-delay:170ms]">
@@ -20,14 +28,14 @@ const typeLabels = {
       data-i18n-es="Timeline: Experiencia & Formación"
       data-i18n-en="Timeline: Experience & Education"
     >
-      Timeline: Experiencia & Formación
+      {t(sectionTitle, lang)}
     </h2>
     <p
       class="mt-2 text-sm text-ide-textMuted"
       data-i18n-es="Trayectoria profesional y formación, con foco en la etapa actual."
       data-i18n-en="Professional journey and education, focused on the current stage."
     >
-      Trayectoria profesional y formación, con foco en la etapa actual.
+      {t(sectionCopy, lang)}
     </p>
     <div class="relative mt-6 pl-8">
       <span class="absolute bottom-2 left-3 top-2 w-px bg-ide-border"></span>
@@ -53,7 +61,7 @@ const typeLabels = {
                 data-i18n-es={event.date.es}
                 data-i18n-en={event.date.en}
               >
-                {event.date.es}
+                {t(event.date, lang)}
               </p>
               {
                 (event.current || index === 0) && (
@@ -62,17 +70,17 @@ const typeLabels = {
                     data-i18n-es="actual"
                     data-i18n-en="current"
                   >
-                    actual
+                    {t(currentLabel, lang)}
                   </span>
                 )
               }
             </div>
             <h3 class="mt-1 text-base font-semibold text-ide-text" data-i18n-es={event.title.es} data-i18n-en={event.title.en}>
-              {event.title.es}
+              {t(event.title, lang)}
             </h3>
             <p class="text-sm text-ide-accent">{event.organization}</p>
             <p class="mt-2 text-sm text-ide-textMuted" data-i18n-es={event.detail.es} data-i18n-en={event.detail.en}>
-              {event.detail.es}
+              {t(event.detail, lang)}
             </p>
             <span
               class:list={[
@@ -83,7 +91,7 @@ const typeLabels = {
               data-i18n-es={typeLabels[event.type].es}
               data-i18n-en={typeLabels[event.type].en}
             >
-              {typeLabels[event.type].es}
+              {t(typeLabels[event.type], lang)}
             </span>
           </article>
         ))

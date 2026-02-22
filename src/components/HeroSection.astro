@@ -1,14 +1,16 @@
 ---
 import type { FeaturedTechItem, Profile } from '../data/portfolio';
 import { toneForTech, toneStyle } from '../data/techTone';
+import { t, type Lang } from '../lib/i18n';
 
 interface Props {
   profile: Profile;
   featuredTech: readonly FeaturedTechItem[];
   codeSnippet: readonly string[];
+  lang: Lang;
 }
 
-const { profile, featuredTech, codeSnippet } = Astro.props;
+const { profile, featuredTech, codeSnippet, lang } = Astro.props;
 
 const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 6);
 
@@ -29,28 +31,28 @@ const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 6
       data-i18n-es={profile.role.es}
       data-i18n-en={profile.role.en}
     >
-      {profile.role.es}
+      {t(profile.role, lang)}
     </p>
     <p
       class="mt-2 text-sm text-ide-textMuted"
       data-i18n-es={profile.location.es}
       data-i18n-en={profile.location.en}
     >
-      {profile.location.es}
+      {t(profile.location, lang)}
     </p>
     <p
       class="mt-1 text-sm text-ide-textMuted"
       data-i18n-es={profile.experience.es}
       data-i18n-en={profile.experience.en}
     >
-      {profile.experience.es}
+      {t(profile.experience, lang)}
     </p>
     <p
       class="mt-4 max-w-3xl text-sm text-ide-text md:text-base"
       data-i18n-es={profile.summary.es}
       data-i18n-en={profile.summary.en}
     >
-      {profile.summary.es}
+      {t(profile.summary, lang)}
     </p>
     <div class="mt-4 flex flex-wrap gap-2 text-xs">
       <a
@@ -59,7 +61,7 @@ const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 6
         data-i18n-es={profile.links.contact.es}
         data-i18n-en={profile.links.contact.en}
       >
-        {profile.links.contact.es}
+        {t(profile.links.contact, lang)}
       </a>
       <a
         class="rounded-md border border-ide-border bg-ide-bg px-3 py-1 text-ide-text hover:border-ide-accent hover:text-ide-accent"
@@ -125,11 +127,11 @@ const activeFeaturedTech = featuredTech.filter((tech) => tech.active).slice(0, 6
                       data-i18n-es="clave"
                       data-i18n-en="key"
                     >
-                      clave
+                      {t({ es: 'clave', en: 'key' }, lang)}
                     </span>
                   </div>
                   <p class="mt-1 text-xs text-ide-textMuted" data-i18n-es={tech.note.es} data-i18n-en={tech.note.en}>
-                    {tech.note.es}
+                    {t(tech.note, lang)}
                   </p>
                 </div>
               </article>

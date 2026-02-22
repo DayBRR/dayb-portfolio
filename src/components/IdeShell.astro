@@ -1,4 +1,6 @@
 ---
+import { t, type Lang } from '../lib/i18n';
+
 interface Props {
   profileName: string;
   navItems: readonly {
@@ -8,9 +10,10 @@ interface Props {
       en: string;
     };
   }[];
+  lang: Lang;
 }
 
-const { profileName, navItems } = Astro.props;
+const { profileName, navItems, lang } = Astro.props;
 ---
 
 <div class="min-h-screen px-3 py-4 md:px-8 md:py-8">
@@ -81,6 +84,7 @@ const { profileName, navItems } = Astro.props;
               const order = String(index + 1).padStart(2, '0');
               const labelEs = `${order}. ${item.label.es}`;
               const labelEn = `${order}. ${item.label.en}`;
+              const label = t({ es: labelEs, en: labelEn }, lang);
               return (
                 <li>
                   <a
@@ -89,7 +93,7 @@ const { profileName, navItems } = Astro.props;
                     data-i18n-es={labelEs}
                     data-i18n-en={labelEn}
                   >
-                    {labelEs}
+                    {label}
                   </a>
                 </li>
               );
@@ -145,11 +149,16 @@ const { profileName, navItems } = Astro.props;
     const langButtons = Array.from(document.querySelectorAll('[data-lang-button]'));
     const supportedLangs = ['es', 'en'];
 
+    const setLangCookie = (nextLang) => {
+      document.cookie = `lang=${nextLang}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    };
+
     const applyLang = (lang) => {
       const nextLang = supportedLangs.includes(lang) ? lang : 'es';
       html.dataset.lang = nextLang;
       html.lang = nextLang;
       localStorage.setItem('lang', nextLang);
+      setLangCookie(nextLang);
 
       const textNodes = document.querySelectorAll('[data-i18n-es][data-i18n-en]');
       for (const node of textNodes) {
@@ -174,8 +183,13 @@ const { profileName, navItems } = Astro.props;
     };
 
     const detectLang = () => {
+      const params = new URLSearchParams(window.location.search);
+      const fromUrl = params.get('lang');
+      if (fromUrl && supportedLangs.includes(fromUrl)) return fromUrl;
       const saved = localStorage.getItem('lang');
       if (saved && supportedLangs.includes(saved)) return saved;
+      const dataLang = html.dataset.lang;
+      if (dataLang && supportedLangs.includes(dataLang)) return dataLang;
       const browser = (navigator.language || '').toLowerCase();
       return browser.startsWith('es') ? 'es' : 'en';
     };

@@ -1,13 +1,22 @@
 ---
 import type { StackTecnologyGroup } from '../data/portfolio';
+import { t, type Lang } from '../lib/i18n';
 
 interface Props {
   stackTecnology: readonly StackTecnologyGroup[];
+  lang: Lang;
 }
 
-const { stackTecnology } = Astro.props;
+const { stackTecnology, lang } = Astro.props;
 
 const totalItems = stackTecnology.reduce((sum, group) => sum + group.items.length, 0);
+const sectionTitle = { es: 'Stack Tecnológico', en: 'Technology Stack' };
+const sectionCopy = {
+  es: 'Tecnologías clave organizadas por dominio para construir productos backend robustos.',
+  en: 'Key technologies grouped by domain to build robust backend products.'
+};
+const domainCount = { es: `${stackTecnology.length} dominios`, en: `${stackTecnology.length} domains` };
+const itemCount = { es: `${totalItems} tecnologías`, en: `${totalItems} technologies` };
 
 const groupToneStyle = (group: StackTecnologyGroup) => {
   switch (group.topic) {
@@ -40,14 +49,14 @@ const groupToneStyle = (group: StackTecnologyGroup) => {
             data-i18n-es="Stack Tecnológico"
             data-i18n-en="Technology Stack"
           >
-            Stack Tecnológico
+            {t(sectionTitle, lang)}
           </h2>
           <p
             class="mt-2 text-sm text-ide-textMuted"
             data-i18n-es="Tecnologías clave organizadas por dominio para construir productos backend robustos."
             data-i18n-en="Key technologies grouped by domain to build robust backend products."
           >
-            Tecnologias clave organizadas por dominio para construir productos backend robustos.
+            {t(sectionCopy, lang)}
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-ide-textMuted">
@@ -63,14 +72,14 @@ const groupToneStyle = (group: StackTecnologyGroup) => {
             data-i18n-es={`${stackTecnology.length} dominios`}
             data-i18n-en={`${stackTecnology.length} domains`}
           >
-            {stackTecnology.length} dominios
+            {t(domainCount, lang)}
           </span>
           <span
             class="rounded-full border border-ide-border/80 bg-ide-bg px-3 py-1"
-            data-i18n-es={`${totalItems} tecnologias`}
+            data-i18n-es={`${totalItems} tecnologías`}
             data-i18n-en={`${totalItems} technologies`}
           >
-            {totalItems} tecnologias
+            {t(itemCount, lang)}
           </span>
         </div>
       </div>
@@ -93,7 +102,7 @@ const groupToneStyle = (group: StackTecnologyGroup) => {
                   </span>
                   <div>
                     <h3 class="text-sm font-semibold text-ide-text" data-i18n-es={group.title.es} data-i18n-en={group.title.en}>
-                      {group.title.es}
+                      {t(group.title, lang)}
                     </h3>
                     <p class="text-[11px] text-ide-textMuted">
                       {group.items.length} items

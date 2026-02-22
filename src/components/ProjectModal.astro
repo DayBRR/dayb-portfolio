@@ -1,7 +1,17 @@
 ---
 import { statusMeta } from '../data/projectStatus';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
 
 const statusMetaJson = JSON.stringify(statusMeta);
+const { lang } = Astro.props;
+
+const repoLabel = { es: 'ver repo git', en: 'view git repo' };
+const demoLabel = { es: 'ver demo', en: 'view demo' };
+const closeLabel = { es: 'cerrar()', en: 'close()' };
 ---
 
 <dialog id="project-modal" class="w-[min(760px,95vw)] overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel">
@@ -31,7 +41,7 @@ const statusMetaJson = JSON.stringify(statusMeta);
         data-i18n-es="ver repo git"
         data-i18n-en="view git repo"
       >
-        ver repo git
+        {t(repoLabel, lang)}
       </a>
       <a
         id="modal-demo"
@@ -41,7 +51,7 @@ const statusMetaJson = JSON.stringify(statusMeta);
         data-i18n-es="ver demo"
         data-i18n-en="view demo"
       >
-        ver demo
+        {t(demoLabel, lang)}
       </a>
       <button
         id="close-project-modal"
@@ -50,7 +60,7 @@ const statusMetaJson = JSON.stringify(statusMeta);
         data-i18n-es="cerrar()"
         data-i18n-en="close()"
       >
-        cerrar()
+        {t(closeLabel, lang)}
       </button>
     </div>
   </div>
@@ -89,6 +99,7 @@ const statusMetaJson = JSON.stringify(statusMeta);
       link.href = url;
       link.removeAttribute('aria-disabled');
       link.tabIndex = 0;
+      link.classList.remove('hidden');
       link.classList.remove('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
       link.classList.add('hover:border-ide-accent', 'hover:text-ide-accent');
       return;
@@ -97,6 +108,7 @@ const statusMetaJson = JSON.stringify(statusMeta);
     link.removeAttribute('href');
     link.setAttribute('aria-disabled', 'true');
     link.tabIndex = -1;
+    link.classList.add('hidden');
     link.classList.add('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
     link.classList.remove('hover:border-ide-accent', 'hover:text-ide-accent');
   };

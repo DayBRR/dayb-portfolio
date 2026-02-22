@@ -227,7 +227,7 @@ export const projects: {
       es: 'Portfolio bilingüe inspirado en IntelliJ con navegación lateral, modo claro/oscuro y proyectos destacados.',
       en: 'Bilingual IntelliJ-inspired portfolio with sidebar navigation, theme toggle and featured projects.'
     },
-    repo: '',
+    repo: 'https://github.com/DayBRR/dayb-portfolio',
     demo: ''
   }
 ] as const;

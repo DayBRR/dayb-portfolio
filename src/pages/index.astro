@@ -9,6 +9,9 @@ import ProjectsSection from '../components/ProjectsSection.astro';
 import TimelineSection from '../components/TimelineSection.astro';
 import ProjectModal from '../components/ProjectModal.astro';
 import { featuredTech, focusHighlights, profile, projects, skills, stackTecnology, timeline } from '../data/portfolio';
+import { getLang } from '../lib/i18n';
+
+const lang = getLang(Astro);
 
 const codeSnippet = [
   'class BackendEngineer {',
@@ -36,57 +39,58 @@ const sections: Array<{
     nav: { es: 'index.ts', en: 'index.ts' },
     active: true,
     Component: HeroSection,
-    props: { profile, featuredTech, codeSnippet }
+    props: { profile, featuredTech, codeSnippet, lang }
   },
   {
     id: 'focus',
     nav: { es: 'focus.md', en: 'focus.md' },
     active: true,
     Component: FocusSection,
-    props: { highlights: focusHighlights }
+    props: { highlights: focusHighlights, lang }
   },
   {
     id: 'skills',
     nav: { es: 'skills.json', en: 'skills.json' },
     active: false,
     Component: SkillsSection,
-    props: { skills }
+    props: { skills, lang }
   },
   {
     id: 'stack',
     nav: { es: 'stack.yml', en: 'stack.yml' },
     active: true,
     Component: StackSection,
-    props: { stackTecnology }
+    props: { stackTecnology, lang }
   },
   {
     id: 'projects',
     nav: { es: 'projects.db', en: 'projects.db' },
     active: true,
     Component: ProjectsSection,
-    props: { projects }
+    props: { projects, lang }
   },
   {
     id: 'timeline',
     nav: { es: 'timeline.log', en: 'timeline.log' },
     active: true,
     Component: TimelineSection,
-    props: { timeline }
+    props: { timeline, lang }
   }
 ] ;
 
 const activeSections = sections.filter((section) => section.active);
 ---
 
-<MainLayout title="Portfolio | David Ruiz Requejo">
+<MainLayout title="Portfolio | David Ruiz Requejo" lang={lang}>
   <IdeShell
     profileName={profile.title_path}
     navItems={activeSections.map(({ id, nav }) => ({ id, label: nav }))}
+    lang={lang}
   >
     {activeSections.map((section) => {
       const Section = section.Component;
       return <Section {...section.props} />;
     })}
   </IdeShell>
-  <ProjectModal />
+  <ProjectModal lang={lang} />
 </MainLayout>

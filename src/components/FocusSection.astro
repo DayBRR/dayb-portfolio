@@ -1,13 +1,29 @@
 ---
 import type { FocusHighlight } from '../data/portfolio';
+import { t, type Lang } from '../lib/i18n';
 
 interface Props {
   highlights: readonly FocusHighlight[];
+  lang: Lang;
 }
 
-const { highlights } = Astro.props;
+const { highlights, lang } = Astro.props;
 
 const showFocusMap = true;
+const focusIntro = {
+  es: 'Este mapa muestra los criterios que guían mis decisiones al diseñar sistemas backend en entornos reales de producción.',
+  en: 'This map reflects the criteria that guide my decisions when designing backend systems in real production environments.'
+};
+const focusTitle = { es: 'Matriz de Enfoque', en: 'Focus Matrix' };
+const focusSummary = {
+  es: 'Representación visual de las prioridades que guían mis decisiones de ingeniería de software.',
+  en: 'Visual representation of the priorities that guide my software engineering decisions.'
+};
+const focusDisclaimer = {
+  es: 'NO REPRESENTAN NIVEL DE DOMINIO, SINO PESO RELATIVO EN EL ENFOQUE.',
+  en: 'NOT A SKILL RATING, BUT RELATIVE WEIGHT IN MY APPROACH.'
+};
+const focusBadge = { es: 'prioridades', en: 'priorities' };
 
 const iconPaths = {
   layers: ['M12 3l8 4-8 4-8-4 8-4z', 'M4 11l8 4 8-4', 'M4 15l8 4 8-4'],
@@ -100,7 +116,7 @@ const groupToneStyle = (index: number) => {
                   data-i18n-es={highlight.title.es}
                   data-i18n-en={highlight.title.en}
                 >
-                  {highlight.title.es}
+                  {t(highlight.title, lang)}
                 </h2>
                 <ul class="mt-3 space-y-2 text-sm text-ide-text">
                   {
@@ -108,7 +124,7 @@ const groupToneStyle = (index: number) => {
                       <li class="flex items-start gap-2">
                         <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full" style="background: var(--tone);"></span>
                         <span data-i18n-es={item.es} data-i18n-en={item.en}>
-                          {item.es}
+                          {t(item, lang)}
                         </span>
                       </li>
                     ))
@@ -131,28 +147,28 @@ const groupToneStyle = (index: number) => {
                 data-i18n-es="Este mapa muestra los criterios que guían mis decisiones al diseñar sistemas backend en entornos reales de producción."
                 data-i18n-en="This map reflects the criteria that guide my decisions when designing backend systems in real production environments."
               >
-                Este mapa muestra los criterios que guían mis decisiones al diseñar sistemas backend en entornos reales de producción.
+                {t(focusIntro, lang)}
               </p>
               <h2
                 class="mt-2 text-base font-semibold uppercase tracking-[0.2em] text-ide-text"
                 data-i18n-es="Matriz de Enfoque"
                 data-i18n-en="Focus Matrix"
               >
-                Matriz de Enfoque
+                {t(focusTitle, lang)}
               </h2>
               <p
                 class="mt-2 text-xs text-ide-textMuted"
                 data-i18n-es="Representación visual de las prioridades que guían mis decisiones de ingeniería de software."
                 data-i18n-en="Visual representation of the priorities that guide my software engineering decisions."
               >
-                Representación visual de las prioridades que guían mis decisiones de ingeniería de software.
+                {t(focusSummary, lang)}
               </p>
               <p
                 class="mt-2 text-[11px] uppercase tracking-[0.22em] text-ide-textMuted/80"
                 data-i18n-es="NO REPRESENTAN NIVEL DE DOMINIO, SINO PESO RELATIVO EN EL ENFOQUE."
                 data-i18n-en="NOT A SKILL RATING, BUT RELATIVE WEIGHT IN MY APPROACH."
               >
-                NO REPRESENTAN NIVEL DE DOMINIO, SINO PESO RELATIVO EN EL ENFOQUE.
+                {t(focusDisclaimer, lang)}
               </p>
             </div>
             <div
@@ -160,13 +176,13 @@ const groupToneStyle = (index: number) => {
               data-i18n-es="prioridades"
               data-i18n-en="priorities"
             >
-              prioridades
+              {t(focusBadge, lang)}
             </div>
           </div>
           <div class="mt-4 grid gap-3 md:grid-cols-2">
             {
-              mapPool.map((map) => {
-                const isPrimary = map.name.es === 'Arquitectura';
+              mapPool.map((map, index) => {
+                const isPrimary = index === 0;
                 const barHeight = isPrimary ? '10px' : '8px';
                 return (
                 <div>
@@ -192,7 +208,7 @@ const groupToneStyle = (index: number) => {
                   <div class="flex-1">
                     <div class="flex items-center justify-between text-[11px] text-ide-textMuted">
                       <span data-i18n-es={map.name.es} data-i18n-en={map.name.en}>
-                        {map.name.es}
+                        {t(map.name, lang)}
                       </span>
                       <span class="text-ide-text">{map.value}%</span>
                     </div>
@@ -205,7 +221,7 @@ const groupToneStyle = (index: number) => {
                   </div>
                   </div>
                   <p class="mt-2 text-[11px] text-ide-textMuted" data-i18n-es={map.detail.es} data-i18n-en={map.detail.en}>
-                    {map.detail.es}
+                    {t(map.detail, lang)}
                   </p>
                 </div>
                 );
