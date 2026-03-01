@@ -217,7 +217,7 @@ export const projects: {
   {
     id: 'dayb-portfolio',
     title: 'DayB Portfolio',
-    status: 'Development',
+    status: 'Production',
     stack: ['Astro', 'Tailwind CSS', 'TypeScript'],
     summary: {
       es: 'Portfolio personal estilo IDE orientado a backend.',
