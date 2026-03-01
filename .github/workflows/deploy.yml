@@ -1,0 +1,23 @@
+name: Deploy Astro to VPS (Docker)
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t astro-portfolio:latest .
+
+      - name: Deploy container
+        run: |
+          cd /home/dayb/apps/astro-portfolio
+          docker compose up -d
+          docker image prune -f
