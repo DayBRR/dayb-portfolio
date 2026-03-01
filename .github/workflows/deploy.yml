@@ -12,6 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show Docker info
+        run: |
+          whoami
+          docker --version
+          docker info
+
       - name: Build Docker image
         run: |
           docker build -t astro-portfolio:latest .
@@ -19,5 +25,7 @@ jobs:
       - name: Deploy container
         run: |
           cd /home/dayb/apps/astro-portfolio
+          ls -la
           docker compose up -d
+          docker ps
           docker image prune -f
