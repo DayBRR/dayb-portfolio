@@ -228,7 +228,7 @@ export const projects: {
       en: 'Bilingual IntelliJ-inspired portfolio with sidebar navigation, theme toggle and featured projects.'
     },
     repo: 'https://github.com/DayBRR/dayb-portfolio',
-    demo: ''
+    demo: 'https://davidruiz.es/'
   }
 ] as const;
 export type ProjectItem = (typeof projects)[number];
@@ -260,8 +260,8 @@ export const timeline: readonly TimelineItem[] = [
     title: { es: 'Backend Developer – Sistemas Sociales', en: 'Backend Developer – Social Systems' },
     organization: 'Grupo Oesía',
     detail: {
-      es: 'Desarrollo backend del Sistema de Información de Menores de Aragón utilizando Java, JSF y Oracle, gestionando datos sensibles y procesos administrativos.',
-      en: 'Backend development of Aragón’s Child Information System using Java, JSF and Oracle, managing sensitive data and administrative workflows.'
+      es: 'Desarrollo backend de un sistema de información social para administraciones públicas usando Java, JSF y Oracle, gestionando datos sensibles y procesos administrativos.',
+      en: 'Backend development of a social information system for public administrations using Java, JSF and Oracle, managing sensitive data and administrative workflows.'
     }
   },
   {
@@ -270,8 +270,8 @@ export const timeline: readonly TimelineItem[] = [
     title: { es: 'Fullstack Developer – Sistemas de Cita Previa', en: 'Fullstack Developer – Appointment Systems' },
     organization: 'Grupo Oesía',
     detail: {
-      es: 'Desarrollo frontend Angular y backend Java en sistemas de cita previa para Gobierno de Aragón, Justicia y Universidad de Jaén.',
-      en: 'Angular frontend and Java backend development for appointment systems used by Aragón Government, Justice Department and University of Jaén.'
+      es: 'Desarrollo frontend Angular y backend Java en sistemas de cita previa para entidades públicas y entornos académicos.',
+      en: 'Angular frontend and Java backend development for appointment systems used by public entities and academic environments.'
     }
   },
   {
@@ -280,8 +280,8 @@ export const timeline: readonly TimelineItem[] = [
     title: { es: 'Backend Developer – Administración Electrónica', en: 'Backend Developer – E-Government Systems' },
     organization: 'Grupo Oesía',
     detail: {
-      es: 'Desarrollo de sistemas de expedientes electrónicos, vivienda pública y subastas. Integraciones con servicios públicos (@Firma, padrón, portafirmas, gestor documental, AWS).',
-      en: 'Development of electronic records, public housing and procurement systems. Integration with government services (@Firma, registries, document systems, AWS).'
+      es: 'Desarrollo de sistemas de expedientes electrónicos, vivienda pública y subastas. Integraciones con servicios públicos de firma digital, registros y gestión documental, además de infraestructura cloud.',
+      en: 'Development of electronic records, public housing and procurement systems. Integrations with public services for digital signature, registries and document management, plus cloud infrastructure.'
     }
   },
   {
