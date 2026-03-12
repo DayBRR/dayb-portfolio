@@ -1,64 +1,168 @@
 <div id="diagram-dayb-portfolio-architecture" class="diagram-canvas hidden" data-diagram-key="dayb-portfolio-architecture">
-  <div class="diagram-header" data-i18n-es="Arquitectura del sistema" data-i18n-en="System architecture"></div>
-  <div class="diagram-title" data-i18n-es="Infraestructura del Portfolio" data-i18n-en="Portfolio Infrastructure"></div>
-  <div
-    class="diagram-subtitle"
-    data-i18n-es="Entrega estatica basada en Astro y Tailwind."
-    data-i18n-en="Static delivery built with Astro and Tailwind."
-  ></div>
+  <!-- Radial Background Glow -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[80%] bg-ide-accent/5 blur-[120px] rounded-full"></div>
+  </div>
 
-  <div class="diagram-flow">
-    <div class="diagram-node diagram-node-strong">
-      <div class="diagram-node-title" data-i18n-es="Navegador" data-i18n-en="Browser"></div>
-      <div class="diagram-node-sub" data-i18n-es="Usuario final" data-i18n-en="End user"></div>
+  <div class="relative z-10 flex flex-col items-center">
+    <div class="mb-12 text-center">
+      <div class="text-[10px] uppercase tracking-[0.3em] text-ide-muted mb-2" data-i18n-es="Arquitectura del sistema" data-i18n-en="System architecture">System Architecture</div>
+      <div class="text-2xl font-bold text-ide-text" data-i18n-es="Infraestructura del Portfolio" data-i18n-en="Portfolio Infrastructure">Portfolio Infrastructure</div>
+      <div class="text-xs text-ide-muted mt-2 max-w-md mx-auto" data-i18n-es="Diseño de alta disponibilidad y entrega estática optimizada." data-i18n-en="High-availability design and optimized static delivery.">High-availability design and optimized static delivery.</div>
     </div>
 
-    <div class="diagram-connector"></div>
-    <div class="diagram-pill" data-i18n-es="PUBLICO" data-i18n-en="PUBLIC"></div>
-    <div class="diagram-connector"></div>
-
-    <div class="diagram-node">
-      <div class="diagram-node-title" data-i18n-es="Hosting + CDN" data-i18n-en="Hosting + CDN"></div>
-      <div class="diagram-node-sub" data-i18n-es="Entrega estatica y cache" data-i18n-en="Static delivery and cache"></div>
-    </div>
-
-    <div class="diagram-connector"></div>
-    <div class="diagram-pill" data-i18n-es="BUILD" data-i18n-en="BUILD"></div>
-    <div class="diagram-connector"></div>
-
-    <div class="diagram-node">
-      <div class="diagram-node-title" data-i18n-es="Astro Build" data-i18n-en="Astro Build"></div>
-      <div class="diagram-node-sub" data-i18n-es="Generacion de HTML estatico" data-i18n-en="Static HTML generation"></div>
-    </div>
-
-    <div class="diagram-connector"></div>
-
-    <div class="diagram-branch">
-      <div class="diagram-branch-line"></div>
-      <div class="diagram-columns">
-        <div class="diagram-box">
-          <div class="diagram-box-title" data-i18n-es="UI / Componentes" data-i18n-en="UI / Components"></div>
-          <div class="diagram-box-item" data-i18n-es="Astro layouts" data-i18n-en="Astro layouts"></div>
-          <div class="diagram-box-item" data-i18n-es="Tailwind tokens" data-i18n-en="Tailwind tokens"></div>
-          <div class="diagram-box-item" data-i18n-es="Animaciones + UI" data-i18n-en="Animations + UI"></div>
-          <div class="diagram-box-item" data-i18n-es="Secciones i18n" data-i18n-en="i18n sections"></div>
-        </div>
-        <div class="diagram-box">
-          <div class="diagram-box-title" data-i18n-es="Contenido / Assets" data-i18n-en="Content / Assets"></div>
-          <div class="diagram-box-item" data-i18n-es="data/portfolio.ts" data-i18n-en="data/portfolio.ts"></div>
-          <div class="diagram-box-item" data-i18n-es="public/imagenes" data-i18n-en="public/images"></div>
-          <div class="diagram-box-item" data-i18n-es="iconos + assets" data-i18n-en="icons + assets"></div>
-          <div class="diagram-box-item" data-i18n-es="datos i18n" data-i18n-en="i18n data"></div>
+    <!-- 1. CLIENT LAYER -->
+    <div class="w-full flex flex-col items-center">
+      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mb-3">Client Layer</div>
+      <div class="diagram-node diagram-node-strong group relative !w-[280px] border-ide-accent/40 bg-ide-accent/5">
+        <div class="flex flex-col items-center">
+          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-accent/30 bg-ide-accent-soft text-ide-accent">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Client Browser" data-i18n-en="Client Browser">Client Browser</div>
+          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Entorno de usuario final" data-i18n-en="Final user environment running the static site.">Final user environment running the static site.</div>
         </div>
       </div>
-      <div class="diagram-branch-line"></div>
+      
+      <div class="h-12 w-px bg-gradient-to-b from-ide-accent/40 to-ide-border"></div>
+      <div class="diagram-pill !text-[8px] border-ide-border/50 bg-ide-panel-soft text-ide-muted" data-i18n-es="HTTPS / HTTP2 / WOFF2" data-i18n-en="HTTPS / HTTP2 / WOFF2">HTTPS / HTTP2 / WOFF2</div>
+      <div class="h-12 w-px bg-ide-border"></div>
     </div>
 
-    <div class="diagram-connector"></div>
+    <!-- 2. DELIVERY LAYER -->
+    <div class="w-full flex flex-col items-center">
+      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mb-3">Delivery Layer</div>
+      <div class="diagram-node !w-[280px]">
+        <div class="flex flex-col items-center">
+          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-border bg-ide-panel-soft text-ide-muted">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.5 19l4.5-4.5L17.5 10"></path>
+              <path d="M6.5 5l-4.5 4.5L6.5 14"></path>
+              <path d="M12 2v20"></path>
+            </svg>
+          </div>
+          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Edge Delivery Layer" data-i18n-en="Edge Delivery Layer">Edge Delivery Layer</div>
+          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Global CDN y cache" data-i18n-en="Global CDN delivering static assets and caching responses.">Global CDN delivering static assets and caching responses.</div>
+        </div>
+      </div>
+      
+      <div class="h-12 w-px bg-ide-border"></div>
+      <div class="diagram-pill !text-[8px] border-ide-success/30 bg-ide-success/10 text-ide-success" data-i18n-es="DEPLOY" data-i18n-en="DEPLOY">DEPLOY</div>
+      <div class="h-12 w-px bg-ide-border"></div>
+    </div>
 
-    <div class="diagram-node">
-      <div class="diagram-node-title" data-i18n-es="Repositorio Git" data-i18n-en="Git Repository"></div>
-      <div class="diagram-node-sub" data-i18n-es="Versionado y despliegue continuo" data-i18n-en="Versioning and continuous delivery"></div>
+    <!-- 3. BUILD LAYER -->
+    <div class="w-full flex flex-col items-center">
+      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mb-3">Build Layer</div>
+      <div class="diagram-node !w-[280px] border-ide-purple/30 bg-ide-purple/5">
+        <div class="flex flex-col items-center">
+          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-purple/20 bg-ide-purple/10 text-ide-purple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+              <path d="M15 11l2 2"></path>
+            </svg>
+          </div>
+          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Astro Static Build Pipeline" data-i18n-en="Astro Static Build Pipeline">Astro Static Build Pipeline</div>
+          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Generación de sitio estático (SSG)" data-i18n-en="Static Site Generation (SSG) using Astro.">Static Site Generation (SSG) using Astro.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. APPLICATION STRUCTURE (Branching) -->
+    <div class="w-full flex flex-col items-center mt-4">
+      <!-- Continuous pipeline through center of split -->
+      <div class="h-8 w-px bg-ide-border"></div>
+      
+      <div class="relative w-full max-w-[600px] px-4">
+        <!-- Branching Lines -->
+        <div class="absolute top-0 left-1/4 right-1/4 h-[1px] bg-ide-border"></div>
+        <div class="absolute top-0 left-1/4 w-px h-8 bg-ide-border"></div>
+        <div class="absolute top-0 right-1/4 w-px h-8 bg-ide-border"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-ide-border/30"></div>
+
+        <div class="grid grid-cols-2 gap-8 pt-8">
+          <!-- Frontend Architecture -->
+          <div class="diagram-box !bg-ide-panel/40 border-ide-cyan/20">
+            <div class="flex items-center gap-2 mb-4 border-b border-ide-cyan/10 pb-2">
+              <div class="flex h-6 w-6 items-center justify-center rounded-md border border-ide-cyan/30 bg-ide-cyan/10 text-ide-cyan">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+              </div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-ide-text" data-i18n-es="Frontend Architecture" data-i18n-en="Frontend Architecture">Frontend Architecture</div>
+            </div>
+            <div class="space-y-2">
+              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-ide-cyan"></span>
+                <span class="text-[10px]" data-i18n-es="Layouts & Components" data-i18n-en="Layouts & Components">Layouts & Components</span>
+              </div>
+              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-ide-cyan"></span>
+                <span class="text-[10px]" data-i18n-es="Tailwind Design System" data-i18n-en="Tailwind Design System">Tailwind Design System</span>
+              </div>
+              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-ide-cyan"></span>
+                <span class="text-[10px]" data-i18n-es="Interactive Islands" data-i18n-en="Interactive Islands">Interactive Islands</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content & Logic -->
+          <div class="diagram-box !bg-ide-panel/40 border-ide-warn/20">
+            <div class="flex items-center gap-2 mb-4 border-b border-ide-warn/10 pb-2">
+              <div class="flex h-6 w-6 items-center justify-center rounded-md border border-ide-warn/30 bg-ide-warn/10 text-ide-warn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-ide-text" data-i18n-es="Content & Logic" data-i18n-en="Content & Logic">Content & Logic</div>
+            </div>
+            <div class="space-y-2">
+              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-ide-warn"></span>
+                <span class="text-[10px]" data-i18n-es="Typed Data Models" data-i18n-en="Typed Data Models">Typed Data Models</span>
+              </div>
+              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-ide-warn"></span>
+                <span class="text-[10px]" data-i18n-es="i18n Layer" data-i18n-en="i18n Layer">i18n Layer</span>
+              </div>
+              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-ide-warn"></span>
+                <span class="text-[10px]" data-i18n-es="Optimized Assets" data-i18n-en="Optimized Assets">Optimized Assets</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="h-12 w-px bg-ide-border"></div>
+    </div>
+
+    <!-- 5. SOURCE CONTROL LAYER -->
+    <div class="w-full flex flex-col items-center">
+      <div class="diagram-node !w-[280px] group border-ide-danger/20 bg-ide-danger/5">
+        <div class="flex flex-col items-center">
+          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-danger/20 bg-ide-danger/10 text-ide-danger">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="18" r="3"></circle>
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="18" cy="6" r="3"></circle>
+              <path d="M18 9v2c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V9"></path>
+              <path d="M12 13V21"></path>
+            </svg>
+          </div>
+          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Git Repository / CI" data-i18n-en="Git Repository / CI">Git Repository / CI</div>
+          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Control de versiones y CI/CD" data-i18n-en="Source control, versioning, and continuous integration.">Source control, versioning, and continuous integration.</div>
+        </div>
+      </div>
+      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mt-3">Source Control Layer</div>
     </div>
   </div>
 </div>

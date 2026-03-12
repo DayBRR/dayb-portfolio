@@ -212,12 +212,18 @@ dialog::backdrop {
 }
 
 .diagram-node {
-  width: min(320px, 100%);
-  padding: 12px 16px;
+  width: min(340px, 100%);
+  padding: 16px;
   border-radius: 12px;
-  background: color-mix(in oklab, var(--ide-panel), var(--ide-bg) 30%);
-  border: 1.4px solid color-mix(in oklab, var(--ide-border), var(--ide-accent) 20%);
+  background: color-mix(in oklab, var(--ide-panel), var(--ide-bg) 20%);
+  border: 1px solid color-mix(in oklab, var(--ide-border), var(--ide-accent) 15%);
   text-align: center;
+  transition: all 0.2s ease;
+}
+
+.diagram-node:hover {
+  border-color: color-mix(in oklab, var(--ide-border), var(--ide-accent) 40%);
+  background: color-mix(in oklab, var(--ide-panel), var(--ide-bg) 10%);
 }
 
 .diagram-node-strong {
@@ -239,17 +245,18 @@ dialog::backdrop {
   padding: 4px 12px;
   border-radius: 999px;
   font-size: 9px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ide-accent);
-  background: var(--ide-accent-soft);
-  border: 1px solid color-mix(in oklab, var(--ide-accent), var(--ide-border) 30%);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .diagram-connector {
   width: 2px;
-  height: 14px;
-  background: color-mix(in oklab, var(--ide-border), var(--ide-accent) 30%);
+  height: 16px;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--ide-border), var(--ide-accent) 40%), color-mix(in oklab, var(--ide-border), var(--ide-accent) 10%));
   border-radius: 999px;
 }
 
