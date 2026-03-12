@@ -1,0 +1,275 @@
+---
+import {
+  i18nAttrs,
+  styleVars,
+  type DiagramBranchColumns,
+  type DiagramBranchSection,
+  type DiagramConfig,
+  type DiagramConnectorSection,
+  type DiagramGroupAppearance,
+  type DiagramLineAppearance,
+  type DiagramLineSection,
+  type DiagramNodeAppearance,
+  type DiagramNodeSection,
+  type DiagramPillAppearance
+} from '../../lib/diagramConfig';
+import { renderDiagramIcon } from '../../lib/diagramIcons';
+
+interface Props {
+  config: DiagramConfig;
+}
+
+const { config } = Astro.props;
+
+const defaults = config.defaults ?? {};
+
+const mergeNodeAppearance = (appearance?: DiagramNodeAppearance): DiagramNodeAppearance => ({
+  ...defaults.node,
+  ...appearance,
+  glow: {
+    ...defaults.node?.glow,
+    ...appearance?.glow
+  }
+});
+
+const mergeLineAppearance = (appearance?: DiagramLineAppearance): DiagramLineAppearance => ({
+  ...defaults.line,
+  ...appearance
+});
+
+const mergePillAppearance = (appearance?: DiagramPillAppearance): DiagramPillAppearance => ({
+  ...defaults.pill,
+  ...appearance
+});
+
+const mergeGroupAppearance = (appearance?: DiagramGroupAppearance): DiagramGroupAppearance => ({
+  ...defaults.group,
+  ...appearance
+});
+
+const mergeBranchColumns = (columns?: DiagramBranchColumns): DiagramBranchColumns => ({
+  ...defaults.branchColumns,
+  ...columns
+});
+
+const nodeClassName = (section: DiagramNodeSection) => {
+  const appearance = mergeNodeAppearance(section.appearance);
+  return [
+    'diagram-node',
+    'config-diagram-node',
+    appearance.strong ? 'diagram-node-strong' : '',
+    appearance.hoverable === false ? 'config-diagram-node--static' : '',
+    appearance.glow ? 'group relative' : ''
+  ]
+    .filter(Boolean)
+    .join(' ');
+};
+
+const nodeStyle = (section: DiagramNodeSection) => {
+  const appearance = mergeNodeAppearance(section.appearance);
+  return styleVars({
+    '--diagram-node-width': appearance.width,
+    '--diagram-node-padding': appearance.padding,
+    '--diagram-node-radius': appearance.radius,
+    '--diagram-node-border': appearance.borderColor,
+    '--diagram-node-bg': appearance.background,
+    '--diagram-node-hover-border': appearance.hoverBorderColor,
+    '--diagram-node-hover-bg': appearance.hoverBackground,
+    '--diagram-node-title-color': appearance.titleColor,
+    '--diagram-node-subtitle-color': appearance.subtitleColor,
+    '--diagram-node-text-align': appearance.textAlign,
+    '--diagram-node-icon-color': appearance.iconColor,
+    '--diagram-node-icon-border': appearance.iconBorderColor,
+    '--diagram-node-icon-bg': appearance.iconBackground,
+    '--diagram-node-icon-box-size': appearance.iconBoxSize,
+    '--diagram-node-icon-radius': appearance.iconRadius,
+    '--diagram-node-icon-margin-bottom': appearance.iconMarginBottom
+  });
+};
+
+const glowStyle = (section: DiagramNodeSection) => {
+  const glow = mergeNodeAppearance(section.appearance).glow;
+  if (!glow) return '';
+
+  return styleVars({
+    '--diagram-node-glow-from': glow.from,
+    '--diagram-node-glow-to': glow.to,
+    '--diagram-node-glow-blur': glow.blur,
+    '--diagram-node-glow-opacity': glow.opacity,
+    '--diagram-node-glow-direction': glow.direction,
+    '--diagram-node-glow-inset': glow.inset
+  });
+};
+
+const lineStyle = (appearance?: DiagramLineAppearance) => {
+  const merged = mergeLineAppearance(appearance);
+  const color = merged.color;
+  return styleVars({
+    '--diagram-line-length': merged.length,
+    '--diagram-line-thickness': merged.thickness,
+    '--diagram-line-from': color ?? merged.from,
+    '--diagram-line-to': color ?? merged.to,
+    '--diagram-line-radius': merged.radius
+  });
+};
+
+const pillStyle = (appearance?: DiagramPillAppearance) => {
+  const merged = mergePillAppearance(appearance);
+  return styleVars({
+    '--diagram-pill-border': merged.borderColor,
+    '--diagram-pill-bg': merged.background,
+    '--diagram-pill-text': merged.textColor,
+    '--diagram-pill-letter-spacing': merged.letterSpacing,
+    '--diagram-pill-padding': merged.padding
+  });
+};
+
+const columnsStyle = (section: DiagramBranchSection) => {
+  const columns = mergeBranchColumns(section.columns);
+  return styleVars({
+    '--diagram-columns-width': columns.width,
+    '--diagram-columns-gap': columns.gap,
+    '--diagram-columns-count': columns.count,
+    '--diagram-columns-junction-color': columns.junctionColor,
+    '--diagram-columns-junction-start': columns.junctionInsetStart,
+    '--diagram-columns-junction-end': columns.junctionInsetEnd,
+    '--diagram-columns-junction-top': columns.junctionTop,
+    '--diagram-columns-mobile-height': columns.mobileHeight
+  });
+};
+
+const groupStyle = (appearance?: DiagramGroupAppearance) => {
+  const merged = mergeGroupAppearance(appearance);
+  return styleVars({
+    '--diagram-group-border': merged.borderColor,
+    '--diagram-group-hover-border': merged.hoverBorderColor,
+    '--diagram-group-bg': merged.background,
+    '--diagram-group-title-color': merged.titleColor,
+    '--diagram-group-icon-color': merged.iconColor,
+    '--diagram-group-item-border': merged.itemBorderColor,
+    '--diagram-group-item-bg': merged.itemBackground,
+    '--diagram-group-item-text': merged.itemTextColor,
+    '--diagram-group-padding': merged.padding,
+    '--diagram-group-radius': merged.radius
+  });
+};
+
+const dotStyle = (color?: string) =>
+  styleVars({
+    '--diagram-dot-color': color
+  });
+---
+
+<div id={`diagram-${config.key}`} class="diagram-canvas hidden" data-diagram-key={config.key}>
+  {
+    config.header ? (
+      <div class="mb-6 border-b border-ide-border/50 pb-4">
+        {
+          config.header.eyebrow ? (
+            <div class="diagram-header" {...i18nAttrs(config.header.eyebrow)}>
+              {config.header.eyebrow.en}
+            </div>
+          ) : null
+        }
+        {
+          config.header.title ? (
+            <div
+              class="diagram-title"
+              style={styleVars({ '--diagram-header-title-color': config.header.accentColor })}
+              {...i18nAttrs(config.header.title)}
+            >
+              {config.header.title.en}
+            </div>
+          ) : null
+        }
+        {
+          config.header.subtitle ? (
+            <div class="diagram-subtitle mt-1" {...i18nAttrs(config.header.subtitle)}>
+              {config.header.subtitle.en}
+            </div>
+          ) : null
+        }
+      </div>
+    ) : null
+  }
+
+  <div class="diagram-flow">
+    {
+      config.sections.map((section) => {
+        if (section.type === 'node') {
+          return (
+            <div class={nodeClassName(section)} style={nodeStyle(section)}>
+              {section.appearance?.glow ? <div class="config-diagram-glow" style={glowStyle(section)}></div> : null}
+              <div class="config-diagram-node-content">
+                <div class="config-diagram-node-icon">
+                  <span class="inline-flex" aria-hidden="true" set:html={renderDiagramIcon(section.icon)}></span>
+                </div>
+                <div class="diagram-node-title" {...i18nAttrs(section.title)}>
+                  {section.title.en}
+                </div>
+                {
+                  section.subtitle ? (
+                    <div class="diagram-node-sub" {...i18nAttrs(section.subtitle)}>
+                      {section.subtitle.en}
+                    </div>
+                  ) : null
+                }
+              </div>
+            </div>
+          );
+        }
+
+        if (section.type === 'connector') {
+          return (
+            <div class="config-diagram-connector-stack" data-direction={section.direction ?? 'vertical'}>
+              {section.beforeLine ? <div class="config-diagram-line" data-direction={section.direction ?? 'vertical'} style={lineStyle(section.beforeLine)}></div> : null}
+              {
+                section.pill ? (
+                  <div class="config-diagram-pill" style={pillStyle(section.pill.appearance)} {...i18nAttrs(section.pill.label)}>
+                    {section.pill.label.en}
+                  </div>
+                ) : null
+              }
+              {section.afterLine ? <div class="config-diagram-line" data-direction={section.direction ?? 'vertical'} style={lineStyle(section.afterLine)}></div> : null}
+            </div>
+          );
+        }
+
+        if (section.type === 'line') {
+          return <div class="config-diagram-line" data-direction={section.direction ?? 'vertical'} style={lineStyle(section.appearance)}></div>;
+        }
+
+        return (
+          <div class="diagram-branch config-diagram-branch">
+            {section.topLine ? <div class="config-diagram-line config-diagram-branch-line" data-direction="vertical" style={lineStyle(section.topLine)}></div> : null}
+            <div class="diagram-columns config-diagram-columns" style={columnsStyle(section)}>
+              {
+                section.groups.map((group) => (
+                  <div class="diagram-box config-diagram-box" style={groupStyle(group.appearance)}>
+                    <div class="config-diagram-box-header">
+                      <span class="inline-flex config-diagram-box-icon" aria-hidden="true" set:html={renderDiagramIcon(group.icon)}></span>
+                      <div class="diagram-box-title" {...i18nAttrs(group.title)}>
+                        {group.title.en}
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-2">
+                      {
+                        group.items.map((item) => (
+                          <div class="diagram-box-item config-diagram-box-item">
+                            <span class="config-diagram-dot" style={dotStyle(item.dotColor)}></span>
+                            <span {...i18nAttrs(item.label)}>{item.label.en}</span>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            {section.bottomLine ? <div class="config-diagram-line config-diagram-branch-line" data-direction="vertical" style={lineStyle(section.bottomLine)}></div> : null}
+          </div>
+        );
+      })
+    }
+  </div>
+</div>

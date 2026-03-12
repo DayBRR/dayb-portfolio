@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "./diagram.schema.json",
+  "title": "Portfolio Diagram Config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["key", "sections"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    },
+    "header": {
+      "$ref": "#/$defs/header"
+    },
+    "defaults": {
+      "$ref": "#/$defs/defaults"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/section"
+      }
+    }
+  },
+  "$defs": {
+    "tone": {
+      "type": "string",
+      "enum": ["neutral", "accent", "info", "success", "warn", "danger", "purple", "cyan"]
+    },
+    "localizedText": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["es", "en"],
+      "properties": {
+        "es": { "type": "string" },
+        "en": { "type": "string" }
+      }
+    },
+    "iconName": {
+      "type": "string",
+      "enum": ["browser", "delivery", "astro", "layoutGrid", "folder", "gitBranch", "server", "globe"]
+    },
+    "icon": {
+      "oneOf": [
+        { "$ref": "#/$defs/iconName" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": {
+            "name": { "$ref": "#/$defs/iconName" },
+            "size": { "type": "number" },
+            "strokeWidth": { "type": "number" }
+          }
+        }
+      ]
+    },
+    "lineAppearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "length": { "type": "string" },
+        "thickness": { "type": "string" },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "color": { "type": "string" },
+        "radius": { "type": "string" }
+      }
+    },
+    "pillAppearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "borderColor": { "type": "string" },
+        "background": { "type": "string" },
+        "textColor": { "type": "string" },
+        "letterSpacing": { "type": "string" },
+        "padding": { "type": "string" }
+      }
+    },
+    "glow": {
+      "oneOf": [
+        { "type": "boolean" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fromTone": { "$ref": "#/$defs/tone" },
+            "toTone": { "$ref": "#/$defs/tone" },
+            "blur": { "type": "string" },
+            "opacity": { "type": "string" },
+            "direction": { "type": "string" },
+            "inset": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "nodeAppearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": { "type": "string" },
+        "padding": { "type": "string" },
+        "radius": { "type": "string" },
+        "borderColor": { "type": "string" },
+        "background": { "type": "string" },
+        "hoverBorderColor": { "type": "string" },
+        "hoverBackground": { "type": "string" },
+        "titleColor": { "type": "string" },
+        "subtitleColor": { "type": "string" },
+        "iconColor": { "type": "string" },
+        "iconBorderColor": { "type": "string" },
+        "iconBackground": { "type": "string" },
+        "iconBoxSize": { "type": "string" },
+        "iconRadius": { "type": "string" },
+        "iconMarginBottom": { "type": "string" },
+        "textAlign": { "type": "string", "enum": ["left", "center", "right"] },
+        "strong": { "type": "boolean" },
+        "hoverable": { "type": "boolean" }
+      }
+    },
+    "groupAppearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "borderColor": { "type": "string" },
+        "hoverBorderColor": { "type": "string" },
+        "background": { "type": "string" },
+        "titleColor": { "type": "string" },
+        "iconColor": { "type": "string" },
+        "itemBorderColor": { "type": "string" },
+        "itemBackground": { "type": "string" },
+        "itemTextColor": { "type": "string" },
+        "padding": { "type": "string" },
+        "radius": { "type": "string" }
+      }
+    },
+    "branchColumns": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": { "type": "string" },
+        "gap": { "type": "string" },
+        "count": { "type": "number" },
+        "junctionColor": { "type": "string" },
+        "junctionInsetStart": { "type": "string" },
+        "junctionInsetEnd": { "type": "string" },
+        "junctionTop": { "type": "string" },
+        "mobileHeight": { "type": "string" }
+      }
+    },
+    "header": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eyebrow": { "$ref": "#/$defs/localizedText" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "subtitle": { "$ref": "#/$defs/localizedText" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "accentColor": { "type": "string" }
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headerTone": { "$ref": "#/$defs/tone" },
+        "nodeTone": { "$ref": "#/$defs/tone" },
+        "connectorTone": { "$ref": "#/$defs/tone" },
+        "groupTone": { "$ref": "#/$defs/tone" },
+        "branchTone": { "$ref": "#/$defs/tone" },
+        "glow": { "$ref": "#/$defs/glow" },
+        "node": { "$ref": "#/$defs/nodeAppearance" },
+        "line": { "$ref": "#/$defs/lineAppearance" },
+        "pill": { "$ref": "#/$defs/pillAppearance" },
+        "group": { "$ref": "#/$defs/groupAppearance" },
+        "branchColumns": { "$ref": "#/$defs/branchColumns" }
+      }
+    },
+    "groupItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": { "$ref": "#/$defs/localizedText" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "dotColor": { "type": "string" }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "icon", "items"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "icon": { "$ref": "#/$defs/icon" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "appearance": { "$ref": "#/$defs/groupAppearance" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/groupItem" }
+        }
+      }
+    },
+    "nodeSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "title", "icon"],
+      "properties": {
+        "type": { "const": "node" },
+        "id": { "type": "string" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "subtitle": { "$ref": "#/$defs/localizedText" },
+        "icon": { "$ref": "#/$defs/icon" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "iconTone": { "$ref": "#/$defs/tone" },
+        "hoverTone": { "$ref": "#/$defs/tone" },
+        "strong": { "type": "boolean" },
+        "hoverable": { "type": "boolean" },
+        "glow": { "$ref": "#/$defs/glow" },
+        "appearance": { "$ref": "#/$defs/nodeAppearance" }
+      }
+    },
+    "connectorSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "const": "connector" },
+        "id": { "type": "string" },
+        "label": { "$ref": "#/$defs/localizedText" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "direction": { "type": "string", "enum": ["vertical", "horizontal"] },
+        "beforeLine": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "$ref": "#/$defs/lineAppearance" }
+          ]
+        },
+        "afterLine": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "$ref": "#/$defs/lineAppearance" }
+          ]
+        },
+        "line": { "$ref": "#/$defs/lineAppearance" },
+        "pill": { "$ref": "#/$defs/pillAppearance" }
+      }
+    },
+    "lineSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "const": "line" },
+        "id": { "type": "string" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "direction": { "type": "string", "enum": ["vertical", "horizontal"] },
+        "appearance": { "$ref": "#/$defs/lineAppearance" }
+      }
+    },
+    "branchSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "groups"],
+      "properties": {
+        "type": { "const": "branch" },
+        "id": { "type": "string" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "topLine": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "$ref": "#/$defs/lineAppearance" }
+          ]
+        },
+        "bottomLine": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "$ref": "#/$defs/lineAppearance" }
+          ]
+        },
+        "columns": { "$ref": "#/$defs/branchColumns" },
+        "groups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/group" }
+        }
+      }
+    },
+    "section": {
+      "oneOf": [
+        { "$ref": "#/$defs/nodeSection" },
+        { "$ref": "#/$defs/connectorSection" },
+        { "$ref": "#/$defs/lineSection" },
+        { "$ref": "#/$defs/branchSection" }
+      ]
+    }
+  }
+}

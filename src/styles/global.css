@@ -319,6 +319,174 @@ dialog::backdrop {
   color: var(--ide-muted);
 }
 
+.diagram-title {
+  color: var(--diagram-header-title-color, var(--ide-accent));
+}
+
+.config-diagram-node {
+  position: relative;
+  width: var(--diagram-node-width, min(340px, 100%));
+  padding: var(--diagram-node-padding, 16px);
+  border-radius: var(--diagram-node-radius, 12px);
+  border-color: var(--diagram-node-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 15%));
+  background: var(--diagram-node-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 20%));
+  text-align: var(--diagram-node-text-align, center);
+}
+
+.config-diagram-node:hover {
+  border-color: var(--diagram-node-hover-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 40%));
+  background: var(--diagram-node-hover-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 10%));
+}
+
+.config-diagram-node--static:hover {
+  border-color: var(--diagram-node-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 15%));
+  background: var(--diagram-node-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 20%));
+}
+
+.config-diagram-node-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.config-diagram-node .diagram-node-title {
+  color: var(--diagram-node-title-color, var(--ide-text));
+}
+
+.config-diagram-node .diagram-node-sub {
+  color: var(--diagram-node-subtitle-color, var(--ide-muted));
+}
+
+.config-diagram-node-icon {
+  display: flex;
+  width: var(--diagram-node-icon-box-size, 40px);
+  height: var(--diagram-node-icon-box-size, 40px);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--diagram-node-icon-margin-bottom, 8px);
+  border: 1px solid var(--diagram-node-icon-border, var(--ide-border));
+  border-radius: var(--diagram-node-icon-radius, 10px);
+  background: var(--diagram-node-icon-bg, var(--ide-panel-soft));
+  color: var(--diagram-node-icon-color, var(--ide-muted));
+}
+
+.config-diagram-glow {
+  position: absolute;
+  inset: var(--diagram-node-glow-inset, -2px);
+  border-radius: calc(var(--diagram-node-radius, 12px) + 2px);
+  opacity: 0;
+  filter: blur(var(--diagram-node-glow-blur, 12px));
+  transition: opacity 0.3s ease;
+  background: linear-gradient(to var(--diagram-node-glow-direction, right), var(--diagram-node-glow-from, transparent), var(--diagram-node-glow-to, transparent));
+}
+
+.config-diagram-node:hover .config-diagram-glow {
+  opacity: var(--diagram-node-glow-opacity, 1);
+}
+
+.config-diagram-connector-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.config-diagram-connector-stack[data-direction='horizontal'] {
+  flex-direction: row;
+}
+
+.config-diagram-line {
+  border-radius: var(--diagram-line-radius, 999px);
+}
+
+.config-diagram-line[data-direction='vertical'] {
+  width: var(--diagram-line-thickness, 2px);
+  height: var(--diagram-line-length, 16px);
+  background: linear-gradient(to bottom, var(--diagram-line-from, color-mix(in oklab, var(--ide-border), var(--ide-accent) 40%)), var(--diagram-line-to, color-mix(in oklab, var(--ide-border), var(--ide-accent) 10%)));
+}
+
+.config-diagram-line[data-direction='horizontal'] {
+  width: var(--diagram-line-length, 16px);
+  height: var(--diagram-line-thickness, 2px);
+  background: linear-gradient(to right, var(--diagram-line-from, color-mix(in oklab, var(--ide-border), var(--ide-accent) 40%)), var(--diagram-line-to, color-mix(in oklab, var(--ide-border), var(--ide-accent) 10%)));
+}
+
+.config-diagram-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--diagram-pill-padding, 4px 12px);
+  border: 1px solid var(--diagram-pill-border, var(--ide-border));
+  border-radius: 999px;
+  background: var(--diagram-pill-bg, var(--ide-panel-soft));
+  color: var(--diagram-pill-text, var(--ide-muted));
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: var(--diagram-pill-letter-spacing, 0.12em);
+  text-transform: uppercase;
+}
+
+.config-diagram-branch {
+  gap: 8px;
+}
+
+.config-diagram-columns {
+  width: var(--diagram-columns-width, min(560px, 100%));
+  gap: var(--diagram-columns-gap, 16px);
+  grid-template-columns: repeat(var(--diagram-columns-count, 2), minmax(0, 1fr));
+}
+
+.config-diagram-columns::before {
+  top: var(--diagram-columns-junction-top, -8px);
+  left: var(--diagram-columns-junction-start, 8%);
+  right: var(--diagram-columns-junction-end, 8%);
+  background: var(--diagram-columns-junction-color, color-mix(in oklab, var(--ide-border), var(--ide-accent) 30%));
+}
+
+.config-diagram-box {
+  padding: var(--diagram-group-padding, 12px 12px 10px);
+  border-radius: var(--diagram-group-radius, 12px);
+  border-color: var(--diagram-group-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 18%));
+  background: var(--diagram-group-bg, color-mix(in oklab, var(--ide-panel), transparent 30%));
+}
+
+.config-diagram-box:hover {
+  border-color: var(--diagram-group-hover-border, var(--diagram-group-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 18%)));
+}
+
+.config-diagram-box-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.config-diagram-box .diagram-box-title {
+  color: var(--diagram-group-title-color, var(--ide-text));
+}
+
+.config-diagram-box-icon {
+  color: var(--diagram-group-icon-color, var(--ide-accent));
+}
+
+.config-diagram-box-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  border-color: var(--diagram-group-item-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 20%));
+  background: var(--diagram-group-item-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 35%));
+  color: var(--diagram-group-item-text, var(--ide-muted));
+}
+
+.config-diagram-dot {
+  display: inline-flex;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--diagram-dot-color, var(--ide-accent));
+}
 @media (max-width: 720px) {
   .diagram-modal-content {
     padding: 16px;
@@ -383,3 +551,4 @@ dialog::backdrop {
     gap: 6px;
   }
 }
+

@@ -87,7 +87,7 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
 
 <dialog
   id="diagram-modal"
-  class="flex w-[min(1100px,96vw)] max-h-[90vh] flex-col overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel"
+  class="w-[min(1100px,96vw)] max-h-[90vh] overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel [&[open]]:flex [&[open]]:flex-col"
 >
   <div class="border-b border-ide-border bg-ide-panel-soft px-4 py-2 text-xs text-ide-textMuted">diagram_view.tsx</div>
   <div class="diagram-modal-content space-y-4 p-5">
@@ -299,3 +299,4 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
     if (diagramModal instanceof HTMLDialogElement) diagramModal.close();
   });
 </script>
+

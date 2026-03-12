@@ -1,0 +1,229 @@
+{
+  "$schema": "./diagram.schema.json",
+  "key": "dayb-portfolio-architecture",
+  "header": {
+    "eyebrow": {
+      "es": "Arquitectura del sistema",
+      "en": "System architecture"
+    },
+    "title": {
+      "es": "Infraestructura del Portfolio",
+      "en": "Portfolio Infrastructure"
+    },
+    "subtitle": {
+      "es": "Entrega estatica basada en Astro y Tailwind CSS.",
+      "en": "Static delivery built with Astro and Tailwind CSS."
+    },
+    "tone": "accent"
+  },
+  "defaults": {
+    "headerTone": "accent",
+    "nodeTone": "neutral",
+    "connectorTone": "accent",
+    "groupTone": "accent",
+    "branchTone": "accent",
+    "glow": {
+      "fromTone": "accent",
+      "toTone": "purple"
+    },
+    "node": {
+      "width": "min(340px, 100%)",
+      "padding": "16px",
+      "radius": "12px",
+      "titleColor": "var(--ide-text)",
+      "subtitleColor": "var(--ide-muted)",
+      "iconBoxSize": "40px",
+      "iconRadius": "10px",
+      "iconMarginBottom": "8px",
+      "textAlign": "center"
+    },
+    "line": {
+      "length": "16px",
+      "thickness": "2px",
+      "from": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 40%)",
+      "to": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 10%)",
+      "radius": "999px"
+    },
+    "pill": {
+      "borderColor": "var(--ide-border)",
+      "background": "var(--ide-panel-soft)",
+      "textColor": "var(--ide-muted)",
+      "letterSpacing": "0.12em",
+      "padding": "4px 12px"
+    },
+    "group": {
+      "borderColor": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 18%)",
+      "background": "color-mix(in oklab, var(--ide-panel), transparent 30%)",
+      "titleColor": "var(--ide-text)",
+      "itemBorderColor": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 20%)",
+      "itemBackground": "color-mix(in oklab, var(--ide-panel), var(--ide-bg) 35%)",
+      "itemTextColor": "var(--ide-muted)",
+      "padding": "12px 12px 10px",
+      "radius": "12px"
+    },
+    "branchColumns": {
+      "width": "min(560px, 100%)",
+      "gap": "16px",
+      "count": 2,
+      "junctionInsetStart": "8%",
+      "junctionInsetEnd": "8%",
+      "junctionTop": "-8px",
+      "mobileHeight": "10px"
+    }
+  },
+  "sections": [
+    {
+      "type": "node",
+      "id": "browser",
+      "icon": "browser",
+      "title": {
+        "es": "Navegador",
+        "en": "Browser"
+      },
+      "subtitle": {
+        "es": "Usuario final (Client-side)",
+        "en": "End user (Client-side)"
+      },
+      "tone": "accent",
+      "strong": true,
+      "glow": true
+    },
+    {
+      "type": "connector",
+      "id": "transport",
+      "label": {
+        "es": "HTTPS / WOFF2",
+        "en": "HTTPS / WOFF2"
+      },
+      "tone": "info"
+    },
+    {
+      "type": "node",
+      "id": "edge",
+      "icon": "delivery",
+      "title": {
+        "es": "Cloud Hosting / CDN",
+        "en": "Cloud Hosting / CDN"
+      },
+      "subtitle": {
+        "es": "Edge Network & Static Assets",
+        "en": "Edge Network & Static Assets"
+      }
+    },
+    {
+      "type": "connector",
+      "id": "deploy",
+      "label": {
+        "es": "DEPLOY",
+        "en": "DEPLOY"
+      },
+      "tone": "success"
+    },
+    {
+      "type": "node",
+      "id": "astro-build",
+      "icon": "astro",
+      "title": {
+        "es": "Astro Build Pipeline",
+        "en": "Astro Build Pipeline"
+      },
+      "subtitle": {
+        "es": "Static Site Generation (SSG)",
+        "en": "Static Site Generation (SSG)"
+      },
+      "tone": "purple"
+    },
+    {
+      "type": "line",
+      "id": "build-to-branch"
+    },
+    {
+      "type": "branch",
+      "id": "architecture",
+      "groups": [
+        {
+          "id": "frontend-architecture",
+          "icon": "layoutGrid",
+          "title": {
+            "es": "Frontend Architecture",
+            "en": "Frontend Architecture"
+          },
+          "tone": "accent",
+          "items": [
+            {
+              "label": {
+                "es": "Astro Layouts & Componentes",
+                "en": "Astro Layouts & Components"
+              },
+              "tone": "accent"
+            },
+            {
+              "label": {
+                "es": "Sistema de diseno Tailwind",
+                "en": "Tailwind Design System"
+              },
+              "tone": "cyan"
+            },
+            {
+              "label": {
+                "es": "UI Interactiva (Islands)",
+                "en": "Interactive UI (Islands)"
+              },
+              "tone": "purple"
+            }
+          ]
+        },
+        {
+          "id": "content-logic",
+          "icon": "folder",
+          "title": {
+            "es": "Contenido & Logica",
+            "en": "Content & Logic"
+          },
+          "tone": "warn",
+          "items": [
+            {
+              "label": {
+                "es": "Modelos de datos TypeScript",
+                "en": "TypeScript Data Models"
+              },
+              "tone": "warn"
+            },
+            {
+              "label": {
+                "es": "Estrategia i18n",
+                "en": "i18n Strategy"
+              },
+              "tone": "info"
+            },
+            {
+              "label": {
+                "es": "Assets Optimizados",
+                "en": "Optimized Assets"
+              },
+              "tone": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "line",
+      "id": "branch-to-git"
+    },
+    {
+      "type": "node",
+      "id": "git",
+      "icon": "gitBranch",
+      "title": {
+        "es": "Repositorio Git",
+        "en": "Git Repository"
+      },
+      "subtitle": {
+        "es": "Source Control & CI/CD",
+        "en": "Source Control & CI/CD"
+      },
+      "hoverTone": "danger"
+    }
+  ]
+}
