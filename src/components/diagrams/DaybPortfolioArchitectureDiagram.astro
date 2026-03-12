@@ -1,168 +1,216 @@
+---
+type LocalizedText = {
+  es: string;
+  en: string;
+};
+
+type DiagramCard = {
+  nodeClass: string;
+  iconWrapperClass: string;
+  title: LocalizedText;
+  subtitle: LocalizedText;
+  icon: string;
+  glowClass?: string;
+};
+
+type DiagramGroup = {
+  boxClass: string;
+  iconClass: string;
+  title: LocalizedText;
+  icon: string;
+  items: readonly {
+    dotClass: string;
+    label: LocalizedText;
+  }[];
+};
+
+const i18nAttrs = (text: LocalizedText) => ({
+  'data-i18n-es': text.es,
+  'data-i18n-en': text.en
+});
+
+const header = {
+  eyebrow: { es: 'Arquitectura del sistema', en: 'System architecture' },
+  title: { es: 'Infraestructura del Portfolio', en: 'Portfolio Infrastructure' },
+  subtitle: {
+    es: 'Entrega estatica basada en Astro y Tailwind CSS.',
+    en: 'Static delivery built with Astro and Tailwind CSS.'
+  }
+} as const;
+
+const topCards: readonly DiagramCard[] = [
+  {
+    nodeClass: 'diagram-node diagram-node-strong group relative',
+    glowClass:
+      'absolute -inset-0.5 rounded-xl bg-gradient-to-r from-ide-accent/20 to-ide-purple/20 opacity-0 blur transition duration-300 group-hover:opacity-100',
+    iconWrapperClass: 'border border-ide-accent/30 bg-ide-accent-soft text-ide-accent',
+    title: { es: 'Navegador', en: 'Browser' },
+    subtitle: { es: 'Usuario final (Client-side)', en: 'End user (Client-side)' },
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`
+  },
+  {
+    nodeClass: 'diagram-node',
+    iconWrapperClass: 'border border-ide-border bg-ide-panel-soft text-ide-muted',
+    title: { es: 'Cloud Hosting / CDN', en: 'Cloud Hosting / CDN' },
+    subtitle: { es: 'Edge Network & Static Assets', en: 'Edge Network & Static Assets' },
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19l4.5-4.5L17.5 10"></path><path d="M6.5 5l-4.5 4.5L6.5 14"></path><path d="M12 2v20"></path></svg>`
+  },
+  {
+    nodeClass: 'diagram-node border-ide-purple/40 bg-ide-purple/5',
+    iconWrapperClass: 'border border-ide-purple/30 bg-ide-purple/10 text-ide-purple',
+    title: { es: 'Astro Build Pipeline', en: 'Astro Build Pipeline' },
+    subtitle: { es: 'Static Site Generation (SSG)', en: 'Static Site Generation (SSG)' },
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.5-1 1-4c2 0 3 .5 3 .5l2-2s.5.5 1 2c0 2-1 3.5-1 3.5z"></path><path d="M15 11l2 2"></path></svg>`
+  }
+] as const;
+
+const groups: readonly DiagramGroup[] = [
+  {
+    boxClass: 'diagram-box group/box border-dashed transition-colors hover:border-ide-accent/40',
+    iconClass: 'text-ide-accent',
+    title: { es: 'Frontend Architecture', en: 'Frontend Architecture' },
+    icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>`,
+    items: [
+      {
+        dotClass: 'bg-ide-accent',
+        label: { es: 'Astro Layouts & Componentes', en: 'Astro Layouts & Components' }
+      },
+      {
+        dotClass: 'bg-ide-cyan',
+        label: { es: 'Sistema de diseno Tailwind', en: 'Tailwind Design System' }
+      },
+      {
+        dotClass: 'bg-ide-purple',
+        label: { es: 'UI Interactiva (Islands)', en: 'Interactive UI (Islands)' }
+      }
+    ]
+  },
+  {
+    boxClass: 'diagram-box group/box border-dashed transition-colors hover:border-ide-warn/40',
+    iconClass: 'text-ide-warn',
+    title: { es: 'Contenido & Logica', en: 'Content & Logic' },
+    icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`,
+    items: [
+      {
+        dotClass: 'bg-ide-warn',
+        label: { es: 'Modelos de datos TypeScript', en: 'TypeScript Data Models' }
+      },
+      {
+        dotClass: 'bg-ide-info',
+        label: { es: 'Estrategia i18n', en: 'i18n Strategy' }
+      },
+      {
+        dotClass: 'bg-ide-success',
+        label: { es: 'Assets Optimizados', en: 'Optimized Assets' }
+      }
+    ]
+  }
+] as const;
+
+const gitCard: DiagramCard = {
+  nodeClass: 'diagram-node group',
+  iconWrapperClass:
+    'border border-ide-border bg-ide-panel-soft text-ide-muted transition-colors group-hover:border-ide-danger/30 group-hover:text-ide-danger',
+  title: { es: 'Repositorio Git', en: 'Git Repository' },
+  subtitle: { es: 'Source Control & CI/CD', en: 'Source Control & CI/CD' },
+  icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9v2c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V9"></path><path d="M12 13V21"></path></svg>`
+};
+
+const transportPill = {
+  className: 'diagram-pill border-ide-info/30 bg-ide-info/10 text-ide-info',
+  label: { es: 'HTTPS / WOFF2', en: 'HTTPS / WOFF2' }
+} as const;
+
+const deployPill = {
+  className: 'diagram-pill border-ide-success/30 bg-ide-success/10 text-ide-success',
+  label: { es: 'DEPLOY', en: 'DEPLOY' }
+} as const;
+---
+
 <div id="diagram-dayb-portfolio-architecture" class="diagram-canvas hidden" data-diagram-key="dayb-portfolio-architecture">
-  <!-- Radial Background Glow -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[80%] bg-ide-accent/5 blur-[120px] rounded-full"></div>
+  <div class="mb-6 border-b border-ide-border/50 pb-4">
+    <div class="diagram-header" {...i18nAttrs(header.eyebrow)}>{header.eyebrow.en}</div>
+    <div class="diagram-title" {...i18nAttrs(header.title)}>{header.title.en}</div>
+    <div class="diagram-subtitle mt-1" {...i18nAttrs(header.subtitle)}>{header.subtitle.en}</div>
   </div>
 
-  <div class="relative z-10 flex flex-col items-center">
-    <div class="mb-12 text-center">
-      <div class="text-[10px] uppercase tracking-[0.3em] text-ide-muted mb-2" data-i18n-es="Arquitectura del sistema" data-i18n-en="System architecture">System Architecture</div>
-      <div class="text-2xl font-bold text-ide-text" data-i18n-es="Infraestructura del Portfolio" data-i18n-en="Portfolio Infrastructure">Portfolio Infrastructure</div>
-      <div class="text-xs text-ide-muted mt-2 max-w-md mx-auto" data-i18n-es="Diseño de alta disponibilidad y entrega estática optimizada." data-i18n-en="High-availability design and optimized static delivery.">High-availability design and optimized static delivery.</div>
-    </div>
-
-    <!-- 1. CLIENT LAYER -->
-    <div class="w-full flex flex-col items-center">
-      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mb-3">Client Layer</div>
-      <div class="diagram-node diagram-node-strong group relative !w-[280px] border-ide-accent/40 bg-ide-accent/5">
-        <div class="flex flex-col items-center">
-          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-accent/30 bg-ide-accent-soft text-ide-accent">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-              <line x1="8" y1="21" x2="16" y2="21"></line>
-              <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-          </div>
-          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Client Browser" data-i18n-en="Client Browser">Client Browser</div>
-          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Entorno de usuario final" data-i18n-en="Final user environment running the static site.">Final user environment running the static site.</div>
-        </div>
-      </div>
-      
-      <div class="h-12 w-px bg-gradient-to-b from-ide-accent/40 to-ide-border"></div>
-      <div class="diagram-pill !text-[8px] border-ide-border/50 bg-ide-panel-soft text-ide-muted" data-i18n-es="HTTPS / HTTP2 / WOFF2" data-i18n-en="HTTPS / HTTP2 / WOFF2">HTTPS / HTTP2 / WOFF2</div>
-      <div class="h-12 w-px bg-ide-border"></div>
-    </div>
-
-    <!-- 2. DELIVERY LAYER -->
-    <div class="w-full flex flex-col items-center">
-      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mb-3">Delivery Layer</div>
-      <div class="diagram-node !w-[280px]">
-        <div class="flex flex-col items-center">
-          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-border bg-ide-panel-soft text-ide-muted">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.5 19l4.5-4.5L17.5 10"></path>
-              <path d="M6.5 5l-4.5 4.5L6.5 14"></path>
-              <path d="M12 2v20"></path>
-            </svg>
-          </div>
-          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Edge Delivery Layer" data-i18n-en="Edge Delivery Layer">Edge Delivery Layer</div>
-          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Global CDN y cache" data-i18n-en="Global CDN delivering static assets and caching responses.">Global CDN delivering static assets and caching responses.</div>
-        </div>
-      </div>
-      
-      <div class="h-12 w-px bg-ide-border"></div>
-      <div class="diagram-pill !text-[8px] border-ide-success/30 bg-ide-success/10 text-ide-success" data-i18n-es="DEPLOY" data-i18n-en="DEPLOY">DEPLOY</div>
-      <div class="h-12 w-px bg-ide-border"></div>
-    </div>
-
-    <!-- 3. BUILD LAYER -->
-    <div class="w-full flex flex-col items-center">
-      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mb-3">Build Layer</div>
-      <div class="diagram-node !w-[280px] border-ide-purple/30 bg-ide-purple/5">
-        <div class="flex flex-col items-center">
-          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-purple/20 bg-ide-purple/10 text-ide-purple">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-              <path d="M15 11l2 2"></path>
-            </svg>
-          </div>
-          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Astro Static Build Pipeline" data-i18n-en="Astro Static Build Pipeline">Astro Static Build Pipeline</div>
-          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Generación de sitio estático (SSG)" data-i18n-en="Static Site Generation (SSG) using Astro.">Static Site Generation (SSG) using Astro.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. APPLICATION STRUCTURE (Branching) -->
-    <div class="w-full flex flex-col items-center mt-4">
-      <!-- Continuous pipeline through center of split -->
-      <div class="h-8 w-px bg-ide-border"></div>
-      
-      <div class="relative w-full max-w-[600px] px-4">
-        <!-- Branching Lines -->
-        <div class="absolute top-0 left-1/4 right-1/4 h-[1px] bg-ide-border"></div>
-        <div class="absolute top-0 left-1/4 w-px h-8 bg-ide-border"></div>
-        <div class="absolute top-0 right-1/4 w-px h-8 bg-ide-border"></div>
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-ide-border/30"></div>
-
-        <div class="grid grid-cols-2 gap-8 pt-8">
-          <!-- Frontend Architecture -->
-          <div class="diagram-box !bg-ide-panel/40 border-ide-cyan/20">
-            <div class="flex items-center gap-2 mb-4 border-b border-ide-cyan/10 pb-2">
-              <div class="flex h-6 w-6 items-center justify-center rounded-md border border-ide-cyan/30 bg-ide-cyan/10 text-ide-cyan">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="3" y1="9" x2="21" y2="9"></line>
-                  <line x1="9" y1="21" x2="9" y2="9"></line>
-                </svg>
+  <div class="diagram-flow">
+    {
+      topCards.map((card, index) => (
+        <Fragment>
+          <div class={card.nodeClass}>
+            {card.glowClass ? <div class={card.glowClass}></div> : null}
+            <div class="relative flex flex-col items-center">
+              <div class={`mb-2 flex h-10 w-10 items-center justify-center rounded-lg ${card.iconWrapperClass}`}>
+                <span class="inline-flex" aria-hidden="true" set:html={card.icon}></span>
               </div>
-              <div class="text-[10px] font-bold uppercase tracking-wider text-ide-text" data-i18n-es="Frontend Architecture" data-i18n-en="Frontend Architecture">Frontend Architecture</div>
-            </div>
-            <div class="space-y-2">
-              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-ide-cyan"></span>
-                <span class="text-[10px]" data-i18n-es="Layouts & Components" data-i18n-en="Layouts & Components">Layouts & Components</span>
-              </div>
-              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-ide-cyan"></span>
-                <span class="text-[10px]" data-i18n-es="Tailwind Design System" data-i18n-en="Tailwind Design System">Tailwind Design System</span>
-              </div>
-              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-ide-cyan"></span>
-                <span class="text-[10px]" data-i18n-es="Interactive Islands" data-i18n-en="Interactive Islands">Interactive Islands</span>
-              </div>
+              <div class="diagram-node-title" {...i18nAttrs(card.title)}>{card.title.en}</div>
+              <div class="diagram-node-sub" {...i18nAttrs(card.subtitle)}>{card.subtitle.en}</div>
             </div>
           </div>
 
-          <!-- Content & Logic -->
-          <div class="diagram-box !bg-ide-panel/40 border-ide-warn/20">
-            <div class="flex items-center gap-2 mb-4 border-b border-ide-warn/10 pb-2">
-              <div class="flex h-6 w-6 items-center justify-center rounded-md border border-ide-warn/30 bg-ide-warn/10 text-ide-warn">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                </svg>
+          {
+            index === 0 ? (
+              <div class="diagram-connector-container flex flex-col items-center">
+                <div class="diagram-connector"></div>
+                <div class={transportPill.className} {...i18nAttrs(transportPill.label)}>{transportPill.label.en}</div>
+                <div class="diagram-connector"></div>
               </div>
-              <div class="text-[10px] font-bold uppercase tracking-wider text-ide-text" data-i18n-es="Content & Logic" data-i18n-en="Content & Logic">Content & Logic</div>
+            ) : null
+          }
+
+          {
+            index === 1 ? (
+              <div class="diagram-connector-container flex flex-col items-center">
+                <div class="diagram-connector"></div>
+                <div class={deployPill.className} {...i18nAttrs(deployPill.label)}>{deployPill.label.en}</div>
+                <div class="diagram-connector"></div>
+              </div>
+            ) : null
+          }
+
+          {index === 2 ? <div class="diagram-connector"></div> : null}
+        </Fragment>
+      ))
+    }
+
+    <div class="diagram-branch">
+      <div class="diagram-branch-line"></div>
+      <div class="diagram-columns">
+        {
+          groups.map((group) => (
+            <div class={group.boxClass}>
+              <div class="mb-2 flex items-center gap-2">
+                <span class={`inline-flex ${group.iconClass}`} aria-hidden="true" set:html={group.icon}></span>
+                <div class="diagram-box-title" {...i18nAttrs(group.title)}>{group.title.en}</div>
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                {
+                  group.items.map((item) => (
+                    <div class="diagram-box-item flex items-center gap-2">
+                      <span class={`h-1.5 w-1.5 rounded-full ${item.dotClass}`}></span>
+                      <span {...i18nAttrs(item.label)}>{item.label.en}</span>
+                    </div>
+                  ))
+                }
+              </div>
             </div>
-            <div class="space-y-2">
-              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-ide-warn"></span>
-                <span class="text-[10px]" data-i18n-es="Typed Data Models" data-i18n-en="Typed Data Models">Typed Data Models</span>
-              </div>
-              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-ide-warn"></span>
-                <span class="text-[10px]" data-i18n-es="i18n Layer" data-i18n-en="i18n Layer">i18n Layer</span>
-              </div>
-              <div class="diagram-box-item !bg-ide-bg/50 border-ide-border/40 py-1.5 px-2 rounded-md flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-ide-warn"></span>
-                <span class="text-[10px]" data-i18n-es="Optimized Assets" data-i18n-en="Optimized Assets">Optimized Assets</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          ))
+        }
       </div>
-      
-      <div class="h-12 w-px bg-ide-border"></div>
+      <div class="diagram-branch-line"></div>
     </div>
 
-    <!-- 5. SOURCE CONTROL LAYER -->
-    <div class="w-full flex flex-col items-center">
-      <div class="diagram-node !w-[280px] group border-ide-danger/20 bg-ide-danger/5">
-        <div class="flex flex-col items-center">
-          <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-ide-danger/20 bg-ide-danger/10 text-ide-danger">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="18" r="3"></circle>
-              <circle cx="6" cy="6" r="3"></circle>
-              <circle cx="18" cy="6" r="3"></circle>
-              <path d="M18 9v2c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V9"></path>
-              <path d="M12 13V21"></path>
-            </svg>
-          </div>
-          <div class="text-sm font-bold text-ide-text uppercase tracking-wider" data-i18n-es="Git Repository / CI" data-i18n-en="Git Repository / CI">Git Repository / CI</div>
-          <div class="text-[11px] text-ide-muted mt-1" data-i18n-es="Control de versiones y CI/CD" data-i18n-en="Source control, versioning, and continuous integration.">Source control, versioning, and continuous integration.</div>
+    <div class="diagram-connector"></div>
+
+    <div class={gitCard.nodeClass}>
+      <div class="flex flex-col items-center">
+        <div class={`mb-2 flex h-10 w-10 items-center justify-center rounded-lg ${gitCard.iconWrapperClass}`}>
+          <span class="inline-flex" aria-hidden="true" set:html={gitCard.icon}></span>
         </div>
+        <div class="diagram-node-title" {...i18nAttrs(gitCard.title)}>{gitCard.title.en}</div>
+        <div class="diagram-node-sub" {...i18nAttrs(gitCard.subtitle)}>{gitCard.subtitle.en}</div>
       </div>
-      <div class="text-[9px] uppercase tracking-[0.2em] text-ide-muted mt-3">Source Control Layer</div>
     </div>
   </div>
 </div>
