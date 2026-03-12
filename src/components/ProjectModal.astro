@@ -1,4 +1,5 @@
 ---
+import DaybPortfolioArchitectureDiagram from './diagrams/DaybPortfolioArchitectureDiagram.astro';
 import { statusMeta } from '../data/projectStatus';
 import { t, type Lang } from '../lib/i18n';
 
@@ -16,7 +17,7 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
 
 <dialog id="project-modal" class="w-[min(760px,95vw)] overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel">
   <div class="border-b border-ide-border bg-ide-panel-soft px-4 py-2 text-xs text-ide-textMuted">project_modal.tsx</div>
-  <div class="space-y-4 p-5">
+  <div class="space-y-4 p-5 max-h-[80vh] overflow-auto scrollbar-thin">
     <div>
       <p id="modal-summary" class="text-sm text-ide-textMuted"></p>
       <div class="mt-1 flex flex-wrap items-center gap-2">
@@ -31,8 +32,26 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
       </div>
     </div>
     <p id="modal-description" class="text-sm text-ide-text"></p>
+    <figure id="modal-diagram" class="hidden rounded-lg border border-ide-border bg-ide-bg/90 p-3">
+      <div id="modal-diagram-body" class="diagram-frame">
+        <DaybPortfolioArchitectureDiagram />
+      </div>
+      <figcaption
+        id="modal-diagram-caption"
+        class="mt-2 text-[11px] uppercase tracking-[0.2em] text-ide-textMuted"
+      ></figcaption>
+    </figure>
     <p id="modal-stack" class="rounded-md border border-ide-border bg-ide-bg px-3 py-2 text-xs text-ide-textMuted"></p>
     <div class="flex flex-wrap gap-2">
+      <button
+        id="open-diagram-modal"
+        class="hidden rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent"
+        type="button"
+        data-i18n-es="expandir diagrama"
+        data-i18n-en="expand diagram"
+      >
+        {t({ es: 'expandir diagrama', en: 'expand diagram' }, lang)}
+      </button>
       <a
         id="modal-repo"
         class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs text-ide-text hover:border-ide-accent hover:text-ide-accent"
@@ -66,10 +85,36 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
   </div>
 </dialog>
 
+<dialog
+  id="diagram-modal"
+  class="flex w-[min(1100px,96vw)] max-h-[90vh] flex-col overflow-hidden rounded-xl border border-ide-border bg-ide-panel p-0 text-ide-text shadow-panel"
+>
+  <div class="border-b border-ide-border bg-ide-panel-soft px-4 py-2 text-xs text-ide-textMuted">diagram_view.tsx</div>
+  <div class="diagram-modal-content space-y-4 p-5">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p id="diagram-modal-title" class="text-sm text-ide-textMuted"></p>
+      </div>
+      <button
+        id="close-diagram-modal"
+        class="rounded-md border border-ide-border bg-ide-bg px-3 py-1.5 text-xs hover:border-ide-warn hover:text-ide-warn"
+        type="button"
+        data-i18n-es="cerrar()"
+        data-i18n-en="close()"
+      >
+        {t(closeLabel, lang)}
+      </button>
+    </div>
+    <div id="diagram-modal-body" class="diagram-frame diagram-frame-scrollable"></div>
+    <p id="diagram-modal-caption" class="text-[11px] uppercase tracking-[0.2em] text-ide-textMuted"></p>
+  </div>
+</dialog>
+
 <script is:inline define:vars={{ statusMetaJson }}>
   const modal = document.getElementById('project-modal');
   const openButtons = Array.from(document.querySelectorAll('.open-project-modal'));
   const closeButton = document.getElementById('close-project-modal');
+  const openDiagramButton = document.getElementById('open-diagram-modal');
 
   const modalTitle = document.getElementById('modal-title');
   const modalSummary = document.getElementById('modal-summary');
@@ -80,8 +125,19 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
   const modalRepo = document.getElementById('modal-repo');
   const modalDemo = document.getElementById('modal-demo');
   const modalStack = document.getElementById('modal-stack');
+  const modalDiagram = document.getElementById('modal-diagram');
+  const modalDiagramBody = document.getElementById('modal-diagram-body');
+  const modalDiagramCaption = document.getElementById('modal-diagram-caption');
+  const diagramModal = document.getElementById('diagram-modal');
+  const diagramModalBody = document.getElementById('diagram-modal-body');
+  const diagramModalTitle = document.getElementById('diagram-modal-title');
+  const diagramModalCaption = document.getElementById('diagram-modal-caption');
+  const closeDiagramButton = document.getElementById('close-diagram-modal');
 
   const STATUS_META = JSON.parse(statusMetaJson);
+  let activeDiagramKey = '';
+  let activeDiagramTitle = '';
+  let activeDiagramCaption = '';
 
   const getLang = () => (document.documentElement.dataset.lang === 'en' ? 'en' : 'es');
   const pickLang = (element, key) => {
@@ -90,6 +146,22 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
     return element.dataset[`${key}${suffix}`] ?? '';
   };
   const cleanUrl = (value) => (value ?? '').trim();
+  const applyI18n = (root) => {
+    if (!(root instanceof HTMLElement)) return;
+    const lang = getLang();
+    const textNodes = root.querySelectorAll('[data-i18n-es][data-i18n-en]');
+    for (const node of textNodes) {
+      if (!(node instanceof HTMLElement)) continue;
+      const attr = node.dataset.i18nAttr;
+      const value = lang === 'en' ? node.dataset.i18nEn : node.dataset.i18nEs;
+      if (!value) continue;
+      if (attr) {
+        node.setAttribute(attr, value);
+      } else {
+        node.textContent = value;
+      }
+    }
+  };
   const setLinkState = (link, value) => {
     if (!(link instanceof HTMLAnchorElement)) return;
     const url = cleanUrl(value);
@@ -120,6 +192,8 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
       const { title, repo, demo, stack } = button.dataset;
       const summary = pickLang(button, 'summary');
       const description = pickLang(button, 'description');
+      const diagramKey = cleanUrl(button.dataset.diagramKey);
+      const diagramCaption = pickLang(button, 'diagramCaption');
       const statusKey = button.dataset.status ?? '';
       const statusMeta = STATUS_META[statusKey];
       const statusLabel = statusMeta ? (getLang() === 'en' ? statusMeta.label.en : statusMeta.label.es) : '';
@@ -127,6 +201,27 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
       if (modalTitle) modalTitle.textContent = title ?? '';
       if (modalSummary) modalSummary.textContent = summary;
       if (modalDescription) modalDescription.textContent = description;
+      if (modalDiagram && modalDiagramBody) {
+        const hasDiagram = diagramKey.length > 0;
+        modalDiagram.classList.toggle('hidden', !hasDiagram);
+        const diagrams = Array.from(modalDiagramBody.querySelectorAll('[data-diagram-key]'));
+        for (const diagram of diagrams) {
+          if (!(diagram instanceof HTMLElement)) continue;
+          diagram.classList.toggle('hidden', diagram.dataset.diagramKey !== diagramKey);
+        }
+      }
+      if (modalDiagramCaption) {
+        const hasCaption = diagramCaption.length > 0;
+        modalDiagramCaption.textContent = diagramCaption;
+        modalDiagramCaption.classList.toggle('hidden', !hasCaption);
+      }
+      if (openDiagramButton) {
+        const hasDiagram = diagramKey.length > 0;
+        openDiagramButton.classList.toggle('hidden', !hasDiagram);
+      }
+      activeDiagramKey = diagramKey;
+      activeDiagramTitle = title ?? '';
+      activeDiagramCaption = diagramCaption;
       if (modalStatus) {
         const hasStatus = statusLabel.length > 0;
         modalStatus.classList.toggle('hidden', !hasStatus);
@@ -150,6 +245,34 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
     if (modal instanceof HTMLDialogElement) modal.close();
   });
 
+  openDiagramButton?.addEventListener('click', () => {
+    if (!(diagramModal instanceof HTMLDialogElement)) return;
+    if (!diagramModalBody) return;
+    if (!activeDiagramKey) return;
+    const source = modalDiagramBody?.querySelector(`[data-diagram-key="${activeDiagramKey}"]`);
+    diagramModalBody.innerHTML = '';
+    if (source instanceof HTMLElement) {
+      const clone = source.cloneNode(true);
+      if (clone instanceof HTMLElement) {
+        clone.classList.remove('hidden');
+        diagramModalBody.appendChild(clone);
+        applyI18n(diagramModalBody);
+      }
+    }
+    if (diagramModalTitle) {
+      diagramModalTitle.textContent = activeDiagramTitle ? `diagram: ${activeDiagramTitle}` : 'diagram';
+    }
+    if (diagramModalCaption) {
+      diagramModalCaption.textContent = activeDiagramCaption;
+      diagramModalCaption.classList.toggle('hidden', activeDiagramCaption.length === 0);
+    }
+    diagramModal.showModal();
+  });
+
+  closeDiagramButton?.addEventListener('click', () => {
+    if (diagramModal instanceof HTMLDialogElement) diagramModal.close();
+  });
+
   modal?.addEventListener('click', (event) => {
     if (!(modal instanceof HTMLDialogElement)) return;
     const rect = modal.getBoundingClientRect();
@@ -159,5 +282,20 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
       rect.left <= event.clientX &&
       event.clientX <= rect.left + rect.width;
     if (!inside) modal.close();
+  });
+
+  diagramModal?.addEventListener('click', (event) => {
+    if (!(diagramModal instanceof HTMLDialogElement)) return;
+    const rect = diagramModal.getBoundingClientRect();
+    const inside =
+      rect.top <= event.clientY &&
+      event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX &&
+      event.clientX <= rect.left + rect.width;
+    if (!inside) diagramModal.close();
+  });
+
+  modal?.addEventListener('close', () => {
+    if (diagramModal instanceof HTMLDialogElement) diagramModal.close();
   });
 </script>

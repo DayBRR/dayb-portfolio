@@ -172,6 +172,11 @@ export const skills = [
 ] as const;
 export type SkillGroup = (typeof skills)[number];
 
+export type ProjectDiagram = {
+  key: string;
+  caption?: LocalizedText;
+};
+
 export const projects: {
   id: string;
   title: string;
@@ -181,6 +186,7 @@ export const projects: {
   description: LocalizedText;
   repo: string;
   demo: string;
+  diagram?: ProjectDiagram;
 }[] = [
   {
     id: 'code-diary-api',
@@ -226,6 +232,13 @@ export const projects: {
     description: {
       es: 'Portfolio bilingüe inspirado en IntelliJ con navegación lateral, modo claro/oscuro y proyectos destacados.',
       en: 'Bilingual IntelliJ-inspired portfolio with sidebar navigation, theme toggle and featured projects.'
+    },
+    diagram: {
+      key: 'dayb-portfolio-architecture',
+      caption: {
+        es: 'Flujo de entrega estática con Astro y assets locales.',
+        en: 'Static delivery flow with Astro and local assets.'
+      }
     },
     repo: 'https://github.com/DayBRR/dayb-portfolio',
     demo: 'https://davidruiz.es/'
