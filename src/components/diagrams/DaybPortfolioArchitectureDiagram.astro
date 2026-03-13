@@ -1,9 +1,0 @@
----
-import ConfigurableDiagram from './ConfigurableDiagram.astro';
-import diagramConfig from '../../data/diagrams/dayb-portfolio-architecture.json';
-import { normalizeDiagramConfig, type DiagramInputConfig } from '../../lib/diagramConfig';
-
-const config = normalizeDiagramConfig(diagramConfig as DiagramInputConfig);
----
-
-<ConfigurableDiagram config={config} />

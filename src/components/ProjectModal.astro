@@ -1,5 +1,6 @@
 ---
-import DaybPortfolioArchitectureDiagram from './diagrams/DaybPortfolioArchitectureDiagram.astro';
+import ConfigurableDiagram from './diagrams/ConfigurableDiagram.astro';
+import { diagramConfigs } from '../data/diagrams';
 import { statusMeta } from '../data/projectStatus';
 import { t, type Lang } from '../lib/i18n';
 
@@ -34,7 +35,7 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
     <p id="modal-description" class="text-sm text-ide-text"></p>
     <figure id="modal-diagram" class="hidden rounded-lg border border-ide-border bg-ide-bg/90 p-3">
       <div id="modal-diagram-body" class="diagram-frame">
-        <DaybPortfolioArchitectureDiagram />
+        {diagramConfigs.map((config) => <ConfigurableDiagram config={config} />)}
       </div>
       <figcaption
         id="modal-diagram-caption"
@@ -203,11 +204,17 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
       if (modalDescription) modalDescription.textContent = description;
       if (modalDiagram && modalDiagramBody) {
         const hasDiagram = diagramKey.length > 0;
+        let foundDiagram = false;
         modalDiagram.classList.toggle('hidden', !hasDiagram);
         const diagrams = Array.from(modalDiagramBody.querySelectorAll('[data-diagram-key]'));
         for (const diagram of diagrams) {
           if (!(diagram instanceof HTMLElement)) continue;
-          diagram.classList.toggle('hidden', diagram.dataset.diagramKey !== diagramKey);
+          const isMatch = diagram.dataset.diagramKey === diagramKey;
+          diagram.classList.toggle('hidden', !isMatch);
+          if (isMatch) foundDiagram = true;
+        }
+        if (hasDiagram && !foundDiagram) {
+          modalDiagram.classList.add('hidden');
         }
       }
       if (modalDiagramCaption) {
@@ -299,4 +306,3 @@ const closeLabel = { es: 'cerrar()', en: 'close()' };
     if (diagramModal instanceof HTMLDialogElement) diagramModal.close();
   });
 </script>
-
