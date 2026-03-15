@@ -3,16 +3,16 @@
   "key": "dayb-portfolio-architecture",
   "header": {
     "eyebrow": {
-      "es": "Arquitectura del sistema",
-      "en": "System architecture"
+      "es": "Arquitectura del portfolio",
+      "en": "Portfolio architecture"
     },
     "title": {
-      "es": "Infraestructura del Portfolio",
-      "en": "Portfolio Infrastructure"
+      "es": "DayB Portfolio",
+      "en": "DayB Portfolio"
     },
     "subtitle": {
-      "es": "Entrega estatica basada en Astro y Tailwind CSS.",
-      "en": "Static delivery built with Astro and Tailwind CSS."
+      "es": "Sitio estatico en Astro con UI estilo IDE, datos tipados y despliegue en VPS con Docker.",
+      "en": "Static Astro site with an IDE-style UI, typed data, and Docker-based VPS deployment."
     },
     "tone": "accent"
   },
@@ -72,9 +72,9 @@
       "radius": "10px"
     },
     "branchColumns": {
-      "width": "min(560px, 100%)",
+      "width": "min(920px, 100%)",
       "gap": "16px",
-      "count": 2,
+      "count": 3,
       "junctionInsetStart": "8%",
       "junctionInsetEnd": "8%",
       "junctionTop": "-8px",
@@ -102,8 +102,8 @@
         "en": "Browser"
       },
       "subtitle": {
-        "es": "Usuario final (Client-side)",
-        "en": "End user (Client-side)"
+        "es": "Portfolio bilingue con tema y modal de proyectos",
+        "en": "Bilingual portfolio with theming and project modal"
       },
       "tone": "accent",
       "strong": true,
@@ -113,8 +113,8 @@
       "type": "connector",
       "id": "transport",
       "label": {
-        "es": "HTTPS / WOFF2",
-        "en": "HTTPS / WOFF2"
+        "es": "HTTPS / CSS / JS",
+        "en": "HTTPS / CSS / JS"
       },
       "tone": "info"
     },
@@ -123,20 +123,20 @@
       "id": "edge",
       "icon": "delivery",
       "title": {
-        "es": "Cloud Hosting / CDN",
-        "en": "Cloud Hosting / CDN"
+        "es": "VPS + Nginx",
+        "en": "VPS + Nginx"
       },
       "subtitle": {
-        "es": "Edge Network & Static Assets",
-        "en": "Edge Network & Static Assets"
+        "es": "Contenedor Docker sirviendo dist/",
+        "en": "Docker container serving dist/"
       }
     },
     {
       "type": "connector",
       "id": "deploy",
       "label": {
-        "es": "DEPLOY",
-        "en": "DEPLOY"
+        "es": "BUILD / DEPLOY",
+        "en": "BUILD / DEPLOY"
       },
       "tone": "success"
     },
@@ -145,31 +145,25 @@
       "id": "astro-build",
       "icon": "astro",
       "title": {
-        "es": "Astro Build Pipeline",
-        "en": "Astro Build Pipeline"
+        "es": "Astro Static Build",
+        "en": "Astro Static Build"
       },
       "subtitle": {
-        "es": "Static Site Generation (SSG)",
-        "en": "Static Site Generation (SSG)"
+        "es": "SSG + Tailwind + salida estatica",
+        "en": "SSG + Tailwind + static output"
       },
       "tone": "purple"
     },
-
     {
       "type": "branch",
       "id": "architecture",
-      "columns": {
-        "width": "min(920px, 100%)",
-        "count": 3,
-        "gap": "16px"
-      },
       "groups": [
         {
-          "id": "frontend-architecture",
+          "id": "ide-ui",
           "icon": "layoutGrid",
           "title": {
-            "es": "Frontend Architecture",
-            "en": "Frontend Architecture"
+            "es": "IDE UI Shell",
+            "en": "IDE UI Shell"
           },
           "tone": "accent",
           "items": [],
@@ -185,50 +179,50 @@
           },
           "subgroups": [
             {
-              "id": "astro-structure",
+              "id": "layout-shell",
               "title": {
-                "es": "Astro Structure",
-                "en": "Astro Structure"
+                "es": "MainLayout + Shell",
+                "en": "MainLayout + Shell"
               },
-              "icon": "astro",
+              "icon": "layoutGrid",
               "tone": "accent",
               "items": [
                 {
                   "label": {
-                    "es": "Layouts reutilizables",
-                    "en": "Reusable layouts"
+                    "es": "SEO, canonical y Open Graph",
+                    "en": "SEO, canonical and Open Graph"
                   },
                   "tone": "accent"
                 },
                 {
                   "label": {
-                    "es": "Componentes modulares",
-                    "en": "Modular components"
+                    "es": "Header, sidebar y layout tipo editor",
+                    "en": "Header, sidebar and editor-style layout"
                   },
                   "tone": "info"
                 }
               ]
             },
             {
-              "id": "tailwind-system",
+              "id": "sections-modal",
               "title": {
-                "es": "Tailwind System",
-                "en": "Tailwind System"
+                "es": "Sections + Modal",
+                "en": "Sections + Modal"
               },
-              "icon": "layoutGrid",
+              "icon": "astro",
               "tone": "cyan",
               "items": [
                 {
                   "label": {
-                    "es": "Tokens visuales",
-                    "en": "Visual tokens"
+                    "es": "Hero, focus, skills, stack, projects y timeline",
+                    "en": "Hero, focus, skills, stack, projects and timeline"
                   },
                   "tone": "cyan"
                 },
                 {
                   "label": {
-                    "es": "Utilities y layout",
-                    "en": "Utilities and layout"
+                    "es": "ProjectModal con dialog nativo",
+                    "en": "ProjectModal with native dialog"
                   },
                   "tone": "accent"
                 }
@@ -237,57 +231,64 @@
           ]
         },
         {
-          "id": "interactive-islands",
+          "id": "client-runtime",
           "icon": "globe",
           "title": {
-            "es": "Interactive Islands",
-            "en": "Interactive Islands"
+            "es": "Client Runtime",
+            "en": "Client Runtime"
           },
           "tone": "purple",
           "items": [
             {
               "label": {
-                "es": "UI interactiva puntual",
-                "en": "Targeted interactive UI"
+                "es": "i18n por URL, cookie y localStorage",
+                "en": "i18n via URL, cookie and localStorage"
               },
               "tone": "purple"
             },
             {
               "label": {
-                "es": "JS minimo en cliente",
-                "en": "Minimal client-side JS"
+                "es": "Theme toggle persistente",
+                "en": "Persistent theme toggle"
               },
               "tone": "success"
+            },
+            {
+              "label": {
+                "es": "Scripts inline para estado, modal y microinteracciones",
+                "en": "Inline scripts for state, modal and micro-interactions"
+              },
+              "tone": "info"
             }
           ]
         },
         {
-          "id": "content-logic",
+          "id": "content-config",
           "icon": "folder",
           "title": {
-            "es": "Contenido & Logica",
-            "en": "Content & Logic"
+            "es": "Contenido y Configuracion",
+            "en": "Content and Configuration"
           },
           "tone": "warn",
           "items": [
             {
               "label": {
-                "es": "Modelos de datos TypeScript",
-                "en": "TypeScript Data Models"
+                "es": "src/data/portfolio.ts como fuente tipada",
+                "en": "src/data/portfolio.ts as typed source"
               },
               "tone": "warn"
             },
             {
               "label": {
-                "es": "Estrategia i18n",
-                "en": "i18n Strategy"
+                "es": "projectStatus, diagram configs e iconos",
+                "en": "projectStatus, diagram configs and icons"
               },
               "tone": "info"
             },
             {
               "label": {
-                "es": "Assets Optimizados",
-                "en": "Optimized Assets"
+                "es": "astro.config, Tailwind y assets en public/",
+                "en": "astro.config, Tailwind and public/ assets"
               },
               "tone": "success"
             }
@@ -298,18 +299,17 @@
     },
     {
       "type": "node",
-      "id": "git",
+      "id": "delivery-pipeline",
       "icon": "gitBranch",
       "title": {
-        "es": "Repositorio Git",
-        "en": "Git Repository"
+        "es": "GitHub Actions + Docker",
+        "en": "GitHub Actions + Docker"
       },
       "subtitle": {
-        "es": "Source Control & CI/CD",
-        "en": "Source Control & CI/CD"
+        "es": "Push a main, runner self-hosted y despliegue en VPS",
+        "en": "Push to main, self-hosted runner and VPS deployment"
       },
       "hoverTone": "danger"
     }
   ]
 }
-
