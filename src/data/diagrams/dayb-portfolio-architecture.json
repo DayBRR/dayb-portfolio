@@ -61,6 +61,16 @@
       "padding": "12px 12px 10px",
       "radius": "12px"
     },
+    "subgroup": {
+      "borderColor": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 18%)",
+      "background": "color-mix(in oklab, var(--ide-panel), var(--ide-bg) 24%)",
+      "titleColor": "var(--ide-text)",
+      "itemBorderColor": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 16%)",
+      "itemBackground": "color-mix(in oklab, var(--ide-panel), var(--ide-bg) 42%)",
+      "itemTextColor": "var(--ide-muted)",
+      "padding": "10px",
+      "radius": "10px"
+    },
     "branchColumns": {
       "width": "min(560px, 100%)",
       "gap": "16px",
@@ -68,6 +78,17 @@
       "junctionInsetStart": "8%",
       "junctionInsetEnd": "8%",
       "junctionTop": "-8px",
+      "mobileHeight": "10px"
+    },
+    "subgroupLayout": {
+      "count": 1,
+      "gap": "10px",
+      "marginTop": "6px",
+      "paddingTop": "14px",
+      "connectorLength": "12px",
+      "junctionInsetStart": "10%",
+      "junctionInsetEnd": "10%",
+      "junctionTop": "0",
       "mobileHeight": "10px"
     }
   },
@@ -133,13 +154,15 @@
       },
       "tone": "purple"
     },
-    {
-      "type": "line",
-      "id": "build-to-branch"
-    },
+
     {
       "type": "branch",
       "id": "architecture",
+      "columns": {
+        "width": "min(920px, 100%)",
+        "count": 3,
+        "gap": "16px"
+      },
       "groups": [
         {
           "id": "frontend-architecture",
@@ -149,27 +172,92 @@
             "en": "Frontend Architecture"
           },
           "tone": "accent",
+          "items": [],
+          "subgroupLayout": {
+            "count": 1,
+            "gap": "10px",
+            "paddingTop": "14px",
+            "connectorLength": "12px"
+          },
+          "subgroupAppearance": {
+            "borderColor": "color-mix(in oklab, var(--ide-border), var(--ide-accent) 22%)",
+            "background": "color-mix(in oklab, var(--ide-panel), var(--ide-bg) 22%)"
+          },
+          "subgroups": [
+            {
+              "id": "astro-structure",
+              "title": {
+                "es": "Astro Structure",
+                "en": "Astro Structure"
+              },
+              "icon": "astro",
+              "tone": "accent",
+              "items": [
+                {
+                  "label": {
+                    "es": "Layouts reutilizables",
+                    "en": "Reusable layouts"
+                  },
+                  "tone": "accent"
+                },
+                {
+                  "label": {
+                    "es": "Componentes modulares",
+                    "en": "Modular components"
+                  },
+                  "tone": "info"
+                }
+              ]
+            },
+            {
+              "id": "tailwind-system",
+              "title": {
+                "es": "Tailwind System",
+                "en": "Tailwind System"
+              },
+              "icon": "layoutGrid",
+              "tone": "cyan",
+              "items": [
+                {
+                  "label": {
+                    "es": "Tokens visuales",
+                    "en": "Visual tokens"
+                  },
+                  "tone": "cyan"
+                },
+                {
+                  "label": {
+                    "es": "Utilities y layout",
+                    "en": "Utilities and layout"
+                  },
+                  "tone": "accent"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "interactive-islands",
+          "icon": "globe",
+          "title": {
+            "es": "Interactive Islands",
+            "en": "Interactive Islands"
+          },
+          "tone": "purple",
           "items": [
             {
               "label": {
-                "es": "Astro Layouts & Componentes",
-                "en": "Astro Layouts & Components"
-              },
-              "tone": "accent"
-            },
-            {
-              "label": {
-                "es": "Sistema de diseno Tailwind",
-                "en": "Tailwind Design System"
-              },
-              "tone": "cyan"
-            },
-            {
-              "label": {
-                "es": "UI Interactiva (Islands)",
-                "en": "Interactive UI (Islands)"
+                "es": "UI interactiva puntual",
+                "en": "Targeted interactive UI"
               },
               "tone": "purple"
+            },
+            {
+              "label": {
+                "es": "JS minimo en cliente",
+                "en": "Minimal client-side JS"
+              },
+              "tone": "success"
             }
           ]
         },
@@ -205,11 +293,8 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "type": "line",
-      "id": "branch-to-git"
+      ],
+      "bottomLine": true
     },
     {
       "type": "node",
@@ -227,3 +312,4 @@
     }
   ]
 }
+

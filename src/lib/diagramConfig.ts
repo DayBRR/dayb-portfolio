@@ -93,6 +93,19 @@ export type DiagramBranchColumns = {
   mobileHeight?: string;
 };
 
+export type DiagramSubgroupLayout = {
+  count?: number;
+  gap?: string;
+  marginTop?: string;
+  paddingTop?: string;
+  connectorColor?: string;
+  connectorLength?: string;
+  junctionInsetStart?: string;
+  junctionInsetEnd?: string;
+  junctionTop?: string;
+  mobileHeight?: string;
+};
+
 export type DiagramGroupItem = {
   label: LocalizedText;
   dotColor?: string;
@@ -111,12 +124,23 @@ export type DiagramGroupAppearance = {
   radius?: string;
 };
 
+export type DiagramSubgroup = {
+  id: string;
+  title?: LocalizedText;
+  icon?: DiagramIconConfig;
+  appearance?: DiagramGroupAppearance;
+  items: DiagramGroupItem[];
+};
+
 export type DiagramGroup = {
   id: string;
   title: LocalizedText;
   icon: DiagramIconConfig;
   appearance?: DiagramGroupAppearance;
   items: DiagramGroupItem[];
+  subgroupAppearance?: DiagramGroupAppearance;
+  subgroupLayout?: DiagramSubgroupLayout;
+  subgroups?: DiagramSubgroup[];
 };
 
 export type DiagramHeader = {
@@ -170,7 +194,9 @@ export type DiagramDefaults = {
   line?: DiagramLineAppearance;
   pill?: DiagramPillAppearance;
   group?: DiagramGroupAppearance;
+  subgroup?: DiagramGroupAppearance;
   branchColumns?: DiagramBranchColumns;
+  subgroupLayout?: DiagramSubgroupLayout;
 };
 
 export type DiagramConfig = {
@@ -190,6 +216,18 @@ export type DiagramInputGroup = {
   id: string;
   title: LocalizedText;
   icon: DiagramIconInput;
+  tone?: DiagramTone;
+  appearance?: DiagramGroupAppearance;
+  items: DiagramInputGroupItem[];
+  subgroupAppearance?: DiagramGroupAppearance;
+  subgroupLayout?: DiagramSubgroupLayout;
+  subgroups?: DiagramInputSubgroup[];
+};
+
+export type DiagramInputSubgroup = {
+  id: string;
+  title?: LocalizedText;
+  icon?: DiagramIconInput;
   tone?: DiagramTone;
   appearance?: DiagramGroupAppearance;
   items: DiagramInputGroupItem[];
@@ -257,7 +295,9 @@ export type DiagramInputDefaults = {
   line?: DiagramLineAppearance;
   pill?: DiagramPillAppearance;
   group?: DiagramGroupAppearance;
+  subgroup?: DiagramGroupAppearance;
   branchColumns?: DiagramBranchColumns;
+  subgroupLayout?: DiagramSubgroupLayout;
 };
 
 export type DiagramInputHeader = {
@@ -416,7 +456,9 @@ export const normalizeDiagramConfig = (input: DiagramInputConfig): DiagramConfig
       line: defaults?.line,
       pill: defaults?.pill,
       group: defaults?.group,
-      branchColumns: defaults?.branchColumns
+      subgroup: defaults?.subgroup,
+      branchColumns: defaults?.branchColumns,
+      subgroupLayout: defaults?.subgroupLayout
     },
     sections: input.sections.map((section): DiagramSection => {
       if (section.type === 'node') {
@@ -502,6 +544,26 @@ export const normalizeDiagramConfig = (input: DiagramInputConfig): DiagramConfig
           items: group.items.map((item) => ({
             label: item.label,
             dotColor: item.dotColor ?? colorForTone(item.tone)
+          })),
+          subgroupAppearance: group.subgroupAppearance,
+          subgroupLayout: {
+            ...defaults?.subgroupLayout,
+            ...group.subgroupLayout
+          },
+          subgroups: group.subgroups?.map((subgroup) => ({
+            id: subgroup.id,
+            title: subgroup.title,
+            icon: subgroup.icon ? normalizeIcon(subgroup.icon) : undefined,
+            appearance: {
+              ...groupToneAppearance(subgroup.tone ?? group.tone ?? defaults?.groupTone),
+              ...defaults?.subgroup,
+              ...group.subgroupAppearance,
+              ...subgroup.appearance
+            },
+            items: subgroup.items.map((item) => ({
+              label: item.label,
+              dotColor: item.dotColor ?? colorForTone(item.tone)
+            }))
           }))
         }))
       };
@@ -519,6 +581,7 @@ export const styleVars = (vars: Record<string, string | number | undefined | nul
     .filter(([, value]) => value !== undefined && value !== null && value !== '')
     .map(([key, value]) => `${key}:${value}`)
     .join(';');
+
 
 
 

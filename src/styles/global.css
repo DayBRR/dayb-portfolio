@@ -443,6 +443,29 @@ dialog::backdrop {
   background: var(--diagram-columns-junction-color, color-mix(in oklab, var(--ide-border), var(--ide-accent) 30%));
 }
 
+.config-diagram-columns--has-bottom {
+  padding-bottom: 8px;
+}
+
+.config-diagram-columns--has-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--diagram-columns-junction-start, 8%);
+  right: var(--diagram-columns-junction-end, 8%);
+  height: 1px;
+  background: var(--diagram-columns-junction-color, color-mix(in oklab, var(--ide-border), var(--ide-accent) 30%));
+}
+
+.config-diagram-group-column {
+  display: grid;
+  align-content: start;
+}
+
+.config-diagram-group-column--nested {
+  position: relative;
+}
+
 .config-diagram-box {
   padding: var(--diagram-group-padding, 12px 12px 10px);
   border-radius: var(--diagram-group-radius, 12px);
@@ -477,6 +500,66 @@ dialog::backdrop {
   border-color: var(--diagram-group-item-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 20%));
   background: var(--diagram-group-item-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 35%));
   color: var(--diagram-group-item-text, var(--ide-muted));
+}
+
+.config-diagram-subgroups {
+  position: relative;
+  display: grid;
+  gap: var(--diagram-subgroups-gap, 10px);
+  grid-template-columns: repeat(var(--diagram-subgroups-columns, 1), minmax(0, 1fr));
+  margin-top: var(--diagram-subgroups-margin-top, 6px);
+  padding-top: var(--diagram-subgroups-padding-top, 14px);
+}
+
+
+.config-diagram-subgroups::before {
+  content: '';
+  position: absolute;
+  top: var(--diagram-subgroups-junction-top, 0);
+  left: var(--diagram-subgroups-junction-start, 10%);
+  right: var(--diagram-subgroups-junction-end, 10%);
+  height: 1px;
+  background: var(--diagram-subgroups-connector-color, color-mix(in oklab, var(--ide-border), var(--ide-accent) 26%));
+}
+
+.config-diagram-subgroup {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: var(--diagram-subgroup-padding, 10px);
+  border: 1px solid var(--diagram-subgroup-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 16%));
+  border-radius: var(--diagram-subgroup-radius, 10px);
+  background: var(--diagram-subgroup-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 28%));
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+
+.config-diagram-subgroup:hover {
+  border-color: var(--diagram-subgroup-hover-border, var(--diagram-subgroup-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 16%)));
+}
+
+.config-diagram-subgroup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.config-diagram-subgroup-title {
+  color: var(--diagram-subgroup-title-color, var(--ide-text));
+}
+
+.config-diagram-subgroup-icon {
+  color: var(--diagram-subgroup-icon-color, var(--ide-accent));
+}
+
+.config-diagram-subgroup-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  border-color: var(--diagram-subgroup-item-border, color-mix(in oklab, var(--ide-border), var(--ide-accent) 18%));
+  background: var(--diagram-subgroup-item-bg, color-mix(in oklab, var(--ide-panel), var(--ide-bg) 38%));
+  color: var(--diagram-subgroup-item-text, var(--ide-muted));
 }
 
 .config-diagram-dot {
@@ -550,5 +633,42 @@ dialog::backdrop {
     padding: 10px;
     gap: 6px;
   }
+
+
+
+  .config-diagram-subgroups {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-top: var(--diagram-subgroups-mobile-height, 10px);
+  }
+
+  .config-diagram-subgroups::before {
+    left: 50%;
+    right: auto;
+    width: 1px;
+    height: var(--diagram-subgroups-mobile-height, 10px);
+    transform: translateX(-50%);
+  }
+
+  .config-diagram-columns--has-bottom {
+    padding-bottom: 10px;
+  }
+
+  .config-diagram-columns--has-bottom::after {
+    left: 50%;
+    right: auto;
+    bottom: 0;
+    width: 1px;
+    height: 10px;
+    transform: translateX(-50%);
+  }
+
 }
+
+
+
+
+
+
+
 

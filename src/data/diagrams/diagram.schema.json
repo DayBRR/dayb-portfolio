@@ -152,6 +152,22 @@
         "mobileHeight": { "type": "string" }
       }
     },
+    "subgroupLayout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "count": { "type": "number" },
+        "gap": { "type": "string" },
+        "marginTop": { "type": "string" },
+        "paddingTop": { "type": "string" },
+        "connectorColor": { "type": "string" },
+        "connectorLength": { "type": "string" },
+        "junctionInsetStart": { "type": "string" },
+        "junctionInsetEnd": { "type": "string" },
+        "junctionTop": { "type": "string" },
+        "mobileHeight": { "type": "string" }
+      }
+    },
     "header": {
       "type": "object",
       "additionalProperties": false,
@@ -177,7 +193,9 @@
         "line": { "$ref": "#/$defs/lineAppearance" },
         "pill": { "$ref": "#/$defs/pillAppearance" },
         "group": { "$ref": "#/$defs/groupAppearance" },
-        "branchColumns": { "$ref": "#/$defs/branchColumns" }
+        "subgroup": { "$ref": "#/$defs/groupAppearance" },
+        "branchColumns": { "$ref": "#/$defs/branchColumns" },
+        "subgroupLayout": { "$ref": "#/$defs/subgroupLayout" }
       }
     },
     "groupItem": {
@@ -190,6 +208,22 @@
         "dotColor": { "type": "string" }
       }
     },
+    "subgroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "items"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "$ref": "#/$defs/localizedText" },
+        "icon": { "$ref": "#/$defs/icon" },
+        "tone": { "$ref": "#/$defs/tone" },
+        "appearance": { "$ref": "#/$defs/groupAppearance" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/groupItem" }
+        }
+      }
+    },
     "group": {
       "type": "object",
       "additionalProperties": false,
@@ -200,9 +234,15 @@
         "icon": { "$ref": "#/$defs/icon" },
         "tone": { "$ref": "#/$defs/tone" },
         "appearance": { "$ref": "#/$defs/groupAppearance" },
+        "subgroupAppearance": { "$ref": "#/$defs/groupAppearance" },
+        "subgroupLayout": { "$ref": "#/$defs/subgroupLayout" },
         "items": {
           "type": "array",
           "items": { "$ref": "#/$defs/groupItem" }
+        },
+        "subgroups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/subgroup" }
         }
       }
     },
@@ -300,3 +340,4 @@
     }
   }
 }
+

@@ -10,6 +10,7 @@ import {
   type DiagramLineAppearance,
   type DiagramLineSection,
   type DiagramNodeAppearance,
+  type DiagramSubgroupLayout,
   type DiagramNodeSection,
   type DiagramPillAppearance
 } from '../../lib/diagramConfig';
@@ -47,9 +48,19 @@ const mergeGroupAppearance = (appearance?: DiagramGroupAppearance): DiagramGroup
   ...appearance
 });
 
+const mergeSubgroupAppearance = (appearance?: DiagramGroupAppearance): DiagramGroupAppearance => ({
+  ...defaults.subgroup,
+  ...appearance
+});
+
 const mergeBranchColumns = (columns?: DiagramBranchColumns): DiagramBranchColumns => ({
   ...defaults.branchColumns,
   ...columns
+});
+
+const mergeSubgroupLayout = (layout?: DiagramSubgroupLayout): DiagramSubgroupLayout => ({
+  ...defaults.subgroupLayout,
+  ...layout
 });
 
 const nodeClassName = (section: DiagramNodeSection) => {
@@ -154,6 +165,38 @@ const groupStyle = (appearance?: DiagramGroupAppearance) => {
   });
 };
 
+const subgroupStyle = (appearance?: DiagramGroupAppearance) => {
+  const merged = mergeSubgroupAppearance(appearance);
+  return styleVars({
+    '--diagram-subgroup-border': merged.borderColor,
+    '--diagram-subgroup-hover-border': merged.hoverBorderColor,
+    '--diagram-subgroup-bg': merged.background,
+    '--diagram-subgroup-title-color': merged.titleColor,
+    '--diagram-subgroup-icon-color': merged.iconColor,
+    '--diagram-subgroup-item-border': merged.itemBorderColor,
+    '--diagram-subgroup-item-bg': merged.itemBackground,
+    '--diagram-subgroup-item-text': merged.itemTextColor,
+    '--diagram-subgroup-padding': merged.padding,
+    '--diagram-subgroup-radius': merged.radius
+  });
+};
+
+const subgroupLayoutStyle = (layout?: DiagramSubgroupLayout) => {
+  const merged = mergeSubgroupLayout(layout);
+  return styleVars({
+    '--diagram-subgroups-columns': merged.count,
+    '--diagram-subgroups-gap': merged.gap,
+    '--diagram-subgroups-margin-top': merged.marginTop,
+    '--diagram-subgroups-padding-top': merged.paddingTop,
+    '--diagram-subgroups-connector-color': merged.connectorColor,
+    '--diagram-subgroups-connector-length': merged.connectorLength,
+    '--diagram-subgroups-junction-start': merged.junctionInsetStart,
+    '--diagram-subgroups-junction-end': merged.junctionInsetEnd,
+    '--diagram-subgroups-junction-top': merged.junctionTop,
+    '--diagram-subgroups-mobile-height': merged.mobileHeight
+  });
+};
+
 const dotStyle = (color?: string) =>
   styleVars({
     '--diagram-dot-color': color
@@ -242,26 +285,72 @@ const dotStyle = (color?: string) =>
         return (
           <div class="diagram-branch config-diagram-branch">
             {section.topLine ? <div class="config-diagram-line config-diagram-branch-line" data-direction="vertical" style={lineStyle(section.topLine)}></div> : null}
-            <div class="diagram-columns config-diagram-columns" style={columnsStyle(section)}>
+            <div class:list={['diagram-columns config-diagram-columns', section.bottomLine && 'config-diagram-columns--has-bottom']} style={columnsStyle(section)}>
               {
                 section.groups.map((group) => (
-                  <div class="diagram-box config-diagram-box" style={groupStyle(group.appearance)}>
-                    <div class="config-diagram-box-header">
-                      <span class="inline-flex config-diagram-box-icon" aria-hidden="true" set:html={renderDiagramIcon(group.icon)}></span>
-                      <div class="diagram-box-title" {...i18nAttrs(group.title)}>
-                        {group.title.en}
+                  <div class:list={['config-diagram-group-column', group.subgroups?.length && 'config-diagram-group-column--nested']}>
+                    <div class="diagram-box config-diagram-box" style={groupStyle(group.appearance)}>
+                      <div class="config-diagram-box-header">
+                        <span class="inline-flex config-diagram-box-icon" aria-hidden="true" set:html={renderDiagramIcon(group.icon)}></span>
+                        <div class="diagram-box-title" {...i18nAttrs(group.title)}>
+                          {group.title.en}
+                        </div>
                       </div>
-                    </div>
-                    <div class="grid grid-cols-1 gap-2">
                       {
-                        group.items.map((item) => (
-                          <div class="diagram-box-item config-diagram-box-item">
-                            <span class="config-diagram-dot" style={dotStyle(item.dotColor)}></span>
-                            <span {...i18nAttrs(item.label)}>{item.label.en}</span>
+                        group.items.length ? (
+                          <div class="grid grid-cols-1 gap-2">
+                            {
+                              group.items.map((item) => (
+                                <div class="diagram-box-item config-diagram-box-item">
+                                  <span class="config-diagram-dot" style={dotStyle(item.dotColor)}></span>
+                                  <span {...i18nAttrs(item.label)}>{item.label.en}</span>
+                                </div>
+                              ))
+                            }
                           </div>
-                        ))
+                        ) : null
                       }
                     </div>
+                    {
+                      group.subgroups?.length ? (
+                        <div class="config-diagram-subgroups" style={subgroupLayoutStyle(group.subgroupLayout)}>
+                          {
+                            group.subgroups.map((subgroup) => (
+                              <div class="config-diagram-subgroup" style={subgroupStyle(subgroup.appearance)}>
+                                {
+                                  subgroup.title || subgroup.icon ? (
+                                    <div class="config-diagram-subgroup-header">
+                                      {
+                                        subgroup.icon ? (
+                                          <span class="inline-flex config-diagram-subgroup-icon" aria-hidden="true" set:html={renderDiagramIcon(subgroup.icon)}></span>
+                                        ) : null
+                                      }
+                                      {
+                                        subgroup.title ? (
+                                          <div class="diagram-box-title config-diagram-subgroup-title" {...i18nAttrs(subgroup.title)}>
+                                            {subgroup.title.en}
+                                          </div>
+                                        ) : null
+                                      }
+                                    </div>
+                                  ) : null
+                                }
+                                <div class="grid grid-cols-1 gap-2">
+                                  {
+                                    subgroup.items.map((item) => (
+                                      <div class="diagram-box-item config-diagram-subgroup-item">
+                                        <span class="config-diagram-dot" style={dotStyle(item.dotColor)}></span>
+                                        <span {...i18nAttrs(item.label)}>{item.label.en}</span>
+                                      </div>
+                                    ))
+                                  }
+                                </div>
+                              </div>
+                            ))
+                          }
+                        </div>
+                      ) : null
+                    }
                   </div>
                 ))
               }
@@ -273,3 +362,6 @@ const dotStyle = (color?: string) =>
     }
   </div>
 </div>
+
+
+
