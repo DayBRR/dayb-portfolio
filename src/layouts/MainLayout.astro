@@ -23,7 +23,7 @@ const defaultDescription = {
 const metaDescription = description ?? t(defaultDescription, resolvedLang);
 const site = Astro.site ? new URL(Astro.site) : new URL(Astro.url.origin);
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
-const ogImageUrl = new URL('/avatar-dayb.png', site).toString();
+const ogImageUrl = new URL('/profile-image.jpg', site).toString();
 ---
 
 <!doctype html>
