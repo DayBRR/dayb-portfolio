@@ -1,8 +1,8 @@
 # DayB Portfolio
 ![Deploy](https://github.com/DayBRR/dayb-portfolio/actions/workflows/deploy.yml/badge.svg)
 ![Release](https://github.com/DayBRR/dayb-portfolio/actions/workflows/release-please.yml/badge.svg)
-![Astro](https://img.shields.io/badge/Astro-5.x-ff5d01?logo=astro)
-![Tailwind](https://img.shields.io/badge/TailwindCSS-3.x-38bdf8?logo=tailwindcss)
+![Astro](https://img.shields.io/badge/Astro-7.4.0-ff5d01?logo=astro)
+![Tailwind](https://img.shields.io/badge/TailwindCSS-4.3.3-38bdf8?logo=tailwindcss)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?logo=typescript)
 ![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-FE5196?logo=conventionalcommits)
 
@@ -28,8 +28,8 @@ El sitio es completamente estático (SSG), bilingüe y orientado a backend, opti
 
 ### Frontend
 
-- Astro 5
-- Tailwind CSS
+- Astro 7.4.0
+- Tailwind CSS 4.3.3 mediante `@tailwindcss/vite`
 - TypeScript
 
 ### Infrastructure
@@ -43,11 +43,11 @@ El sitio es completamente estático (SSG), bilingüe y orientado a backend, opti
 
 ### Requisitos
 
-- Node.js 20+
-- npm
+- Node.js >=22.22.0
+- npm >=9.6.5
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -122,8 +122,18 @@ El flujo de integración y despliegue continuo es el siguiente:
 
 El `Dockerfile` usa una build multi-stage:
 
-- Stage 1: `node:20-alpine` para ejecutar `npm install` y `npm run build`.
+- Stage 1: `node:22.22.0-alpine` para ejecutar `npm ci` y `npm run build`.
 - Stage 2: `nginx:alpine` para servir `dist/` en producción.
+
+El archivo `.dockerignore` excluye `node_modules`, `dist/`, `.astro/` y `.git/` del contexto de build para evitar copiar dependencias y artefactos locales sobre la instalación de la imagen.
+
+Para comprobar la compilación local sin desplegar:
+
+```bash
+docker build -t astro-portfolio:latest .
+```
+
+El workflow construye `astro-portfolio:latest`. El archivo Compose se mantiene exclusivamente en el VPS, en `/home/dayb/apps/astro-portfolio`; debe referenciar esa misma imagen.
 
 ## 📝 Commit Convention
 
@@ -161,6 +171,9 @@ Releases and changelogs are automatically generated using **release-please** bas
 - Si `repo` o `demo` están vacíos, los botones del modal se ocultan.
 - Los estados de proyecto se definen en `src/data/projectStatus.ts`.
 - `astro.config.mjs` intenta cargar `@astrojs/sitemap` solo si la dependencia está instalada.
+- Tailwind 4 se integra mediante el plugin Vite `@tailwindcss/vite`. La configuración personalizada se conserva en `tailwind.config.mjs`, cargada mediante `@config` desde `src/styles/global.css`.
+- `src/styles/legacy-base.css` conserva los estilos base de Tailwind 3 y `src/styles/legacy-utilities.css` mantiene los espaciados, radios y gradientes anteriores. Ambos se importan desde `global.css`; no se importa el Preflight de Tailwind 4 para evitar cambios de diseño.
+- Pendiente para otra rama: revisar el uso de `Astro.request.headers` en la detección de idioma de páginas estáticas. El build ya emitía este aviso antes de la migración; esta actualización no cambia el sistema de idiomas.
 
 ## Contributions
 

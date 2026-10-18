@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwind from '@tailwindcss/vite';
 
 let sitemapIntegration = null;
 try {
@@ -12,8 +12,11 @@ try {
 export default defineConfig({
   site: 'https://davidruiz.es',
   output: 'static',
+  compressHTML: true,
+  vite: {
+    plugins: [tailwind()],
+  },
   integrations: [
-    tailwind({ applyBaseStyles: false }),
     sitemapIntegration && sitemapIntegration()
   ].filter(Boolean),
 });
