@@ -1,6 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import './legacy-base.css';
+/* Keep utilities unlayered, as in v3, so component CSS keeps its cascade. */
+@import 'tailwindcss/utilities.css';
+@import './legacy-utilities.css';
+@config '../../tailwind.config.mjs';
+/* These opacity classes generated no CSS in v3 with the existing theme. */
+@source not inline('bg-ide-accent/10 bg-ide-accent/12 bg-ide-bg/90 bg-ide-bg/95 bg-ide-panel/90 bg-ide-panel/95 bg-ide-purple/10 bg-ide-success/10 border-ide-border/50 border-ide-border/80 text-ide-textMuted/80');
+@custom-variant hover (&:hover);
 
 :root {
   color-scheme: dark;
