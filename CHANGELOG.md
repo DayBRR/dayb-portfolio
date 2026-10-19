@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/DayBRR/dayb-portfolio/compare/dayb-portfolio-v0.0.3...dayb-portfolio-v0.1.0) (2026-10-19)
+
+
+### Features
+
+* **portfolio:** add projects and extend project data model ([0225e72](https://github.com/DayBRR/dayb-portfolio/commit/0225e72d3a4a0279a200ede9b9e9c7bbe2ce1440))
+
 ## [0.0.3](https://github.com/DayBRR/dayb-portfolio/compare/dayb-portfolio-v0.0.2...dayb-portfolio-v0.0.3) (2026-03-21)
 
 
