@@ -1,7 +1,9 @@
+import grindArchitectureConfig from './grind-protocol-architecture.json';
+import artArchitectureConfig from './vruizart-architecture.json';
 import portfolioArchitectureConfig from './dayb-portfolio-architecture.json';
 import { normalizeDiagramConfig, type DiagramConfig, type DiagramInputConfig } from '../../lib/diagramConfig';
 
-const inputConfigs = [portfolioArchitectureConfig] as const;
+const inputConfigs = [portfolioArchitectureConfig, grindArchitectureConfig, artArchitectureConfig] as const;
 
 export const diagramConfigs: readonly DiagramConfig[] = inputConfigs.map((config) =>
   normalizeDiagramConfig(config as DiagramInputConfig)

@@ -177,54 +177,180 @@ export type ProjectDiagram = {
   caption?: LocalizedText;
 };
 
-export const projects: {
+export type ProjectLink = {
+  kind: 'repository' | 'production';
+  label: LocalizedText;
+  href: string;
+};
+
+export type ProjectTechnologyGroup = {
+  label: LocalizedText;
+  items: readonly string[];
+};
+
+export type ProjectItem = {
   id: string;
   title: string;
   status: ProjectStatus;
-  stack: string[];
+  type?: LocalizedText;
+  stack: readonly ProjectTechnologyGroup[];
+  /** Exact names from stack, used only to select technologies for the card. */
+  featuredTechnologies?: readonly string[];
   summary: LocalizedText;
   description: LocalizedText;
-  repo: string;
-  demo: string;
+  features?: readonly LocalizedText[];
+  links: readonly ProjectLink[];
   diagram?: ProjectDiagram;
-}[] = [
+};
+
+export const projects: readonly ProjectItem[] = [
   {
-    id: 'code-diary-api',
-    title: 'Code Diary API',
+    id: 'grind-protocol',
+    featuredTechnologies: ['Java 17', 'Spring Boot 3.5.x', 'PostgreSQL 16', 'Angular 17', 'TypeScript', 'Spring Security 6'],
+    title: 'Grind Protocol',
     status: 'Development',
-    stack: ['Java', 'Spring Boot', 'Spring Security', 'JPA', 'JWT', 'Swagger', 'H2', 'PostgreSQL'],
+    type: { es: 'Aplicación web full-stack · Productividad gamificada', en: 'Full-stack web application · Gamified productivity' },
     summary: {
-      es: 'API REST para gestionar y documentar proyectos software con autenticación JWT.',
-      en: 'REST API to manage and document software projects with JWT authentication.'
+      es: 'Tareas, hábitos y objetivos convertidos en progresión RPG con XP, niveles y recompensas.',
+      en: 'Tasks, habits and goals turned into RPG progression with XP, levels and rewards.'
     },
     description: {
-      es: 'Backend en Spring Boot que centraliza metadatos, tecnologías y notas técnicas. Incluye endpoints públicos, seguridad JWT y documentación OpenAPI.',
-      en: 'Spring Boot backend centralizing project metadata, technologies and technical notes. Includes public endpoints, JWT security and OpenAPI docs.'
+      es: 'Una misma aplicación con dos repositorios independientes: Angular presenta el dashboard, las tareas y el progreso personal; la API REST en Spring Boot gestiona autenticación, usuarios, perfiles, plantillas, tareas completadas, XP, niveles, Core Points, recompensas, rachas y estadísticas. PostgreSQL conserva los datos y Flyway gestiona las migraciones.',
+      en: 'One application with two independent repositories: Angular provides the dashboard, tasks and personal progress; the Spring Boot REST API manages authentication, users, profiles, templates, completed tasks, XP, levels, Core Points, rewards, streaks and statistics. PostgreSQL stores the data and Flyway manages migrations.'
     },
-      repo: '',
-      demo: ''
+    stack: [
+      { label: { es: 'Backend', en: 'Backend' }, items: ['Java 17', 'Spring Boot 3.5.x', 'Spring Security 6', 'PostgreSQL 16', 'Flyway', 'Maven', 'JUnit', 'Mockito', 'Testcontainers', 'REST API'] },
+      { label: { es: 'Frontend', en: 'Frontend' }, items: ['Angular 17', 'TypeScript', 'SCSS'] }
+    ],
+    features: [
+      { es: 'Gamificación RPG con experiencia (XP), niveles, Core Points y recompensas.', en: 'RPG gamification with experience (XP), levels, Core Points and rewards.' },
+      { es: 'Gestión de tareas diarias y repetibles, plantillas y registro de actividades completadas.', en: 'Daily and repeatable tasks, templates and completed activity tracking.' },
+      { es: 'Rachas de actividad y seguimiento del progreso diario.', en: 'Activity streaks and daily progress tracking.' },
+      { es: 'Dashboard con estadísticas por categorías y gráficas de experiencia semanal.', en: 'Dashboard with category statistics and weekly experience charts.' },
+      { es: 'Autenticación y gestión de usuarios y perfiles con Spring Security.', en: 'Authentication and user and profile management with Spring Security.' },
+      { es: 'Comunicación frontend/backend mediante API REST, persistencia y migraciones.', en: 'Frontend/backend communication through a REST API, persistence and migrations.' }
+    ],
+    links: [
+      { kind: 'repository', label: { es: 'Backend', en: 'Backend' }, href: 'https://github.com/DayBRR/grind-protocol' },
+      { kind: 'repository', label: { es: 'Frontend', en: 'Frontend' }, href: 'https://github.com/DayBRR/grind-protocol-frontend' }
+    ],
+    diagram: {
+      key: 'grind-protocol-architecture',
+      caption: { es: 'Una aplicación, dos repositorios: Angular → API REST Spring Boot → PostgreSQL.', en: 'One application, two repositories: Angular → Spring Boot REST API → PostgreSQL.' }
+    }
   },
   {
-    id: 'code-diary-web',
-    title: 'Code Diary Web',
-    status: 'Concept',
-    stack: ['Angular', 'TypeScript', 'REST API', 'JWT'],
+    id: 'code-diary',
+    featuredTechnologies: ['Java', 'Spring Boot', 'Angular', 'TypeScript', 'JWT'],
+    title: 'Code Diary',
+    status: 'Development',
+    stack: [
+      {
+        label: { es: 'Backend', en: 'Backend' },
+        items: [
+          'Java',
+          'Spring Boot',
+          'Spring Security',
+          'JPA',
+          'JWT',
+          'Swagger',
+          'H2',
+          'PostgreSQL'
+        ]
+      },
+      {
+        label: { es: 'Frontend', en: 'Frontend' },
+        items: [
+          'Angular',
+          'TypeScript',
+          'REST API',
+          'JWT'
+        ]
+      }
+    ],
     summary: {
-      es: 'Interfaz web para explorar y gestionar proyectos del diario técnico.',
-      en: 'Web interface to explore and manage technical journal projects.'
+      es: 'Plataforma full-stack para gestionar y documentar proyectos de software, tecnologías y conocimientos técnicos.',
+      en: 'Full-stack platform for managing and documenting software projects, technologies and technical knowledge.'
     },
     description: {
-      es: 'Frontend SPA que consume la API de Code Diary para visualizar proyectos, tecnologías y notas personales con autenticación segura.',
-      en: 'SPA frontend consuming the Code Diary API to display projects, technologies and personal notes with secure authentication.'
+      es: 'Aplicación full-stack orientada a centralizar proyectos de desarrollo, tecnologías utilizadas y notas técnicas. El backend, desarrollado con Spring Boot, proporciona una API REST con autenticación JWT, gestión de datos y documentación OpenAPI. El frontend, planteado con Angular, permitirá explorar y administrar la información mediante una interfaz web conectada a la API.',
+      en: 'Full-stack application designed to centralize development projects, technologies and technical notes. The Spring Boot backend provides a REST API with JWT authentication, data management and OpenAPI documentation. The planned Angular frontend will enable users to explore and manage information through a web interface connected to the API.'
     },
-    repo: '',
-    demo: ''
+    links: [
+      { kind: 'repository', label: { es: 'Backend', en: 'Backend' }, href: 'https://github.com/DayBRR/code-diary' }
+    ]
+  },
+  {
+    id: 'security-core',
+    featuredTechnologies: ['Java 17', 'Spring Security', 'JWT', 'Maven'],
+    title: 'Security Core',
+    status: 'Development',
+    stack: [
+      {
+        label: { es: 'Backend y seguridad', en: 'Backend & Security' },
+        items: [
+          'Java 17',
+          'Spring Boot 3',
+          'Spring Security',
+          'Spring Data JPA',
+          'JWT',
+          'Maven',
+          'JUnit 5'
+        ]
+      }
+    ],
+    summary: {
+      es: 'Librería modular y reutilizable de seguridad para aplicaciones Spring Boot, con autenticación JWT y gestión avanzada de sesiones.',
+      en: 'Modular, reusable security library for Spring Boot applications, featuring JWT authentication and advanced session management.'
+    },
+    description: {
+      es: 'Módulo de seguridad desacoplado desarrollado con Java y Spring Security para integrar autenticación y gestión de sesiones en aplicaciones Spring Boot. Implementa access y refresh tokens JWT, rotación de tokens, detección de reutilización, sesiones por dispositivo, identificación mediante IP y User-Agent y cierre de sesiones individual o global. Diseñado bajo principios de modularidad, reutilización y seguridad por defecto.',
+      en: 'Decoupled security module built with Java and Spring Security to integrate authentication and session management into Spring Boot applications. Implements JWT access and refresh tokens, token rotation, reuse detection, per-device sessions, IP and User-Agent fingerprinting, and individual or global session revocation. Designed around modularity, reusability and secure-by-default principles.'
+    },
+    links: [
+        { kind: 'repository', label: { es: 'Ver repositorio', en: 'View repository' }, href: 'https://github.com/DayBRR/security-core' }
+    ]
+  },
+  {
+    id: 'vruizart',
+    featuredTechnologies: ['Java 17', 'Spring Boot 3.5.x', 'PostgreSQL', 'Angular 17', 'TypeScript'],
+    title: 'VRuizArt',
+    status: 'Production',
+    type: { es: 'Portfolio artístico y catálogo de obras', en: 'Artist portfolio and artwork catalog' },
+    summary: {
+      es: 'Plataforma artística en producción para explorar colecciones y descubrir obras con una experiencia centrada en las imágenes.',
+      en: 'An artist platform in production for exploring collections and discovering artwork through an image-focused experience.'
+    },
+    description: {
+      es: 'Web pública desarrollada para presentar y organizar la obra de una artista. El frontend consume una API REST que estructura el catálogo y permite consultar obras, colecciones y técnicas mediante filtros y paginación.',
+      en: 'A public website built to showcase and organize an artist’s work. The frontend consumes a REST API that structures the catalog and provides artwork, collection and technique queries with filtering and pagination.'
+    },
+    stack: [
+      { label: { es: 'Backend', en: 'Backend' }, items: ['Java 17', 'Spring Boot 3.5.x', 'PostgreSQL', 'Flyway', 'REST API'] },
+      { label: { es: 'Frontend', en: 'Frontend' }, items: ['Angular 17', 'TypeScript'] }
+    ],
+    features: [
+      { es: 'Presentación de colecciones, galería y obras destacadas.', en: 'Collection presentation, artwork gallery and featured works.' },
+      { es: 'Catálogo con paginación y filtros por colección y técnica artística.', en: 'Paginated catalog with collection and artistic technique filters.' },
+      { es: 'Visualizador de obras y consulta de sus detalles.', en: 'Artwork viewer and detailed artwork information.' },
+      { es: 'Integración frontend/backend y API REST para obras y técnicas.', en: 'Frontend/backend integration and a REST API for artwork and techniques.' },
+      { es: 'Gestión estructurada del catálogo artístico.', en: 'Structured management of the artwork catalog.' }
+    ],
+    links: [
+      { kind: 'repository', label: { es: 'Ver repositorio', en: 'View repository' }, href: 'https://github.com/DayBRR/vruizart-portfolio-frontend' },
+      { kind: 'production', label: { es: 'Visitar web pública', en: 'Visit public website' }, href: 'https://www.vruizart.com/' }
+    ],
+    diagram: {
+      key: 'vruizart-architecture',
+      caption: { es: 'Frontend web → API REST → Catálogo de obras, con filtros y paginación.', en: 'Web frontend → REST API → Artwork catalog, with filtering and pagination.' }
+    }
   },
   {
     id: 'dayb-portfolio',
+    featuredTechnologies: ['Astro', 'Tailwind CSS', 'TypeScript'],
     title: 'DayB Portfolio',
     status: 'Production',
-    stack: ['Astro', 'Tailwind CSS', 'TypeScript'],
+    stack: [{ label: { es: 'Tecnologías', en: 'Technologies' }, items: ['Astro', 'Tailwind CSS', 'TypeScript'] }],
     summary: {
       es: 'Portfolio personal estilo IDE orientado a backend.',
       en: 'Personal IDE-style portfolio focused on backend.'
@@ -240,11 +366,12 @@ export const projects: {
         en: 'Static delivery flow with Astro and local assets.'
       }
     },
-    repo: 'https://github.com/DayBRR/dayb-portfolio',
-    demo: 'https://davidruiz.es/'
+    links: [
+      { kind: 'repository', label: { es: 'Ver repositorio', en: 'View repository' }, href: 'https://github.com/DayBRR/dayb-portfolio' },
+      { kind: 'production', label: { es: 'Ver web', en: 'Visit website' }, href: 'https://davidruiz.es/' }
+    ]
   }
 ] as const;
-export type ProjectItem = (typeof projects)[number];
 
 export type TimelineItem = {
   type: 'experience' | 'education';

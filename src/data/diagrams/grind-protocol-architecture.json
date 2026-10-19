@@ -1,0 +1,78 @@
+{
+  "$schema": "./diagram.schema.json",
+  "key": "grind-protocol-architecture",
+  "header": {
+    "title": {
+      "es": "Grind Protocol",
+      "en": "Grind Protocol"
+    },
+    "eyebrow": {
+      "es": "Arquitectura de la aplicación",
+      "en": "Application architecture"
+    }
+  },
+  "sections": [
+    {
+      "type": "node",
+      "id": "frontend",
+      "icon": "browser",
+      "title": {
+        "es": "Angular 17",
+        "en": "Angular 17"
+      },
+      "subtitle": {
+        "es": "Dashboard, tareas y estadísticas · TypeScript / SCSS",
+        "en": "Dashboard, tasks and statistics · TypeScript / SCSS"
+      },
+      "tone": "accent"
+    },
+    {
+      "type": "connector",
+      "id": "connection-1",
+      "label": {
+        "es": "API REST",
+        "en": "REST API"
+      },
+      "beforeLine": true,
+      "afterLine": true
+    },
+    {
+      "type": "node",
+      "id": "backend",
+      "icon": "server",
+      "title": {
+        "es": "Spring Boot REST API",
+        "en": "Spring Boot REST API"
+      },
+      "subtitle": {
+        "es": "Java 17 · Spring Security · Usuarios, XP, niveles y recompensas",
+        "en": "Java 17 · Spring Security · Users, XP, levels and rewards"
+      },
+      "tone": "success"
+    },
+    {
+      "type": "connector",
+      "id": "connection-2",
+      "label": {
+        "es": "Persistencia y migraciones",
+        "en": "Persistence and migrations"
+      },
+      "beforeLine": true,
+      "afterLine": true
+    },
+    {
+      "type": "node",
+      "id": "database",
+      "icon": "folder",
+      "title": {
+        "es": "PostgreSQL 16",
+        "en": "PostgreSQL 16"
+      },
+      "subtitle": {
+        "es": "Persistencia de usuarios, tareas y progreso · Migraciones Flyway",
+        "en": "User, task and progress persistence · Flyway migrations"
+      },
+      "tone": "info"
+    }
+  ]
+}
