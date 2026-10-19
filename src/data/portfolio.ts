@@ -194,6 +194,8 @@ export type ProjectItem = {
   status: ProjectStatus;
   type?: LocalizedText;
   stack: readonly ProjectTechnologyGroup[];
+  /** Exact names from stack, used only to select technologies for the card. */
+  featuredTechnologies?: readonly string[];
   summary: LocalizedText;
   description: LocalizedText;
   features?: readonly LocalizedText[];
@@ -204,6 +206,7 @@ export type ProjectItem = {
 export const projects: readonly ProjectItem[] = [
   {
     id: 'grind-protocol',
+    featuredTechnologies: ['Java 17', 'Spring Boot 3.5.x', 'PostgreSQL 16', 'Angular 17', 'TypeScript', 'Spring Security 6'],
     title: 'Grind Protocol',
     status: 'Development',
     type: { es: 'Aplicación web full-stack · Productividad gamificada', en: 'Full-stack web application · Gamified productivity' },
@@ -238,6 +241,7 @@ export const projects: readonly ProjectItem[] = [
   },
   {
     id: 'code-diary',
+    featuredTechnologies: ['Java', 'Spring Boot', 'Angular', 'TypeScript', 'JWT'],
     title: 'Code Diary',
     status: 'Development',
     stack: [
@@ -278,6 +282,7 @@ export const projects: readonly ProjectItem[] = [
   },
   {
     id: 'security-core',
+    featuredTechnologies: ['Java 17', 'Spring Security', 'JWT', 'Maven'],
     title: 'Security Core',
     status: 'Development',
     stack: [
@@ -308,6 +313,7 @@ export const projects: readonly ProjectItem[] = [
   },
   {
     id: 'vruizart',
+    featuredTechnologies: ['Java 17', 'Spring Boot 3.5.x', 'PostgreSQL', 'Angular 17', 'TypeScript'],
     title: 'VRuizArt',
     status: 'Production',
     type: { es: 'Portfolio artístico y catálogo de obras', en: 'Artist portfolio and artwork catalog' },
@@ -341,6 +347,7 @@ export const projects: readonly ProjectItem[] = [
   },
   {
     id: 'dayb-portfolio',
+    featuredTechnologies: ['Astro', 'Tailwind CSS', 'TypeScript'],
     title: 'DayB Portfolio',
     status: 'Production',
     stack: [{ label: { es: 'Tecnologías', en: 'Technologies' }, items: ['Astro', 'Tailwind CSS', 'TypeScript'] }],
