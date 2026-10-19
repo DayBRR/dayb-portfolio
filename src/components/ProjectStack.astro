@@ -1,0 +1,32 @@
+---
+import type { ProjectTechnologyGroup } from '../data/portfolio';
+import { toneForTech, toneStyle } from '../data/techTone';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  groups: readonly ProjectTechnologyGroup[];
+  lang: Lang;
+}
+
+const { groups, lang } = Astro.props;
+---
+
+<div class="space-y-2">
+  {groups.map((group) => (
+    <div>
+      <p class="mb-2 text-[11px] uppercase tracking-wide text-ide-textMuted" data-i18n-es={group.label.es} data-i18n-en={group.label.en}>
+        {t(group.label, lang)}
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {group.items.map((tech) => {
+          const tone = toneStyle(toneForTech(tech));
+          return (
+            <span class="rounded-md border px-2.5 py-1 text-[11px] font-semibold tracking-wide" style={`border-color:${tone.border};background:${tone.bg};color:${tone.text};`}>
+              {tech}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+</div>

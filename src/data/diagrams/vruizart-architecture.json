@@ -1,0 +1,78 @@
+{
+  "$schema": "./diagram.schema.json",
+  "key": "vruizart-architecture",
+  "header": {
+    "title": {
+      "es": "VRuizArt",
+      "en": "VRuizArt"
+    },
+    "eyebrow": {
+      "es": "Arquitectura de la aplicación",
+      "en": "Application architecture"
+    }
+  },
+  "sections": [
+    {
+      "type": "node",
+      "id": "frontend",
+      "icon": "browser",
+      "title": {
+        "es": "Angular 17",
+        "en": "Angular 17"
+      },
+      "subtitle": {
+        "es": "Colecciones, galería y visualizador de obras",
+        "en": "Collections, gallery and artwork viewer"
+      },
+      "tone": "accent"
+    },
+    {
+      "type": "connector",
+      "id": "connection-1",
+      "label": {
+        "es": "API REST",
+        "en": "REST API"
+      },
+      "beforeLine": true,
+      "afterLine": true
+    },
+    {
+      "type": "node",
+      "id": "backend",
+      "icon": "server",
+      "title": {
+        "es": "Spring Boot REST API",
+        "en": "Spring Boot REST API"
+      },
+      "subtitle": {
+        "es": "Consulta de obras y técnicas · Filtros y paginación",
+        "en": "Artwork and technique queries · Filtering and pagination"
+      },
+      "tone": "success"
+    },
+    {
+      "type": "connector",
+      "id": "connection-2",
+      "label": {
+        "es": "Consulta del catálogo",
+        "en": "Catalog queries"
+      },
+      "beforeLine": true,
+      "afterLine": true
+    },
+    {
+      "type": "node",
+      "id": "catalog",
+      "icon": "folder",
+      "title": {
+        "es": "Catálogo de obras",
+        "en": "Artwork catalog"
+      },
+      "subtitle": {
+        "es": "PostgreSQL · Obras, colecciones y técnicas",
+        "en": "PostgreSQL · Artwork, collections and techniques"
+      },
+      "tone": "info"
+    }
+  ]
+}

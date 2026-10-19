@@ -1,7 +1,7 @@
 ---
 import type { ProjectItem } from '../data/portfolio';
 import { getStatusMeta } from '../data/projectStatus';
-import { toneForTech, toneStyle } from '../data/techTone';
+import ProjectStack from './ProjectStack.astro';
 import { t, type Lang } from '../lib/i18n';
 
 interface Props {
@@ -61,18 +61,7 @@ const inspectLabel = { es: 'click para inspeccionar', en: 'click to inspect' };
             <button
               type="button"
               class="project-card-trigger open-project-modal card-hover w-full rounded-lg border border-ide-border bg-ide-bg p-4 text-left hover:border-ide-accent hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ide-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ide-panel"
-              data-title={project.title}
-              data-summary-es={project.summary.es}
-              data-summary-en={project.summary.en}
-              data-description-es={project.description.es}
-              data-description-en={project.description.en}
-              data-status={project.status}
-              data-repo={project.repo}
-              data-demo={project.demo}
-              data-stack={project.stack.join(' | ')}
-              data-diagram-key={project.diagram?.key ?? ''}
-              data-diagram-caption-es={project.diagram?.caption?.es ?? ''}
-              data-diagram-caption-en={project.diagram?.caption?.en ?? ''}
+              data-project-id={project.id}
               aria-label={ariaLabel}
               data-i18n-attr="aria-label"
               data-i18n-es={`Abrir detalles del proyecto ${project.title}`}
@@ -97,20 +86,9 @@ const inspectLabel = { es: 'click para inspeccionar', en: 'click to inspect' };
               <p class="mt-2 text-sm text-ide-textMuted" data-i18n-es={project.summary.es} data-i18n-en={project.summary.en}>
                 {t(project.summary, lang)}
               </p>
-              <div class="mt-3 flex flex-wrap gap-2">
-                {
-                  project.stack.map((tech) => {
-                    const tone = toneStyle(toneForTech(tech));
-                    return (
-                      <span
-                        class="rounded-md border px-2.5 py-1 text-[11px] font-semibold tracking-wide"
-                        style={`border-color:${tone.border};background:${tone.bg};color:${tone.text};`}
-                      >
-                        {tech}
-                      </span>
-                    );
-                  })
-                }
+              {project.type && <p class="mt-2 text-xs text-ide-accent" data-i18n-es={project.type.es} data-i18n-en={project.type.en}>{t(project.type, lang)}</p>}
+              <div class="mt-3">
+                <ProjectStack groups={project.stack} lang={lang} />
               </div>
               <p class="mt-4 text-[11px] uppercase tracking-[0.18em] text-ide-accent" data-i18n-es="click para inspeccionar" data-i18n-en="click to inspect">
                 {t(inspectLabel, lang)}

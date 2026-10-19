@@ -92,5 +92,5 @@ const activeSections = sections.filter((section) => section.active);
       return <Section {...section.props} />;
     })}
   </IdeShell>
-  <ProjectModal lang={lang} />
+  <ProjectModal projects={projects} lang={lang} />
 </MainLayout>
